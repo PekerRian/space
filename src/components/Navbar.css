@@ -1,0 +1,48 @@
+.navbar {
+  background: #21264b;
+  padding: 1em 0;
+  display: flex;
+  justify-content: center;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.07);
+}
+.navbar-btn-group {
+  display: flex;
+  align-items: center;
+  gap: 0.5em;
+}
+.navbar-tab-btn {
+  background: #3b61e1;
+  border: none;
+  color: #fff;
+  border-radius: 999px;
+  font-weight: 600;
+  padding: 0.6em 1.5em;
+  font-size: 1.1em;
+  cursor: pointer;
+  transition: background 0.16s, transform 0.14s;
+  margin: 0 0.1em;
+  box-shadow: 0 2px 8px rgba(80,106,255,0.10);
+}
+.navbar-tab-btn:hover,
+.navbar-tab-btn:focus {
+  background: #1a3fbd;
+  transform: translateY(-2px) scale(1.045);
+}
+.navbar-tab-btn.active {
+  background: linear-gradient(90deg, #506aff 30%, #7f8fff 100%);
+  color: #fff;
+  transform: scale(1.09);
+}
+.button-danger {
+  background: linear-gradient(90deg, #e63946 0%, #c1121f 100%) !important;
+  color: #fff !important;
+}
+.button-danger:hover, .button-danger:focus {
+  background: linear-gradient(90deg, #c1121f 0%, #e63946 100%) !important;
+}
+.navbar-username {
+  color: #fff;
+  font-weight: 600;
+  margin-left: 0.8em;
+  margin-right: 0.2em;
+}
