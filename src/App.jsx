@@ -1,26 +1,29 @@
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import { AptosWalletAdapterProvider } from "@aptos-labs/wallet-adapter-react";
-import Navbar from "./components/Navbar";
-import CalendarPage from "./pages/CalendarPage";
-import UserTab from "./pages/UserTab";
-import WalletAuth from "./components/WalletAuth"; // <-- You'll create this
+import { useWallet } from "@aptos-labs/wallet-adapter-react";
+import { useEffect, useState } from "react";
+import { getFirestore, doc, getDoc } from "firebase/firestore";
+import { app } from "./firebase";
+import Register from "./components/Register";
 
-// Add CSS imports for Ant Design/Aptos Wallet Adapter
-import "@aptos-labs/wallet-adapter-ant-design/dist/index.css";
-import "antd/dist/reset.css"; // or "antd/dist/antd.css" if using AntD v4
 
-function App() {
-  return (
-    <AptosWalletAdapterProvider>
-      <Router>
-        <Navbar />
-        <Routes>
-          <Route path="/calendar" element={<CalendarPage />} />
-          <Route path="/user" element={<UserTab />} />
-        </Routes>
-      </Router>
-    </AptosWalletAdapterProvider>
-  );
+const db = getFirestore(app);
+
+export default function App() {
+  const { account } = useWallet();
+  const [userExists, setUserExists] = useState(null);
+
+  useEffect(() => {
+    if (!account?.address) return;
+    setUserExists(null); // set loading
+    const checkUser = async () => {
+      const userRef = doc(db, "users", account.address);
+      const userSnap = await getDoc(userRef);
+      setUserExists(userSnap.exists());
+    };
+    checkUser();
+  }, [account?.address]);
+
+  if (!account?.address) return <p>Please connect your wallet!</p>;
+  if (userExists === null) return <p>Checking user...</p>;
+  if (userExists === false) return <Register address={account.address} />;
+  return <MainAppContent />;
 }
-
-export default App;
