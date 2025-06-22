@@ -1,0 +1,679 @@
+body, .calendar-bg {
+  background: #0a0c1b url('https://www.transparenttextures.com/patterns/stardust.png');
+  min-height: 100vh;
+  color: #e0e6ff;
+  font-family: 'Press Start 2P', 'VT323', 'Consolas', 'monospace', Arial, sans-serif;
+}
+
+.calendar-main-container {
+  display: flex;
+  max-width: 1800px;
+  margin: 50px auto;
+  gap: 64px;
+  align-items: flex-start;
+  justify-content: center;
+}
+
+.calendar-left-panel {
+  display: flex;
+  flex-direction: column;
+  gap: 2em;
+  min-width: 540px;
+}
+
+.calendar-card {
+  background: #181a2b;
+  border-radius: 0.75em;
+  box-shadow: 0 0 24px 0 #00ffea44, 0 0 0 4px #00ffea22;
+  padding: 3.5em 3.5em 2.5em 3.5em;
+  margin-bottom: 0.5em;
+  min-width: 640px;
+  max-width: 900px;
+  border: 2.5px solid #00ffea;
+  position: relative;
+}
+
+.calendar-panel-title {
+  font-size: 1.3em;
+  font-family: 'Press Start 2P', 'VT323', 'Consolas', 'monospace', Arial, sans-serif;
+  font-weight: 700;
+  margin-bottom: 1.5em;
+  color: #00ffea;
+  letter-spacing: 2px;
+  text-shadow: 0 0 8px #00ffea, 0 0 2px #fff;
+}
+
+.calendar-form-card {
+  margin-top: 0.5em;
+}
+
+.calendar-input, .calendar-form-card textarea {
+  width: 100%;
+  padding: 0.7em 1em;
+  margin-bottom: 1em;
+  border-radius: 12px;
+  border: 1px solid #e0e3e8;
+  font-size: 1em;
+  background: #f7f9fa;
+  box-sizing: border-box;
+  outline: none;
+  transition: border 0.2s;
+  color: #181a2b; /* dark text for visibility while typing */
+  font-family: 'Press Start 2P', 'VT323', 'Consolas', 'monospace', Arial, sans-serif;
+}
+
+.calendar-input:focus, .calendar-form-card textarea:focus {
+  border: 1.5px solid #4f8cfb;
+}
+
+.calendar-btn {
+  background: linear-gradient(90deg, #4f8cfb 0%, #2359e0 100%);
+  color: #fff;
+  border: none;
+  padding: 0.8em 2.2em;
+  border-radius: 14px;
+  cursor: pointer;
+  font-size: 1em;
+  font-weight: 600;
+  box-shadow: 0 1.5px 7px 0 rgba(60,72,100,0.07);
+  transition: background 0.2s, box-shadow 0.2s;
+}
+
+.calendar-btn:hover {
+  background: linear-gradient(90deg, #2359e0 0%, #4f8cfb 100%);
+  box-shadow: 0 3px 14px 0 rgba(60,72,100,0.12);
+}
+
+.calendar-error {
+  color: #e15d5d;
+  font-size: 0.98em;
+  margin-top: 0.3em;
+}
+.calendar-success {
+  color: #36b37e;
+  font-size: 0.98em;
+  margin-top: 0.3em;
+}
+
+/* Timeline Styles */
+.calendar-right-panel {
+  flex: 1;
+  min-width: 700px;
+  background: #181a2b;
+  border-radius: 0.75em;
+  padding: 3em 2.5em;
+  box-shadow: 0 0 24px 0 #a259ff44, 0 0 0 4px #a259ff22;
+  border: 2.5px solid #a259ff;
+  max-height: 90vh;
+  overflow-y: auto;
+}
+
+.calendar-timeline {
+  margin-top: 1.1em;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5em;
+}
+
+.calendar-timeline-hour {
+  display: flex;
+  align-items: flex-start;
+  gap: 1.1em;
+  margin-bottom: 1.25em;
+}
+
+.calendar-hour-label {
+  min-width: 54px;
+  font-weight: 700;
+  color: #00ffea;
+  font-family: 'Press Start 2P', 'VT323', 'Consolas', 'monospace', Arial, sans-serif;
+  font-size: 0.97em;
+  text-align: right;
+  padding-top: 0.7em;
+  text-shadow: 0 0 6px #00ffea99;
+}
+
+.calendar-hour-events {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 0.6em;
+}
+
+.calendar-hour-empty {
+  color: #a259ff;
+  font-size: 1em;
+  padding-top: 0.7em;
+  font-family: 'Press Start 2P', 'VT323', 'Consolas', 'monospace', Arial, sans-serif;
+}
+
+.calendar-event-card {
+  background: #23243a;
+  border-radius: 0.5em;
+  box-shadow: 0 0 12px 0 #00ffea44, 0 0 0 2px #00ffea22;
+  padding: 1.3em 1.5em;
+  min-width: 320px;
+  margin: 0.1em 0;
+  transition: box-shadow 0.2s, background 0.2s, border 0.2s;
+  position: relative;
+  border-left: 7px solid #a259ff;
+  font-size: 1.08em;
+  color: #fff;
+  font-family: 'Press Start 2P', 'VT323', 'Consolas', 'monospace', Arial, sans-serif;
+  /* Pixel/arcade font and neon border for Space Invaders look */
+  border-image: repeating-linear-gradient(180deg, #00ffea 0 10px, #a259ff 10px 20px) 1;
+  box-shadow: 0 0 16px 2px #00ffea99, 0 0 0 2px #a259ff44;
+}
+.calendar-event-card:hover {
+  background: #181a2b;
+  box-shadow: 0 0 24px 0 #a259ffcc, 0 0 0 2px #00ffea99;
+  border-left: 7px solid #00ffea;
+}
+
+.calendar-event-title {
+  font-weight: 700;
+  color: #00ffea;
+  font-size: 1.13em;
+  margin-bottom: 0.15em;
+  display: flex;
+  align-items: center;
+  gap: 0.5em;
+  font-family: 'Press Start 2P', 'VT323', 'Consolas', 'monospace', Arial, sans-serif;
+  text-shadow: 0 0 8px #00ffea, 0 0 2px #fff;
+  /* Extra pixelated shadow for retro effect */
+  filter: contrast(1.2) brightness(1.1);
+}
+
+.calendar-event-meta {
+  font-size: 0.98em;
+  color: #a259ff;
+  margin-bottom: 0.25em;
+  font-family: 'Press Start 2P', 'VT323', 'Consolas', 'monospace', Arial, sans-serif;
+}
+.calendar-event-desc {
+  margin: 0.27em 0 0.15em 0;
+  color: #fff;
+  font-size: 1em;
+  font-family: 'Press Start 2P', 'VT323', 'Consolas', 'monospace', Arial, sans-serif;
+}
+.calendar-event-link {
+  color: #181a2b;
+  background: #00ffea;
+  text-decoration: none;
+  font-size: 0.97em;
+  padding: 0.28em 1.2em;
+  border-radius: 8px;
+  font-weight: 700;
+  margin-top: 0.3em;
+  display: inline-block;
+  transition: background 0.18s;
+  font-family: 'Press Start 2P', 'VT323', 'Consolas', 'monospace', Arial, sans-serif;
+  box-shadow: 0 0 8px #00ffea99;
+}
+.calendar-event-link:hover {
+  background: #a259ff;
+  color: #fff;
+  box-shadow: 0 0 12px #a259ff99;
+}
+
+/* Calendar filter card style (matching flowers-transfer-card) */
+.calendar-filter-card {
+  margin-bottom: 1.5em;
+  background: #23243a;
+  border-radius: 0.5em;
+  padding: 2em 1.5em 1.5em 1.5em;
+  box-shadow: 0 0 12px 0 #00ffea44, 0 0 0 2px #00ffea22;
+  border: 2.5px solid #a259ff;
+  color: #e0e6ff;
+  width: 100%;
+  max-width: 900px;
+  box-sizing: border-box;
+  display: flex;
+  gap: 1em;
+  flex-wrap: wrap;
+  align-items: center;
+}
+.calendar-filter-card select,
+.calendar-filter-card input[type="text"] {
+  flex: 1;
+  padding: 10px 12px;
+  border-radius: 8px;
+  border: 2px solid #a259ff;
+  font-size: 1rem;
+  background: #181a2b;
+  color: #00ffea;
+  transition: border 0.2s, box-shadow 0.2s;
+  box-shadow: 0 1px 4px 0 #a259ff33;
+  font-family: 'Press Start 2P', 'VT323', 'Consolas', 'monospace', Arial, sans-serif;
+  min-width: 120px;
+}
+.calendar-filter-card select:focus,
+.calendar-filter-card input[type="text"]:focus {
+  border: 2px solid #00ffea;
+  outline: none;
+  box-shadow: 0 0 8px #00ffea55;
+}
+
+/* React Calendar overrides */
+.react-calendar {
+  border: none !important;
+  border-radius: 0.75em;
+  box-shadow: 0 0 24px 0 #00ffea44, 0 0 0 4px #00ffea22;
+  padding: 2.2em 2.2em 2em 2.2em;
+  background: #181a2b;
+  font-size: 1.625em;
+  margin-bottom: 1.5em;
+  min-width: 700px !important;
+  max-width: 1000px !important;
+  width: 100% !important;
+  color: #fff;
+}
+
+.react-calendar__tile--now {
+  background: #a259ff !important;
+  color: #fff !important;
+  border-radius: 8px !important;
+  font-weight: 700;
+  box-shadow: 0 0 8px #a259ff99;
+}
+.react-calendar__tile--active,
+.react-calendar__tile--active:enabled:focus,
+.react-calendar__tile--active:enabled:hover,
+.calendar-selected-tile {
+  background: #00ffea !important;
+  color: #181a2b !important;
+  border-radius: 8px !important;
+  font-weight: 700;
+  box-shadow: 0 0 8px #00ffea99;
+}
+
+.react-calendar__month-view__days__day,
+.react-calendar__month-view__weekdays__weekday {
+  color: #fff !important;
+  font-weight: 700 !important;
+  opacity: 1 !important;
+  font-family: 'Press Start 2P', 'VT323', 'Consolas', 'monospace', Arial, sans-serif;
+}
+
+.react-calendar__month-view__days__day--neighboringMonth {
+  color: #a259ff !important;
+  opacity: 0.7 !important;
+}
+
+/* Glowing effect for calendar days with filtered spaces */
+.react-calendar__tile--glow {
+  box-shadow: 0 0 16px 4px #00ffea, 0 0 8px 2px #a259ff;
+  border-radius: 8px;
+  z-index: 2;
+  position: relative;
+  animation: calendarGlowPulse 1.2s infinite alternate;
+}
+
+@keyframes calendarGlowPulse {
+  0% { box-shadow: 0 0 8px 2px #00ffea, 0 0 4px 1px #a259ff; }
+  100% { box-shadow: 0 0 24px 8px #00ffea, 0 0 16px 4px #a259ff; }
+}
+
+/* Calendar Modal Styles */
+.calendar-modal-overlay {
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: rgba(0,0,0,0.85);
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  z-index: 99999;
+}
+
+.calendar-modal-content {
+  background: #181a2b;
+  border: 3px solid #ffe066;
+  border-radius: 18px;
+  box-shadow: 0 0 24px #ffe06699, 0 0 2px #fff;
+  padding: 2.5em 1.5em 2em 1.5em;
+  color: #fff;
+  font-family: 'Press Start 2P', monospace;
+  position: relative;
+  animation: panelFadeInUp 0.5s cubic-bezier(.23,1.01,.32,1) both;
+  max-width: 98vw;
+  width: 100%;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+@media (max-width: 600px) {
+  .calendar-modal-content {
+    max-width: 98vw !important;
+    padding: 10vw 2vw 2vw 2vw !important;
+    min-height: auto !important;
+  }
+}
+
+/* UserTab category checklist spacing */
+.user-tab-category-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.1em 2.2em;
+  margin-top: 0.5em;
+  margin-bottom: 0.5em;
+}
+.user-tab-category-list label {
+  display: flex;
+  align-items: center;
+  gap: 0.5em;
+  font-size: 1.08em;
+  font-family: 'Press Start 2P', 'VT323', 'Consolas', 'monospace', Arial, sans-serif;
+  color: #ffe066;
+  background: #181a2b;
+  border-radius: 6px;
+  padding: 0.3em 0.8em;
+  box-shadow: 0 0 8px #ffe06644;
+  margin-bottom: 0.2em;
+}
+.user-tab-category-list input[type="checkbox"] {
+  accent-color: #ffe066;
+  width: 1.1em;
+  height: 1.1em;
+}
+
+/* UserTab language checklist spacing */
+.user-tab-language-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.1em 2.2em;
+  margin-top: 1.2em;
+  margin-bottom: 0.5em;
+}
+.user-tab-language-list label {
+  display: flex;
+  align-items: center;
+  gap: 0.5em;
+  font-size: 1.08em;
+  font-family: 'Press Start 2P', 'VT323', 'Consolas', 'monospace', Arial, sans-serif;
+  color: #00ffea;
+  background: #181a2b;
+  border-radius: 6px;
+  padding: 0.3em 0.8em;
+  box-shadow: 0 0 8px #00ffea44;
+  margin-bottom: 0.2em;
+}
+.user-tab-language-list input[type="checkbox"] {
+  accent-color: #00ffea;
+  width: 1.1em;
+  height: 1.1em;
+}
+
+/* Animated panel entrance for main panels */
+@keyframes panelFadeInUp {
+  0% {
+    opacity: 0;
+    transform: translateY(40px) scale(0.98);
+    filter: blur(6px);
+  }
+  60% {
+    opacity: 1;
+    transform: translateY(-8px) scale(1.01);
+    filter: blur(0.5px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+    filter: blur(0);
+  }
+}
+
+.animated-panel {
+  animation: panelFadeInUp 0.66s cubic-bezier(.68,-0.55,.27,1.55);
+  will-change: opacity, transform, filter;
+}
+
+/* Responsive adjustments */
+@media (max-width: 950px) {
+  .calendar-main-container {
+    flex-direction: column;
+    gap: 2em;
+    margin: 30px auto;
+    max-width: 98vw;
+  }
+  .calendar-right-panel {
+    min-width: 0;
+    width: 100%;
+    max-height: 80vh;
+    padding: 1.2em 0.7em;
+  }
+  .calendar-left-panel {
+    min-width: 0;
+    width: 100%;
+  }
+  .react-calendar {
+    min-width: 0;
+    max-width: 100%;
+    padding: 1.2em 0.5em 1em 0.5em;
+    font-size: 1.404em; /* 1.3x of 1.08em */
+  }
+}
+@media (max-width: 600px) {
+  .calendar-bg {
+    padding: 0 0.2em;
+  }
+  .calendar-main-container {
+    flex-direction: column;
+    gap: 1.2em;
+    margin: 10px auto;
+    max-width: 100vw;
+    padding: 0 0.2em;
+  }
+  .calendar-card, .calendar-right-panel {
+    padding: 0.7em 0.3em;
+    min-width: 0;
+    max-width: 100vw;
+    width: 100vw;
+    font-size: 0.98em;
+  }
+  .calendar-left-panel {
+    min-width: 0;
+    width: 100vw;
+    padding: 0;
+  }
+  .calendar-panel-title {
+    font-size: 1em;
+    margin-bottom: 1em;
+  }
+  .calendar-timeline-hour {
+    gap: 0.4em;
+    margin-bottom: 0.7em;
+  }
+  .calendar-event-card {
+    padding: 0.5em 0.4em;
+    min-width: 0;
+    font-size: 0.93em;
+  }
+  .calendar-filter-card {
+    flex-direction: column;
+    gap: 0.5em;
+    padding: 1em 0.5em 0.7em 0.5em;
+    min-width: 0;
+    max-width: 100vw;
+    width: 100vw;
+  }
+  .react-calendar {
+    min-width: 0 !important;
+    max-width: 100vw !important;
+    padding: 0.7em 0.2em 0.5em 0.2em;
+    font-size: 1em !important;
+  }
+  .calendar-modal-content {
+    min-width: 0 !important;
+    max-width: 98vw !important;
+    width: 98vw !important;
+    padding: 1.2em 0.5em 1em 0.5em !important;
+    font-size: 0.98em;
+  }
+  .calendar-modal-close {
+    top: 8px;
+    right: 12px;
+    font-size: 1.4em;
+  }
+  .user-tab-category-list, .user-tab-language-list {
+    gap: 0.5em 1em;
+    font-size: 0.95em;
+  }
+  .footer-ticker-bg {
+    height: 2.2em;
+  }
+  .footer-ticker-track {
+    height: 2.2em;
+  }
+  .footer-ticker-text {
+    font-size: 0.85em;
+    padding-right: 1.2em;
+  }
+}
+/* Space Invaders font import */
+@import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&family=VT323&display=swap');
+.upvote-glow-btn {
+  position: relative;
+  background: #181a2b;
+  color: #00ffea;
+  border: 2.5px solid #00bfff;
+  border-radius: 12px;
+  font-family: 'Press Start 2P', 'VT323', 'Consolas', 'monospace', Arial, sans-serif;
+  font-size: 1.08em;
+  font-weight: 700;
+  padding: 0.7em 2.2em;
+  cursor: pointer;
+  box-shadow: 0 0 16px #00bfff55, 0 0 2px #00bfff;
+  overflow: hidden;
+  z-index: 1;
+  transition: background 0.2s, color 0.2s, box-shadow 0.2s;
+}
+.upvote-glow-btn:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+  background: #23243a;
+  color: #aaa;
+  border-color: #444;
+  box-shadow: none;
+}
+.upvote-glow-btn::before {
+  content: "";
+  position: absolute;
+  top: -3px; left: -3px; right: -3px; bottom: -3px;
+  border-radius: 14px;
+  pointer-events: none;
+  z-index: 2;
+  border: 3px solid transparent;
+  background: none;
+  /* Trailing light effect using a border mask */
+  mask: conic-gradient(from 0deg, transparent 0deg 20deg, #00bfff 20deg 40deg, transparent 40deg 360deg);
+  -webkit-mask: conic-gradient(from 0deg, transparent 0deg 20deg, #00bfff 20deg 40deg, transparent 40deg 360deg);
+  border-image: conic-gradient(from 0deg, #00bfff 0deg 20deg, transparent 20deg 360deg) 1;
+  animation: upvote-trail-rotate 1.2s linear infinite;
+}
+@keyframes upvote-trail-rotate {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+.upvote-glow-btn:active {
+  background: #00bfff;
+  color: #181a2b;
+}
+.upvote-shine::after {
+  content: "";
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
+  pointer-events: none;
+  border-radius: 8px;
+  background: linear-gradient(120deg, rgba(0,255,255,0.12) 0%, rgba(0,191,255,0.22) 40%, rgba(0,255,255,0.12) 100%);
+  box-shadow: 0 0 32px 8px #00bfff88, 0 0 0 2px #00ffea55;
+  animation: upvote-shine-anim 1.1s cubic-bezier(.4,1.6,.6,1) 1;
+  z-index: 10;
+}
+@keyframes upvote-shine-anim {
+  0% {
+    opacity: 0.1;
+    transform: scale(0.98) skewX(-16deg);
+    filter: blur(2px);
+  }
+  30% {
+    opacity: 0.7;
+    filter: blur(0.5px);
+  }
+  60% {
+    opacity: 1;
+    filter: blur(0);
+    transform: scale(1.03) skewX(8deg);
+  }
+  100% {
+    opacity: 0;
+    filter: blur(2px);
+    transform: scale(1.08) skewX(0deg);
+  }
+}
+
+/* Support corner heart and text */
+.support-corner {
+  position: fixed;
+  right: 1.2em;
+  bottom: 3.6em; /* sits above the footer ticker */
+  z-index: 10000;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  pointer-events: none;
+}
+.support-corner svg {
+  filter: drop-shadow(0 0 12px #00bfff) drop-shadow(0 0 24px #00bfff);
+  width: 54px;
+  height: 54px;
+  animation: pixel-heart-bounce 1.2s infinite cubic-bezier(.68,-0.55,.27,1.55);
+}
+.support-corner-text-glow {
+  color: #00bfff;
+  font-family: 'Press Start 2P', 'VT323', 'Consolas', 'monospace', Arial, sans-serif;
+  font-size: 1.1em;
+  margin-top: 0.2em;
+  text-shadow: 0 0 12px #00bfff, 0 0 24px #00bfff, 0 0 36px #00bfff, 0 0 48px #00bfff, 0 0 2px #fff;
+  letter-spacing: 1px;
+  text-align: right;
+  display: flex;
+  gap: 0.01em;
+}
+.support-corner-wave {
+  display: inline-block;
+  animation: support-corner-wave-bounce 1.2s infinite;
+}
+@keyframes support-corner-wave-bounce {
+  0%, 100% { transform: translateY(0); }
+  20% { transform: translateY(-8px) scale(1.12, 0.92); }
+  40% { transform: translateY(0); }
+}
+@keyframes pixel-heart-bounce {
+  0%   { transform: scale(1) translateY(0); }
+  20%  { transform: scale(1.12, 0.92) translateY(0); }
+  35%  { transform: scale(0.98, 1.08) translateY(-8px); }
+  50%  { transform: scale(1.08, 0.96) translateY(0); }
+  70%  { transform: scale(1) translateY(0); }
+  100% { transform: scale(1) translateY(0); }
+}
+@media (max-width: 600px) {
+  .support-corner {
+    right: 0.4em;
+    bottom: 2.6em;
+    left: auto;
+    align-items: flex-end;
+  }
+  .support-corner svg {
+    width: 36px;
+    height: 36px;
+  }
+  .support-corner-text {
+    font-size: 0.7em;
+  }
+  .support-corner-text-glow {
+    font-size: 0.8em;
+  }
+}

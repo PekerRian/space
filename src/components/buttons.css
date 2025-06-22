@@ -1,0 +1,61 @@
+/* Space Invaders pixel font import */
+@import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&family=VT323&display=swap');
+
+body, html, * {
+  font-family: 'Press Start 2P', 'VT323', 'Consolas', 'monospace', Arial, sans-serif !important;
+}
+
+.button {
+  display: inline-block;
+  font-size: 1rem;
+  font-weight: 600;
+  padding: 0.55em 1.4em;
+  border: none;
+  border-radius: 8px;
+  background: linear-gradient(90deg, #457b9d 0%, #1d3557 100%);
+  color: #fff;
+  box-shadow: 0 1px 8px 0 rgba(69, 123, 157, 0.09);
+  cursor: pointer;
+  transition: background 0.18s, box-shadow 0.15s, color 0.18s, transform 0.11s;
+  outline: none;
+  margin: 0.3em 0.1em;
+  letter-spacing: 0.01em;
+}
+.button:hover, .button:focus {
+  background: linear-gradient(90deg, #1d3557 0%, #457b9d 100%);
+  color: #f1faee;
+  box-shadow: 0 4px 16px 0 rgba(69, 123, 157, 0.15);
+  transform: translateY(-2px) scale(1.035);
+}
+.button:active {
+  background: #274163;
+  color: #f1faee;
+  transform: scale(0.98);
+}
+.button-danger {
+  background: linear-gradient(90deg, #e63946 0%, #c1121f 100%);
+  color: #fff;
+}
+.button-danger:hover, .button-danger:focus {
+  background: linear-gradient(90deg, #c1121f 0%, #e63946 100%);
+  color: #fff;
+}
+.button-secondary {
+  background: #f1faee;
+  color: #1d3557;
+  border: 1px solid #a8dadc;
+}
+.button-secondary:hover, .button-secondary:focus {
+  background: #a8dadc;
+  color: #1d3557;
+}
+
+@media (max-width: 700px) {
+  .button, .button-secondary, .button-danger {
+    font-size: 1em !important;
+    padding: 0.8em 0.7em !important;
+    border-radius: 7px !important;
+    min-width: 90px !important;
+    margin: 0.2em 0.05em !important;
+  }
+}

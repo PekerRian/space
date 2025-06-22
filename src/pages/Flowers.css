@@ -1,0 +1,335 @@
+/* Space Invaders pixel font import */
+@import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&family=VT323&display=swap');
+
+body, html, * {
+  font-family: 'Press Start 2P', 'VT323', 'Consolas', 'monospace', Arial, sans-serif !important;
+}
+
+body, .page-container.flowers-leaderboard-container {
+  background: #0a0c1b url('https://www.transparenttextures.com/patterns/stardust.png');
+  min-height: 100vh;
+  color: #e0e6ff;
+  font-family: 'Press Start 2P', 'VT323', 'Consolas', 'monospace', Arial, sans-serif;
+}
+
+.page-container.flowers-leaderboard-container {
+  max-width: 1800px;
+  width: 99%;
+  margin: 0 auto;
+  padding: 40px 48px 32px 48px;
+  background: #181a2b;
+  border-radius: 0.75em;
+  box-shadow: 0 0 24px 0 #00ffea44, 0 0 0 4px #00ffea22;
+  border: 2.5px solid #00ffea;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  box-sizing: border-box;
+}
+
+.page-title {
+  text-align: center;
+  margin-bottom: 40px;
+  font-size: 2.3rem;
+  font-weight: 800;
+  color: #00ffea;
+  letter-spacing: 2px;
+  font-family: 'Press Start 2P', 'VT323', 'Consolas', 'monospace', Arial, sans-serif;
+  text-shadow: 0 0 8px #00ffea, 0 0 2px #fff;
+}
+
+.flowers-leaderboard-flex {
+  display: flex;
+  gap: 56px;
+  flex-wrap: wrap;
+  justify-content: center;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.flowers-leaderboard-box {
+  flex: 1;
+  min-width: 800px;
+  max-width: 1500px;
+  border-radius: 0.5em;
+  box-shadow: 0 0 12px 0 #00ffea44, 0 0 0 2px #00ffea22;
+  padding: 72px 64px 64px 64px;
+  background: #23243a;
+  margin-bottom: 24px;
+  border: 2.5px solid #a259ff;
+  position: relative;
+  overflow: hidden;
+  margin-left: auto;
+  margin-right: auto;
+}
+.flowers-leaderboard-box:before {
+  display: none;
+}
+
+.flowers-leaderboard-box:hover {
+  box-shadow: 0 0 16px 0 #a259ff99;
+  border: 2.5px solid #00ffea;
+}
+
+.flowers-receivers {
+  background: #23243a;
+}
+
+.flowers-senders {
+  background: #23243a;
+}
+
+.flowers-leaderboard-title {
+  text-align: center;
+  margin-bottom: 22px;
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: #a259ff;
+  font-family: 'Press Start 2P', 'VT323', 'Consolas', 'monospace', Arial, sans-serif;
+  letter-spacing: 1px;
+  text-shadow: 0 1px 0 #a259ff;
+}
+
+.flowers-leaderboard-table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+  background: transparent;
+  font-size: 1.05rem;
+  color: #e0e6ff;
+  z-index: 1;
+  position: relative;
+  font-family: 'Press Start 2P', 'VT323', 'Consolas', 'monospace', Arial, sans-serif;
+}
+
+.flowers-leaderboard-table th,
+.flowers-leaderboard-table td {
+  padding: 10px 8px;
+  text-align: center;
+  border-bottom: 1.5px solid #a259ff;
+  background: transparent;
+  color: #e0e6ff; /* Ensure table text is bright */
+}
+
+.flowers-leaderboard-table th {
+  background: #29292b;
+  font-weight: 700;
+  color: #00ffea;
+  border-radius: 6px 6px 0 0;
+  font-size: 1.1rem;
+  font-family: 'Press Start 2P', 'VT323', 'Consolas', 'monospace', Arial, sans-serif;
+}
+
+.flowers-leaderboard-table tbody tr {
+  transition: background 0.15s;
+  color: #e0e6ff; /* Ensure even rows are bright */
+}
+.flowers-leaderboard-table tbody tr:hover {
+  background: #181a2bcc;
+  color: #fff; /* Brighter on hover */
+}
+
+.flowers-leaderboard-table tbody tr:nth-child(even) {
+  background: #23243a;
+  color: #e0e6ff;
+}
+
+/* --- Transfer/Search Card --- */
+.flowers-transfer-card {
+  margin: 2em auto 0 auto;
+  max-width: 1500px;
+  background: #23243a;
+  border-radius: 0.5em;
+  padding: 4.5em 4em;
+  box-shadow: 0 0 12px 0 #00ffea44, 0 0 0 2px #00ffea22;
+  border: 2.5px solid #a259ff;
+  color: #e0e6ff;
+  position: relative;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.flowers-transfer-card h2 {
+  text-align: center;
+  font-size: 1.25rem;
+  font-weight: 700;
+  margin-bottom: 18px;
+  color: #00ffea;
+  font-family: 'Press Start 2P', 'VT323', 'Consolas', 'monospace', Arial, sans-serif;
+  text-shadow: 0 1px 0 #00ffea;
+}
+
+.flowers-transfer-card form {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+.flowers-transfer-card input[type="text"],
+.flowers-transfer-card input[type="number"] {
+  flex: 1;
+  padding: 10px 12px;
+  border-radius: 8px;
+  border: 2px solid #a259ff;
+  font-size: 1rem;
+  color: #00ffea;
+  background: #181a2b;
+  transition: border 0.2s, box-shadow 0.2s;
+  box-shadow: 0 1px 4px 0 #a259ff33;
+  font-family: 'Press Start 2P', 'VT323', 'Consolas', 'monospace', Arial, sans-serif;
+}
+.flowers-transfer-card input:focus {
+  border: 2px solid #00ffea;
+  outline: none;
+  box-shadow: 0 0 8px #00ffea55;
+}
+
+.calendar-btn {
+  background: #00ffea;
+  color: #181a2b;
+  border: none;
+  border-radius: 8px;
+  padding: 10px 18px;
+  font-size: 1rem;
+  font-weight: 700;
+  cursor: pointer;
+  box-shadow: 0 1px 8px 0 #00ffea33;
+  transition: background 0.18s, box-shadow 0.18s;
+  letter-spacing: 0.5px;
+  font-family: 'Press Start 2P', 'VT323', 'Consolas', 'monospace', Arial, sans-serif;
+}
+.calendar-btn:hover {
+  background: #a259ff;
+  color: #fff;
+  box-shadow: 0 2px 12px 0 #a259ff55;
+}
+
+.flowers-transfer-card .search-result {
+  background: #29292b;
+  border: 2px solid #a259ff;
+  border-radius: 10px;
+  padding: 1em;
+  margin-bottom: 12px;
+  font-size: 1.08rem;
+  color: #00ffea;
+  box-shadow: 0 1px 8px 0 #a259ff33;
+  font-family: 'Press Start 2P', 'VT323', 'Consolas', 'monospace', Arial, sans-serif;
+}
+
+/* Custom Scrollbar Styles for Panels */
+.page-container.flowers-leaderboard-container,
+.flowers-leaderboard-box,
+.flowers-transfer-card,
+.flowers-leaderboard-table,
+body {
+  scrollbar-width: thin;
+  scrollbar-color: #00ffea #181a2b;
+}
+
+/* Chrome, Edge, Safari */
+.page-container.flowers-leaderboard-container::-webkit-scrollbar,
+.flowers-leaderboard-box::-webkit-scrollbar,
+.flowers-transfer-card::-webkit-scrollbar,
+.flowers-leaderboard-table::-webkit-scrollbar,
+body::-webkit-scrollbar {
+  width: 10px;
+  background: #181a2b;
+}
+.page-container.flowers-leaderboard-container::-webkit-scrollbar-thumb,
+.flowers-leaderboard-box::-webkit-scrollbar-thumb,
+.flowers-transfer-card::-webkit-scrollbar-thumb,
+.flowers-leaderboard-table::-webkit-scrollbar-thumb,
+body::-webkit-scrollbar-thumb {
+  background: linear-gradient(180deg, #00ffea 0%, #a259ff 100%);
+  border-radius: 8px;
+  box-shadow: 0 0 8px #00ffea99;
+}
+.page-container.flowers-leaderboard-container::-webkit-scrollbar-thumb:hover,
+.flowers-leaderboard-box::-webkit-scrollbar-thumb:hover,
+.flowers-transfer-card::-webkit-scrollbar-thumb:hover,
+.flowers-leaderboard-table::-webkit-scrollbar-thumb:hover,
+body::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(180deg, #a259ff 0%, #00ffea 100%);
+}
+
+/* Make all muted/gray text brighter */
+.flowers-leaderboard-table .muted,
+.flowers-leaderboard-table .gray,
+.flowers-leaderboard-table .secondary,
+.flowers-leaderboard-table .dim {
+  color: #b2bfff !important;
+}
+
+@media (max-width: 900px) {
+  .flowers-leaderboard-flex {
+    flex-direction: column;
+    gap: 24px;
+  }
+  .flowers-leaderboard-box {
+    min-width: 0;
+    max-width: 100%;
+    padding: 24px 6px 18px 6px;
+  }
+  .flowers-transfer-card {
+    max-width: 100%;
+    padding: 1.5em 0.5em;
+  }
+}
+
+@media (max-width: 600px) {
+  .page-container.flowers-leaderboard-container {
+    padding: 10px 2px;
+    border-radius: 0;
+  }
+  .flowers-leaderboard-box {
+    padding: 16px 4px 12px 4px;
+    border-radius: 8px;
+  }
+  .flowers-transfer-card {
+    padding: 0.7em 0.2em;
+    font-size: 0.97em;
+  }
+  .flowers-transfer-card input[type="text"],
+  .flowers-transfer-card input[type="number"] {
+    font-size: 0.97em;
+    padding: 0.6em 0.5em;
+  }
+  .calendar-btn {
+    font-size: 0.97em;
+    padding: 0.7em 0.5em;
+    border-radius: 7px;
+  }
+  .flowers-transfer-card .search-result {
+    font-size: 0.97em;
+    padding: 0.7em;
+  }
+  .page-title {
+    font-size: 1.2rem;
+    margin-bottom: 18px;
+  }
+  .flowers-leaderboard-table th, .flowers-leaderboard-table td {
+    padding: 6px 2px;
+    font-size: 0.98rem;
+  }
+  .flowers-leaderboard-title {
+    font-size: 1.05rem;
+    margin-bottom: 10px;
+  }
+  .flowers-leaderboard-table {
+    font-size: 0.98rem;
+    min-width: 0;
+    width: 100vw;
+    overflow-x: auto;
+    display: block;
+  }
+  .flowers-leaderboard-table thead, .flowers-leaderboard-table tbody, .flowers-leaderboard-table tr {
+    display: table;
+    width: 100%;
+    table-layout: fixed;
+  }
+  .flowers-leaderboard-table td, .flowers-leaderboard-table th {
+    word-break: break-word;
+    font-size: 0.97rem;
+  }
+}
