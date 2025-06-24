@@ -465,11 +465,14 @@ function CalendarPage() {
                             addressHex                                      // soul_bound_to: address (as hex string)
                           ]
                         };
+                        console.log('[NFT MINT] Minting POAP NFT with payload:', payload);
                         const response = await window.aptos.signAndSubmitTransaction(payload);
+                        console.log('[NFT MINT] Mint transaction submitted! Response:', response);
                         alert('Mint transaction submitted! Tx hash: ' + response.hash);
                         // Optionally update Firestore to record that this user minted
                         // ...
                       } catch (err) {
+                        console.error('[NFT MINT] Mint failed:', err);
                         alert('Mint failed: ' + (err.message || err));
                       }
                     }}

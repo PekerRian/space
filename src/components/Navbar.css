@@ -80,6 +80,17 @@ body, html, * {
     justify-content: center;
     align-items: center;
     width: 100vw;
+    scrollbar-width: thin;
+    scrollbar-color: #506aff #21264b;
+    -webkit-overflow-scrolling: touch;
+  }
+  .navbar-btn-group::-webkit-scrollbar {
+    height: 7px;
+    background: #21264b;
+  }
+  .navbar-btn-group::-webkit-scrollbar-thumb {
+    background: #506aff;
+    border-radius: 6px;
   }
   .navbar-tab-btn {
     font-size: 0.98em;
