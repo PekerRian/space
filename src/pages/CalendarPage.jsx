@@ -449,6 +449,8 @@ function CalendarPage() {
                         const propertyValues = [];
                         const soulBoundTo = getAddressString(account);
                         const addressHex = soulBoundTo.startsWith("0x") ? soulBoundTo : "0x" + soulBoundTo;
+                        // Use the creator's address as the collection owner for public minting
+                        const collectionOwner = selectedSpace.poap.creator || selectedSpace.creator || selectedSpace.owner;
                         const collectionName = selectedSpace.poap.collection || 'POAP Collection';
                         const payload = {
                           type: 'entry_function_payload',
@@ -465,7 +467,7 @@ function CalendarPage() {
                             addressHex                                      // soul_bound_to: address (as hex string)
                           ]
                         };
-                        console.log('[NFT MINT] Minting POAP NFT with payload:', payload);
+                        console.log('[NFT MINT] Minting POAP NFT with payload:', payload, 'Collection owner:', collectionOwner);
                         const response = await window.aptos.signAndSubmitTransaction(payload);
                         console.log('[NFT MINT] Mint transaction submitted! Response:', response);
                         alert('Mint transaction submitted! Tx hash: ' + response.hash);
