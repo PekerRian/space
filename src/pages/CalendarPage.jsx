@@ -452,22 +452,26 @@ function CalendarPage() {
                         // Use the creator's address as the collection owner for public minting
                         const collectionOwner = selectedSpace.poap.creator || selectedSpace.creator || selectedSpace.owner;
                         const collectionName = selectedSpace.poap.collection || 'POAP Collection';
+                        const imageUri = typeof selectedSpace.poap.image === 'string' && selectedSpace.poap.image
+                          ? selectedSpace.poap.image
+                          : `ipfs://${selectedSpace.poap.ipfsHash}`;
                         const payload = {
                           type: 'entry_function_payload',
                           function: '0x4::aptos_token::mint_soul_bound',
                           type_arguments: [],
                           arguments: [
+                            collectionOwner,                                 // collection_owner: address
                             collectionName,                                 // collection: String
                             selectedSpace.poap.description || '',           // description: String
                             selectedSpace.poap.name || '',                  // name: String
-                            selectedSpace.poap.image || `ipfs://${selectedSpace.poap.ipfsHash}`,
+                            imageUri,                                       // uri: String (must be a string)
                             propertyKeys,                                   // property_keys: vector<String>
                             propertyTypes,                                  // property_types: vector<String>
                             propertyValues,                                 // property_values: vector<String>
                             addressHex                                      // soul_bound_to: address (as hex string)
                           ]
                         };
-                        console.log('[NFT MINT] Minting POAP NFT with payload:', payload, 'Collection owner:', collectionOwner);
+                        console.log('[NFT MINT] Minting POAP NFT with payload:', payload);
                         const response = await window.aptos.signAndSubmitTransaction(payload);
                         console.log('[NFT MINT] Mint transaction submitted! Response:', response);
                         alert('Mint transaction submitted! Tx hash: ' + response.hash);
