@@ -7,6 +7,7 @@ import Calendar from "react-calendar";
 import "react-calendar/dist/Calendar.css";
 import "../calendar-custom.css";
 import { LoadingBuffer } from "../App";
+import { mintPoap, getRegistry } from '../utils/aptosPoap';
 
 const categories = ["gaming", "defi", "nft", "community", "others"];
 const languages = ["english", "tagalog", "malay", "hausa", "pidgin", "mandarin", "spanish"];
@@ -109,8 +110,20 @@ function PopupModal({ open, onClose, message }) {
 }
 
 // Add a modal for viewing a space and minting POAP
-function SpaceModal({ open, onClose, space, onMint, minting, mintError, mintSuccess }) {
+function SpaceModal({ open, onClose, space, onMint, minting, mintError, mintSuccess, signAndSubmitTransaction, account }) {
   if (!open || !space) return null;
+  const handleMint = async () => {
+    if (!space.collectionObj) {
+      alert('No on-chain collection object found for this space.');
+      return;
+    }
+    try {
+      await mintPoap({ signAndSubmitTransaction, account, collectionObj: space.collectionObj });
+      if (onMint) onMint();
+    } catch (e) {
+      alert('Mint failed: ' + (e.message || e));
+    }
+  };
   return (
     <div className="calendar-modal-overlay" style={{ zIndex: 1000 }} onClick={onClose}>
       <div
@@ -132,7 +145,7 @@ function SpaceModal({ open, onClose, space, onMint, minting, mintError, mintSucc
             <div style={{ color: '#fff', fontSize: 13, marginBottom: 6 }}>{space.poap.name}</div>
             <div style={{ color: '#fff', fontSize: 12, marginBottom: 6 }}>{space.poap.description}</div>
             {space.poap.image && <img src={space.poap.image.replace('ipfs://', 'https://peach-left-chimpanzee-996.mypinata.cloud/ipfs/')} alt="POAP" style={{ maxWidth: 120, borderRadius: 8, marginBottom: 8 }} />}
-            <button onClick={onMint} className="calendar-btn" style={{ width: '100%', marginTop: 8 }} disabled={minting}>
+            <button onClick={handleMint} className="calendar-btn" style={{ width: '100%', marginTop: 8 }} disabled={minting}>
               {minting ? 'Minting...' : 'Mint POAP'}
             </button>
             {mintError && <div style={{ color: 'red', fontSize: 12, marginTop: 6 }}>{mintError}</div>}
@@ -145,7 +158,7 @@ function SpaceModal({ open, onClose, space, onMint, minting, mintError, mintSucc
 }
 
 export default function UserTab() {
-  const { account } = useWallet();
+  const { account, signAndSubmitTransaction } = useWallet();
   const [selectedDate, setSelectedDate] = useState(new Date());
   const [form, setForm] = useState({
     title: "",
@@ -800,10 +813,12 @@ export default function UserTab() {
               open={!!spaceModal}
               onClose={() => setSpaceModal(null)}
               space={spaceModal}
-              onMint={() => handleMintPoap(spaceModal)}
+              onMint={() => {/* Optionally update UI after mint */}}
               minting={minting}
               mintError={mintError}
               mintSuccess={mintSuccess}
+              signAndSubmitTransaction={signAndSubmitTransaction}
+              account={account}
             />
 
             {/* User's scheduled spaces */}
