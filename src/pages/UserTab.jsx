@@ -47,8 +47,8 @@ function PopupModal({ open, onClose, message }) {
           className="calendar-modal-close"
           style={{
             position: "absolute",
-            top: 14,
-            right: 20,
+            top: 11.2,
+            right: 16,
             border: 0,
             background: "none",
             fontSize: 20,
@@ -59,7 +59,7 @@ function PopupModal({ open, onClose, message }) {
           }}
           aria-label="Close"
         >×</button>
-        <div style={{ fontWeight: 600, fontSize: 18, color: '#ffe066', fontFamily: '"Press Start 2P", monospace', marginBottom: 12 }}>{message}</div>
+        <div style={{ fontWeight: 480, fontSize: 14.4, color: '#ffe066', fontFamily: '"Press Start 2P", monospace', marginBottom: 9.6 }}>{message}</div>
       </div>
       <style>{`
         .calendar-modal-overlay {
@@ -73,9 +73,9 @@ function PopupModal({ open, onClose, message }) {
         .calendar-modal-content {
           background: #181a2b;
           border: 3px solid #ffe066;
-          border-radius: 18px;
+          border-radius: 14.4px;
           box-shadow: 0 0 24px #ffe06699, 0 0 2px #fff;
-          padding: 2.5em 1.5em 2em 1.5em;
+          padding: 2em 1.2em 1.6em 1.2em;
           color: #fff;
           font-family: 'Press Start 2P', monospace;
           position: relative;
@@ -83,8 +83,8 @@ function PopupModal({ open, onClose, message }) {
         }
         .calendar-modal-close {
           position: absolute;
-          top: 14px;
-          right: 20px;
+          top: 11.2px;
+          right: 16px;
           background: none;
           border: none;
           color: #ffe066;
@@ -108,6 +108,42 @@ function PopupModal({ open, onClose, message }) {
   );
 }
 
+// Add a modal for viewing a space and minting POAP
+function SpaceModal({ open, onClose, space, onMint, minting, mintError, mintSuccess }) {
+  if (!open || !space) return null;
+  return (
+    <div className="calendar-modal-overlay" style={{ zIndex: 1000 }} onClick={onClose}>
+      <div
+        className="calendar-modal-content"
+        style={{ maxWidth: 400, margin: "0 auto", padding: 20, boxSizing: "border-box", width: "100%", minHeight: "auto", textAlign: "center" }}
+        onClick={e => e.stopPropagation()}
+      >
+        <button
+          onClick={onClose}
+          className="calendar-modal-close"
+          style={{ position: "absolute", top: 11.2, right: 16, border: 0, background: "none", fontSize: 20, cursor: "pointer", color: "#ffe066", fontFamily: '"Press Start 2P", monospace', textShadow: '0 0 6px #ffe066, 0 0 2px #fff' }}
+          aria-label="Close"
+        >×</button>
+        <h3 style={{ color: '#ffe066', fontFamily: '"Press Start 2P", monospace', marginBottom: 12 }}>{space.title}</h3>
+        <div style={{ color: '#fff', marginBottom: 8 }}>{space.description}</div>
+        {space.poap && (
+          <div style={{ margin: '16px 0', border: '1px solid #ffe066', borderRadius: 8, padding: 12 }}>
+            <div style={{ color: '#ffe066', fontWeight: 600, marginBottom: 6 }}>POAP NFT Available</div>
+            <div style={{ color: '#fff', fontSize: 13, marginBottom: 6 }}>{space.poap.name}</div>
+            <div style={{ color: '#fff', fontSize: 12, marginBottom: 6 }}>{space.poap.description}</div>
+            {space.poap.image && <img src={space.poap.image.replace('ipfs://', 'https://peach-left-chimpanzee-996.mypinata.cloud/ipfs/')} alt="POAP" style={{ maxWidth: 120, borderRadius: 8, marginBottom: 8 }} />}
+            <button onClick={onMint} className="calendar-btn" style={{ width: '100%', marginTop: 8 }} disabled={minting}>
+              {minting ? 'Minting...' : 'Mint POAP'}
+            </button>
+            {mintError && <div style={{ color: 'red', fontSize: 12, marginTop: 6 }}>{mintError}</div>}
+            {mintSuccess && <div style={{ color: 'green', fontSize: 12, marginTop: 6 }}>{mintSuccess}</div>}
+          </div>
+        )}
+      </div>
+    </div>
+  );
+}
+
 export default function UserTab() {
   const { account } = useWallet();
   const [selectedDate, setSelectedDate] = useState(new Date());
@@ -126,6 +162,12 @@ export default function UserTab() {
   const [user, setUser] = useState(null);
   const [calendarPopup, setCalendarPopup] = useState(""); // Modal message
   const [loading, setLoading] = useState(false); // Loading state
+  const [poap, setPoap] = useState({ name: '', space: '', description: '', file: null, ipfsHash: '', maxSupply: '' });
+  const [poapUploading, setPoapUploading] = useState(false);
+  const [spaceModal, setSpaceModal] = useState(null);
+  const [minting, setMinting] = useState(false);
+  const [mintError, setMintError] = useState("");
+  const [mintSuccess, setMintSuccess] = useState("");
 
   // Helper to reliably get the wallet address as a string
   const getAddressString = (acct) => {
@@ -169,10 +211,15 @@ export default function UserTab() {
     }
   }, [account]);
 
-  // Fetch user's spaces (only those created by the user, using username)
+  // Fetch user's spaces (only those created by the user, using username or address)
   useEffect(() => {
-    if (user?.username) {
-      fetchSpacesByUser(user.username).then(setSpaces);
+    const uname = user?.username || user?.address;
+    if (uname) {
+      fetchSpacesByUser(uname).then(spacesArr => {
+        // Ensure each space has an id property (Firestore doc id)
+        const fixedSpaces = spacesArr.map(s => ({ ...s, id: s.id || s.docId || s._id || s.address_date || '' }));
+        setSpaces(fixedSpaces);
+      });
     } else {
       setSpaces([]);
     }
@@ -200,11 +247,39 @@ export default function UserTab() {
     setErr("");
   };
 
+  // POAP handlers
+  const handlePoapInput = e => setPoap(p => ({ ...p, [e.target.name]: e.target.value }));
+  const handlePoapFile = e => setPoap(p => ({ ...p, file: e.target.files[0] }));
+  // Auto-fill POAP space field when title changes
+  useEffect(() => {
+    setPoap(p => ({ ...p, space: form.title }));
+    // eslint-disable-next-line
+  }, [form.title]);
+
+  async function uploadPoapImage() {
+    if (!poap.file) return '';
+    setPoapUploading(true);
+    try {
+      const formData = new FormData();
+      formData.append('file', poap.file);
+      const res = await fetch('http://localhost:5001/upload', { method: 'POST', body: formData });
+      const data = await res.json();
+      setPoap(p => ({ ...p, ipfsHash: data.ipfsHash }));
+      setPoapUploading(false);
+      return data.ipfsHash;
+    } catch (err) {
+      setPoapUploading(false);
+      setErr('POAP image upload failed: ' + err.message);
+      console.error('POAP image upload failed:', err); // Log the full error object for debugging
+      return '';
+    }
+  }
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     setSuccess("");
     setErr("");
-    setCalendarPopup(""); // reset popup on new attempt
+    setCalendarPopup("");
     if (!user) {
       setErr("You must connect your wallet.");
       return;
@@ -221,6 +296,26 @@ export default function UserTab() {
       setErr("Please select at least one category.");
       return;
     }
+    // --- POAP validation ---
+    const poapFieldsFilled = poap.name || poap.space || poap.description || poap.file;
+    if (poapFieldsFilled && (!poap.name || !poap.space || !poap.description || !poap.file)) {
+      setErr('If you want to set up a POAP, all POAP fields are required.');
+      return;
+    }
+    // --- POAP maxSupply validation ---
+    if (poapFieldsFilled) {
+      if (!poap.maxSupply || !/^[0-9]+$/.test(poap.maxSupply) || parseInt(poap.maxSupply) <= 0) {
+        setErr('Max Supply must be a positive integer.');
+        return;
+      }
+    }
+    // Extra: Defensive check for maxSupply before blockchain call
+    // This ensures that even if the UI is bypassed, the value is always a valid integer string
+    let poapMaxSupply = '0';
+    if (poapFieldsFilled) {
+      poapMaxSupply = String(parseInt(poap.maxSupply, 10));
+    }
+    // ---
     const [startHour, startMin] = form.start.split(":").map(Number);
     const [endHour, endMin] = form.end.split(":").map(Number);
     const startDate = new Date(selectedDate);
@@ -248,6 +343,105 @@ export default function UserTab() {
         status = userSnap.data().status || "participant";
       }
 
+      // --- POAP image upload ---
+      let poapIpfsHash = '';
+      if (poap.file) {
+        poapIpfsHash = await uploadPoapImage();
+        if (!poapIpfsHash) throw new Error('POAP image upload failed');
+      }
+
+      // --- POAP metadata upload ---
+      let poapMetadataIpfsHash = '';
+      if (poapFieldsFilled) {
+        const metadataRes = await fetch('http://localhost:5001/upload-metadata', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            name: poap.name,
+            space: poap.space,
+            description: poap.description,
+            image: poapIpfsHash ? `ipfs://${poapIpfsHash}` : ''
+          })
+        });
+        const metadata = await metadataRes.json();
+        if (!metadata.ipfsHash) throw new Error('Metadata upload failed');
+        poapMetadataIpfsHash = metadata.ipfsHash;
+      }
+
+      // --- POAP Collection creation (Aptos) ---
+      let poapCollectionName = '';
+      let poapCollectionUri = '';
+      if (poapFieldsFilled && window.aptos) {
+        // Username without last 4 chars
+        const uname = (user.username || user.address || '').slice(0, -4);
+        // Make collection name unique per space
+        const uniqueSuffix = `${form.title}-${Date.now()}`;
+        poapCollectionName = `${uname}'s space POAPs - ${uniqueSuffix}`;
+        poapCollectionUri = poapIpfsHash ? `ipfs://${poapIpfsHash}` : '';
+        // Final defensive log and check before sending transaction
+        console.log('Aptos create_collection args:', [
+          poap.description,                // description
+          poapMaxSupply,                   // max_supply
+          poapCollectionName,              // name
+          poapCollectionUri,               // uri
+          true,                            // mutable_description
+          false,                           // mutable_royalty
+          false,                           // mutable_uri
+          false,                           // mutable_token_description
+          false,                           // mutable_token_name
+          false,                           // mutable_token_properties
+          false,                           // mutable_token_uri
+          true,                            // tokens_burnable_by_creator
+          false,                           // tokens_freezable_by_creator
+          '1',                             // royalty_numerator (set to 1 for 0% royalty)
+          '1'                              // royalty_denominator (set to 1 for 0% royalty)
+        ]);
+        console.log('Required args for aptos_token::create_collection:', [
+          'description (string)',
+          'max_supply (u64, stringified integer)',
+          'name (string)',
+          'uri (string)',
+          'mutable_description (boolean)',
+          'mutable_royalty (boolean)',
+          'mutable_uri (boolean)',
+          'mutable_token_description (boolean)',
+          'mutable_token_name (boolean)',
+          'mutable_token_properties (boolean)',
+          'mutable_token_uri (boolean)',
+          'tokens_burnable_by_creator (boolean)',
+          'tokens_freezable_by_creator (boolean)',
+          'royalty_numerator (u64, stringified integer)',
+          'royalty_denominator (u64, stringified integer)'
+        ]);
+        const collectionPayload = {
+          type: 'entry_function_payload',
+          function: '0x4::aptos_token::create_collection',
+          type_arguments: [],
+          arguments: [
+            poap.description,                // description
+            poapMaxSupply,                   // max_supply
+            poapCollectionName,              // name
+            poapCollectionUri,               // uri
+            true,                            // mutable_description
+            false,                           // mutable_royalty
+            false,                           // mutable_uri
+            false,                           // mutable_token_description
+            false,                           // mutable_token_name
+            false,                           // mutable_token_properties
+            false,                           // mutable_token_uri
+            true,                            // tokens_burnable_by_creator
+            false,                           // tokens_freezable_by_creator
+            '1',                             // royalty_numerator (set to 1 for 0% royalty)
+            '1'                              // royalty_denominator (set to 1 for 0% royalty)
+          ]
+        };
+        console.log('Collection payload about to be sent:', JSON.stringify(collectionPayload, null, 2));
+        try {
+          await window.aptos.signAndSubmitTransaction(collectionPayload);
+        } catch (e) {
+          if (!String(e).includes('already exists')) throw e;
+        }
+      }
       // Prepare space data
       const spaceData = {
         username: user.username || user.address,
@@ -266,6 +460,16 @@ export default function UserTab() {
         upvotedBy: [],
         createdAt: new Date().toISOString(),
         space_votes: 0,
+        poap: poapFieldsFilled ? {
+          name: poap.name,
+          space: poap.space,
+          description: poap.description,
+          image: poapIpfsHash ? `ipfs://${poapIpfsHash}` : '',
+          ipfsHash: poapIpfsHash,
+          metadataIpfsHash: poapMetadataIpfsHash,
+          collection: poapCollectionName,
+          maxSupply: poapMaxSupply
+        } : null,
       };
 
       // Generate a unique ID for the space
@@ -283,8 +487,13 @@ export default function UserTab() {
         languages: [],
         twitter_link: "",
       });
+      setPoap({ name: '', space: '', description: '', file: null, ipfsHash: '', maxSupply: '' });
       setSuccess("Space scheduled and uploaded to 'spaces' collection!");
-      fetchSpacesByUser(user.username).then(setSpaces);
+      const uname = user.username || user.address;
+      fetchSpacesByUser(uname).then(spacesArr => {
+        const fixedSpaces = spacesArr.map(s => ({ ...s, id: s.id || s.docId || s._id || s.address_date || '' }));
+        setSpaces(fixedSpaces);
+      });
 
       // CALENDAR POPUP LOGIC
       if (status === "host") {
@@ -301,7 +510,6 @@ export default function UserTab() {
   // UPDATED handleDelete: also update votes and spacesUpvoted
   const handleDelete = async (id) => {
     if (!window.confirm("Are you sure you want to delete this space?")) return;
-
     // Fetch the space before deleting
     const spaceRef = doc(db, "spaces", id);
     const spaceSnap = await getDoc(spaceRef);
@@ -313,7 +521,6 @@ export default function UserTab() {
     const upvotes = Number(spaceData.upvotes) || 0;
     const upvotedBy = Array.isArray(spaceData.upvotedBy) ? spaceData.upvotedBy : [];
     const creator = spaceData.creator;
-
     // 1. Update creator's votes and status
     if (creator) {
       const creatorRef = doc(db, "user accounts", creator);
@@ -329,7 +536,6 @@ export default function UserTab() {
         });
       }
     }
-
     // 2. Update each upvoter's spacesUpvoted
     for (const userAddr of upvotedBy) {
       const userRef = doc(db, "user accounts", userAddr);
@@ -343,7 +549,6 @@ export default function UserTab() {
         });
       }
     }
-
     // 3. Delete the space
     await deleteSpace(id);
     setSpaces(spaces => spaces.filter(s => s.id !== id));
@@ -361,11 +566,51 @@ export default function UserTab() {
     return "Invalid date";
   };
 
+  // Mint POAP NFT logic
+  async function handleMintPoap(space) {
+    setMinting(true);
+    setMintError("");
+    setMintSuccess("");
+    try {
+      if (!window.aptos) throw new Error("Aptos wallet not found");
+      if (!space.poap) throw new Error("No POAP info for this space");
+      if (!account?.address) throw new Error("Wallet address not found");
+      // Prepare args for minting soulbound NFT under the collection
+      // All property vectors must be empty string arrays (vector<string>)
+      const propertyKeys = [];
+      const propertyTypes = [];
+      const propertyValues = []; // vector<string>, not vector<vector<u8>>
+      const soulBoundTo = getAddressString(account);
+      const addressHex = soulBoundTo.startsWith("0x") ? soulBoundTo : "0x" + soulBoundTo;
+      const payload = {
+        type: 'entry_function_payload',
+        function: '0x4::aptos_token::mint_soul_bound',
+        type_arguments: [],
+        arguments: [
+          space.poap.collection,           // collection: String
+          space.poap.description || '',    // description: String
+          space.poap.name,                 // name: String
+          space.poap.image || '',          // uri: String (image or metadata URI)
+          propertyKeys,                    // property_keys: vector<String>
+          propertyTypes,                   // property_types: vector<String>
+          propertyValues,                  // property_values: vector<String>
+          addressHex                       // soul_bound_to: address (as hex string)
+        ]
+      };
+      await window.aptos.signAndSubmitTransaction(payload);
+      setMintSuccess("POAP NFT minted! Check your wallet.");
+    } catch (e) {
+      setMintError(e.message || String(e));
+    } finally {
+      setMinting(false);
+    }
+  }
+
   if (loading) return <LoadingBuffer />;
 
   return (
     <div className="user-tab-container animated-panel">
-      <div className="calendar-bg" style={{ minHeight: "100vh", padding: 0 }}>
+      <div className="calendar-bg" style={{ minHeight: "80vh", padding: 0 }}>
         <div className="calendar-main-container">
           <div className="calendar-left-panel">
             <div className="calendar-card">
@@ -381,7 +626,7 @@ export default function UserTab() {
               />
             </div>
           </div>
-          <div className="calendar-right-panel" style={{ maxWidth: 480, width: '100%' }}>
+          <div className="calendar-right-panel" style={{ maxWidth: 384, width: '100%' }}>
             <h2 className="calendar-panel-title">Schedule a Space</h2>
             {user ? (
               <form onSubmit={handleSubmit} className="calendar-form-card" style={{ width: '100%' }}>
@@ -410,12 +655,12 @@ export default function UserTab() {
                     maxLength={300}
                     required
                   />
-                  <div style={{ fontSize: 12, color: form.description.length > 300 ? "red" : "#666", textAlign: "right" }}>
+                  <div style={{ fontSize: 9.6, color: form.description.length > 300 ? "red" : "#666", textAlign: "right" }}>
                     {form.description.length}/300
                   </div>
                 </label>
 
-                <div style={{ display: "flex", gap: "1em", marginBottom: "1em", flexWrap: 'wrap' }}>
+                <div style={{ display: "flex", gap: "0.8em", marginBottom: "0.8em", flexWrap: 'wrap' }}>
                   <label className="calendar-label" style={{ flex: 1, minWidth: 120 }}>
                     Start
                     <select
@@ -450,7 +695,7 @@ export default function UserTab() {
                   Categories
                   <div className="user-tab-category-list" style={{ flexWrap: 'wrap', width: '100%' }}>
                     {categories.map(c => (
-                      <label key={c} style={{ minWidth: 110, marginBottom: 6 }}>
+                      <label key={c} style={{ minWidth: 88, marginBottom: 4.8 }}>
                         <input
                           type="checkbox"
                           value={c}
@@ -467,7 +712,7 @@ export default function UserTab() {
                   Languages
                   <div className="user-tab-language-list" style={{ flexWrap: 'wrap', width: '100%' }}>
                     {languages.map(l => (
-                      <label key={l} style={{ minWidth: 110, marginBottom: 6 }}>
+                      <label key={l} style={{ minWidth: 88, marginBottom: 4.8 }}>
                         <input
                           type="checkbox"
                           value={l}
@@ -492,6 +737,50 @@ export default function UserTab() {
                     style={{ width: '100%' }}
                   />
                 </label>
+                {/* POAP NFT Setup */}
+                <div style={{border:'1px solid #ffe066', borderRadius:8, padding:12, margin:'16px 0'}}>
+                  <h3 style={{margin:'0 0 8px 0'}}>POAP NFT Setup</h3>
+                  <label className="calendar-label" style={{ width: '100%' }}>
+                    POAP Name
+                    <input
+                      name="name"
+                      className="calendar-input"
+                      value={poap.name}
+                      onChange={handlePoapInput}
+                      placeholder="POAP Name"
+                      style={{ width: '100%' }}
+                    />
+                  </label>
+                  <label className="calendar-label" style={{ width: '100%' }}>
+                    POAP Description
+                    <textarea
+                      name="description"
+                      className="calendar-input"
+                      value={poap.description}
+                      onChange={handlePoapInput}
+                      placeholder="POAP Description"
+                      rows={2}
+                      style={{ width: '100%' }}
+                    />
+                  </label>
+                  <label className="calendar-label" style={{ width: '100%' }}>
+                    POAP Image
+                    <input type="file" accept="image/*" onChange={handlePoapFile} />
+                  </label>
+                  <label className="calendar-label" style={{ width: '100%' }}>
+                    Max Supply
+                    <input
+                      name="maxSupply"
+                      className="calendar-input"
+                      type="number"
+                      min="1"
+                      value={poap.maxSupply || ''}
+                      onChange={e => setPoap(p => ({ ...p, maxSupply: e.target.value }))}
+                      placeholder="Max Supply (number of NFTs)"
+                      style={{ width: '100%' }}
+                    />
+                  </label>
+                </div>
                 <button type="submit" className="calendar-btn" style={{ width: '100%' }}>Schedule</button>
                 {err && <p className="calendar-error">{err}</p>}
                 {success && <p className="calendar-success">{success}</p>}
@@ -507,8 +796,18 @@ export default function UserTab() {
               message={calendarPopup}
             />
 
+            <SpaceModal
+              open={!!spaceModal}
+              onClose={() => setSpaceModal(null)}
+              space={spaceModal}
+              onMint={() => handleMintPoap(spaceModal)}
+              minting={minting}
+              mintError={mintError}
+              mintSuccess={mintSuccess}
+            />
+
             {/* User's scheduled spaces */}
-            <h2 className="calendar-panel-title" style={{ marginTop: 32 }}>Your Scheduled Spaces</h2>
+            <h2 className="calendar-panel-title" style={{ marginTop: 25.6 }}>Your Scheduled Spaces</h2>
             {spaces.length === 0 && (
               <div style={{ color: "#888", fontStyle: "italic" }}>
                 You haven't scheduled any spaces yet.
@@ -518,7 +817,8 @@ export default function UserTab() {
               <div
                 key={space.id}
                 className="calendar-event-card"
-                style={{ marginBottom: 18, position: "relative", background: "#f6f8fa", minWidth: 0, width: '100%' }}
+                style={{ marginBottom: 14.4, position: "relative", background: "#f6f8fa", minWidth: 0, width: '100%' }}
+                onClick={() => setSpaceModal(space)}
               >
                 <div className="calendar-event-title">
                   <span role="img" aria-label="mic">🎙️</span> {space.title}
@@ -528,17 +828,17 @@ export default function UserTab() {
                     {formatSpaceDate(space.date)}
                   </span>
                   {space.languages && (
-                    <span style={{ marginLeft: 12, fontSize: 13, color: "#444" }}>
+                    <span style={{ marginLeft: 9.6, fontSize: 10.4, color: "#444" }}>
                       Languages: {space.languages}
                     </span>
                   )}
                   {space.categories && (
-                    <span style={{ marginLeft: 12, fontSize: 13, color: "#444" }}>
+                    <span style={{ marginLeft: 9.6, fontSize: 10.4, color: "#444" }}>
                       Categories: {space.categories}
                     </span>
                   )}
                 </div>
-                <div style={{ color: "#666", margin: "6px 0 10px 0", fontSize: 15 }}>
+                <div style={{ color: "#666", margin: "4.8px 0 8px 0", fontSize: 12 }}>
                   {space.description}
                 </div>
                 {/* Only show delete button if user is the owner */}
@@ -546,9 +846,9 @@ export default function UserTab() {
                   <button
                     onClick={() => handleDelete(space.id)}
                     style={{
-                      position: "absolute", top: 6, right: 8,
+                      position: "absolute", top: 4.8, right: 6.4,
                       background: "#e15d5d", color: "#fff", border: 0,
-                      borderRadius: 8, padding: "2px 10px", fontSize: 14, cursor: "pointer"
+                      borderRadius: 6.4, padding: "1.6px 8px", fontSize: 11.2, cursor: "pointer"
                     }}
                   >
                     Delete

@@ -1,0 +1,10 @@
+{
+  "name": "peker",
+  "description": "this is a description",
+  "attributes": [
+    {
+      "trait_type": "space",
+      "value": "space"
+    }
+  ]
+}

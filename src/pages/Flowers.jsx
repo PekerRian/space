@@ -240,17 +240,17 @@ export default function Flowers() {
       {/* ---------- USER SEARCH & TRANSFER SECTION ---------- */}
       <div className="flowers-transfer-card">
         <h2 style={{ textAlign: "center" }}>🌐 Tip your speaker</h2>
-        <form onSubmit={handleSearch} style={{ display: "flex", gap: 12, marginBottom: 16 }}>
+        <form onSubmit={handleSearch} style={{ display: "flex", gap: 9.6, marginBottom: 12.8 }}>
           <input
             type="text"
             placeholder="Enter username"
             value={searchInput}
             onChange={e => setSearchInput(e.target.value)}
-            style={{ flex: 1, padding: 8, borderRadius: 6, border: "1px solid #bbb" }}
+            style={{ flex: 1, padding: 6.4, borderRadius: 4.8, border: "0.8px solid #bbb" }}
           />
           <button type="submit" className="calendar-btn">Search</button>
         </form>
-        {searchError && <div style={{ color: "red", marginBottom: 8 }}>{searchError}</div>}
+        {searchError && <div style={{ color: "red", marginBottom: 6.4 }}>{searchError}</div>}
         {searchResult && (
           <div className="search-result">
             <div><b>Username:</b> {searchResult.username}</div>
@@ -259,7 +259,7 @@ export default function Flowers() {
             <div><b>APT Received:</b> {searchResult.totalReceivedApt || 0}</div>
             <div><b>APT Sent:</b> {searchResult.totalSentApt || 0}</div>
             {(getAddressString(account) && typeof signAndSubmitTransaction === "function") ? (
-              <form onSubmit={handleAptTransfer} style={{ marginTop: 16, display: "flex", gap: 8 }}>
+              <form onSubmit={handleAptTransfer} style={{ marginTop: 12.8, display: "flex", gap: 6.4 }}>
                 <input
                   type="number"
                   placeholder="Amount (APT)"
@@ -267,16 +267,16 @@ export default function Flowers() {
                   min="0.00000001"
                   step="0.00000001"
                   onChange={e => setTransferAmount(e.target.value)}
-                  style={{ flex: 1, padding: 8, borderRadius: 6, border: "1px solid #bbb" }}
+                  style={{ flex: 1, padding: 6.4, borderRadius: 4.8, border: "0.8px solid #bbb" }}
                 />
                 <button type="submit" className="calendar-btn">Send APT</button>
               </form>
             ) : (
-              <div style={{ color: "orange", marginTop: 8 }}>
+              <div style={{ color: "orange", marginTop: 6.4 }}>
                 Connect your Aptos wallet to send APT.
               </div>
             )}
-            {transferStatus && <div style={{ marginTop: 8, color: transferStatus.startsWith("Successfully") ? "green" : "red" }}>{transferStatus}</div>}
+            {transferStatus && <div style={{ marginTop: 6.4, color: transferStatus.startsWith("Successfully") ? "green" : "red" }}>{transferStatus}</div>}
           </div>
         )}
       </div>

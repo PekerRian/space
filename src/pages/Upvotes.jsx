@@ -157,22 +157,22 @@ export default function Upvotes({ walletAddress }) {
   return (
     <div className="page-container animated-panel">
       <h2>Upvote Spaces</h2>
-      <div style={{ marginBottom: 20 }}>
+      <div style={{ marginBottom: 16 }}>
         <input
           type="text"
           placeholder="Filter by host name..."
           value={hostFilter}
           onChange={e => setHostFilter(e.target.value)}
           style={{
-            padding: "0.6em 1em",
-            borderRadius: 8,
-            border: "2px solid #00ffea",
+            padding: "0.48em 0.8em",
+            borderRadius: 6.4,
+            border: "1.6px solid #00ffea",
             fontFamily: "'Press Start 2P', 'VT323', 'Consolas', 'monospace', Arial, sans-serif",
-            fontSize: "1em",
+            fontSize: "0.8em",
             background: "#181a2b",
             color: "#00ffea",
             outline: "none",
-            boxShadow: "0 0 8px #00ffea55"
+            boxShadow: "0 0 6.4px #00ffea55"
           }}
         />
       </div>
@@ -180,7 +180,7 @@ export default function Upvotes({ walletAddress }) {
         {filteredSpaces.map(space => (
           <li key={space.id} 
               className={shineId === space.id ? "upvote-shine" : ""}
-              style={{ border: "1px solid #eee", padding: 16, marginBottom: 16, borderRadius: 8, position: 'relative', overflow: 'hidden' }}>
+              style={{ border: "0.8px solid #eee", padding: 12.8, marginBottom: 12.8, borderRadius: 6.4, position: 'relative', overflow: 'hidden' }}>
             <div><b>Title:</b> {space.title}</div>
             <div><b>Description:</b> {space.description}</div>
             <div><b>By:</b> <span style={{color:'#00ffea'}}>{hostNames[space.creator] || space.creator}</span></div>

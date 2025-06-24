@@ -12,6 +12,7 @@ import Spaces from "./components/Spaces";
 import Flowers from "./pages/Flowers";
 import Upvotes from "./pages/Upvotes";
 import SupportModal from "./components/Support";
+import NotFoundPage from "./pages/NotFoundPage";
 
 import "@aptos-labs/wallet-adapter-ant-design/dist/index.css";
 import "antd/dist/reset.css";
@@ -186,6 +187,7 @@ function AppRoutes() {
         <Route path="/spaces" element={<Spaces walletAddress={walletAddress} />} />
         <Route path="/flowers" element={<Flowers />} />
         <Route path="/upvotes" element={<Upvotes walletAddress={walletAddress} />} />
+        <Route path="*" element={<NotFoundPage />} />
       </Routes>
       <Modal open={showRegister} onClose={() => {}}>
         <WalletAuth walletAddress={walletAddress} onProfileCreated={handleProfileCreated} />
@@ -224,17 +226,19 @@ function FooterTicker() {
 
 function App() {
   return (
-    <AptosWalletAdapterProvider
-      autoConnect={true}
-      dappConfig={{ network: Network.MAINNET }}
-      onError={error => {
-        console.log("error", error);
-      }}
-    >
-      <Router>
-        <AppRoutes />
-      </Router>
-    </AptosWalletAdapterProvider>
+    <div className="app-zoom-wrapper">
+      <AptosWalletAdapterProvider
+        autoConnect={true}
+        dappConfig={{ network: Network.MAINNET }}
+        onError={error => {
+          console.log("error", error);
+        }}
+      >
+        <Router>
+          <AppRoutes />
+        </Router>
+      </AptosWalletAdapterProvider>
+    </div>
   );
 }
 

@@ -4,6 +4,7 @@ import Calendar from "react-calendar";
 import "react-calendar/dist/Calendar.css";
 import "../calendar-custom.css";
 import { LoadingBuffer } from "../App";
+import { useWallet } from "@aptos-labs/wallet-adapter-react";
 
 // Helper: get all timezones (fallback to a static list if not supported)
 const TIMEZONES =
@@ -65,6 +66,7 @@ function isSpaceVisibleOnCalendar(space) {
 }
 
 function CalendarPage() {
+  const { account } = useWallet();
   const [spaces, setSpaces] = useState([]);
   const [selectedDate, setSelectedDate] = useState(new Date());
   const [selectedSpace, setSelectedSpace] = useState(null);
@@ -78,6 +80,13 @@ function CalendarPage() {
   // Timezone state
   const defaultTz = () => localStorage.getItem("calendarTimezone") || Intl.DateTimeFormat().resolvedOptions().timeZone || "UTC";
   const [timezone, setTimezone] = useState(defaultTz());
+
+  // POAP NFT state
+  const [showPoapForm, setShowPoapForm] = useState(false);
+  const [poapForm, setPoapForm] = useState({ name: '', space: '', description: '', file: null });
+  const [poapStatus, setPoapStatus] = useState("");
+  const [poapIpfsHash, setPoapIpfsHash] = useState("");
+  const [minting, setMinting] = useState(false);
 
   useEffect(() => {
     fetchSpaces().then(fetchedSpaces => {
@@ -138,6 +147,70 @@ function CalendarPage() {
     spaces: spacesForSelectedDate.filter(space => getHour(space.date, timezone) === h)
   }));
 
+  // POAP form handlers
+  const handlePoapInput = e => setPoapForm(f => ({ ...f, [e.target.name]: e.target.value }));
+  const handlePoapFile = e => setPoapForm(f => ({ ...f, file: e.target.files[0] }));
+
+  // Move POAP form out of modal and into the main calendar page (for creators only)
+  function PoapMintForm({ onMinted }) {
+    const [poapForm, setPoapForm] = useState({ name: '', space: '', description: '', file: null });
+    const [poapStatus, setPoapStatus] = useState("");
+    const [poapIpfsHash, setPoapIpfsHash] = useState("");
+    const [minting, setMinting] = useState(false);
+
+    const handlePoapInput = e => setPoapForm(f => ({ ...f, [e.target.name]: e.target.value }));
+    const handlePoapFile = e => setPoapForm(f => ({ ...f, file: e.target.files[0] }));
+
+    async function handlePoapUploadAndMint() {
+      setPoapStatus("");
+      setMinting(true);
+      try {
+        // 1. Upload image to Pinata
+        const formData = new FormData();
+        formData.append('file', poapForm.file);
+        const res = await fetch('http://localhost:5001/upload', { method: 'POST', body: formData });
+        const data = await res.json();
+        if (!data.ipfsHash) throw new Error('IPFS upload failed');
+        setPoapIpfsHash(data.ipfsHash);
+
+        // 2. Upload metadata JSON to Pinata using your backend
+        const metaRes = await fetch('http://localhost:5001/upload-metadata', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            name: poapForm.name,
+            space: poapForm.space,
+            description: poapForm.description,
+            image: `ipfs://${data.ipfsHash}`
+          })
+        });
+        const metaData = await metaRes.json();
+        if (!metaData.ipfsHash) throw new Error('Metadata upload failed');
+
+        setPoapStatus('NFT metadata uploaded! Ready to mint on Aptos. Metadata IPFS: ' + metaData.ipfsHash);
+        if (onMinted) onMinted(metaData.ipfsHash);
+      } catch (err) {
+        setPoapStatus('Error: ' + err.message);
+      }
+      setMinting(false);
+    }
+
+    return (
+      <div style={{marginTop:12, border:'1px solid #00ffea', padding:12, borderRadius:8}}>
+        <h3>Mint POAP NFT</h3>
+        <input type="file" accept="image/*" onChange={handlePoapFile} />
+        <input name="name" placeholder="Name" value={poapForm.name} onChange={handlePoapInput} style={{display:'block',margin:'8px 0'}} />
+        <input name="space" placeholder="Space" value={poapForm.space} onChange={handlePoapInput} style={{display:'block',margin:'8px 0'}} />
+        <textarea name="description" placeholder="Description" value={poapForm.description} onChange={handlePoapInput} style={{display:'block',margin:'8px 0'}} />
+        <button onClick={handlePoapUploadAndMint} disabled={minting || !poapForm.file || !poapForm.name || !poapForm.space || !poapForm.description}>
+          {minting ? 'Uploading...' : 'Upload & Mint'}
+        </button>
+        {poapStatus && <div style={{marginTop:8}}>{poapStatus}</div>}
+        {poapIpfsHash && <div>Image IPFS: {poapIpfsHash}</div>}
+      </div>
+    );
+  }
+
   if (loading) return <LoadingBuffer />;
 
   return (
@@ -146,15 +219,15 @@ function CalendarPage() {
         {/* Left: Calendar and Filters */}
         <div className="calendar-left-panel">
           {/* Timezone Selector */}
-          <div className="calendar-filter-card" style={{ marginBottom: 12 }}>
-            <label htmlFor="timezone-select" style={{ fontFamily: '"Press Start 2P", monospace', color: '#0ff', fontSize: 13, marginRight: 8 }}>
+          <div className="calendar-filter-card" style={{ marginBottom: 9.6 }}>
+            <label htmlFor="timezone-select" style={{ fontFamily: '"Press Start 2P", monospace', color: '#0ff', fontSize: 10.4, marginRight: 6.4 }}>
               Timezone:
             </label>
             <select
               id="timezone-select"
               value={timezone}
               onChange={e => setTimezone(e.target.value)}
-              style={{ fontFamily: '"Press Start 2P", monospace', background: '#111', color: '#0ff', border: '1.5px solid #0ff', borderRadius: 4, padding: '2px 8px', fontSize: 13 }}
+              style={{ fontFamily: '"Press Start 2P", monospace', background: '#111', color: '#0ff', border: '1.2px solid #0ff', borderRadius: 3.2, padding: '1.6px 6.4px', fontSize: 10.4 }}
             >
               {TIMEZONES.map(tz => (
                 <option value={tz} key={tz}>{tz}</option>
@@ -269,7 +342,7 @@ function CalendarPage() {
                               </span>
                             )}
                             {space.creatorStatus !== "host" && (space.upvotes || 0) >= 25 && (
-                              <span style={{ marginLeft: 8, color: "#b28d00", fontWeight: "bold" }}>
+                              <span style={{ marginLeft: 6.4, color: "#b28d00", fontWeight: "bold" }}>
                                 (🌟 Popular)
                               </span>
                             )}
@@ -285,40 +358,42 @@ function CalendarPage() {
         </div>
       </div>
       {/* Space details modal */}
-      <Modal open={!!selectedSpace} onClose={() => setSelectedSpace(null)}>
+      <Modal open={!!selectedSpace} onClose={() => { setSelectedSpace(null); setShowPoapForm(false); }}>
         {selectedSpace && (() => {
           const startDate = safeToDate(selectedSpace.date);
           const endDate = safeToDate(selectedSpace.end);
+          // Only show mint button if user is the creator
+          const isCreator = account && (account.address === selectedSpace.creator || account.address?.toString() === selectedSpace.creator);
           return (
             <div>
-              <h2>{selectedSpace.title}</h2>
-              <div style={{ marginBottom: 8 }}>
+              <h2 style={{ fontSize: 20.8 }}>{selectedSpace.title}</h2>
+              <div style={{ marginBottom: 6.4 }}>
                 <b>Host:</b> {selectedSpace.username}
                 {selectedSpace.twitter && (
                   <span>
                     {" "}·{" "}
-                    <a href={selectedSpace.twitter} target="_blank" rel="noopener noreferrer" style={{ color: "#1da1f2" }}>
+                    <a href={selectedSpace.twitter} target="_blank" rel="noopener noreferrer" style={{ color: "#1da1f2", fontSize: 12.8 }}>
                       Twitter Profile
                     </a>
                   </span>
                 )}
               </div>
-              <div style={{ marginBottom: 8 }}>
+              <div style={{ marginBottom: 6.4 }}>
                 <b>Date:</b> {startDate ? startDate.toLocaleDateString(undefined, { timeZone: timezone }) : "—"}
                 <br />
                 <b>Time:</b> {startDate ? startDate.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit", timeZone: timezone }) : "—"}
                 {endDate && <> - {endDate.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit", timeZone: timezone })}</>}
               </div>
-              <div style={{ marginBottom: 8 }}>
+              <div style={{ marginBottom: 6.4 }}>
                 <b>Categories:</b> {selectedSpace.categories || "—"}
                 <br />
                 <b>Languages:</b> {selectedSpace.languages || "—"}
               </div>
-              <div style={{ marginBottom: 8 }}>
+              <div style={{ marginBottom: 6.4 }}>
                 <b>Brief Description:</b>
                 <div
                   style={{
-                    marginTop: 2,
+                    marginTop: 1.6,
                     whiteSpace: "pre-line",
                     color: "#fff",
                     fontStyle: selectedSpace.description ? "normal" : "italic"
@@ -334,16 +409,74 @@ function CalendarPage() {
                     target="_blank"
                     rel="noopener noreferrer"
                     className="calendar-event-link"
-                    style={{ color: "#1da1f2", fontWeight: "bold", fontSize: 16 }}
+                    style={{ color: "#1da1f2", fontWeight: "bold", fontSize: 12.8 }}
                   >
                     Join Twitter Space
                   </a>
                 </div>
               )}
               {selectedSpace.creatorStatus !== "host" && (selectedSpace.upvotes || 0) >= 25 && (
-                <div style={{ color: "#b28d00", fontWeight: "bold", marginTop: 10 }}>
+                <div style={{ color: "#b28d00", fontWeight: "bold", marginTop: 8 }}>
                   🌟 This space is featured because it reached 25+ upvotes!
                 </div>
+              )}
+              {/* POAP Mint Button in Modal for all users */}
+              {selectedSpace.poap && selectedSpace.poap.ipfsHash && (
+                <>
+                  <button
+                    style={{marginTop:12, background:'#ffe066', color:'#181a2b', fontWeight:'bold', border:'none', borderRadius:6, padding:'8px 18px', fontSize:16, cursor:'pointer'}}
+                    onClick={async () => {
+                      if (!window.aptos) {
+                        alert('Aptos wallet not found');
+                        return;
+                      }
+                      // Only allow mint if user hasn't minted for this space (frontend check)
+                      if (selectedSpace.poap.mintedBy && selectedSpace.poap.mintedBy.includes(account?.address)) {
+                        alert('You have already minted this POAP.');
+                        return;
+                      }
+                      try {
+                        // --- Updated mint logic to match UserTab.jsx ---
+                        // Helper to reliably get the wallet address as a string
+                        const getAddressString = (acct) => {
+                          if (!acct?.address) return "";
+                          if (typeof acct.address === "string") return acct.address;
+                          if (typeof acct.address.toString === "function") return acct.address.toString();
+                          return String(acct.address);
+                        };
+                        const propertyKeys = [];
+                        const propertyTypes = [];
+                        const propertyValues = [];
+                        const soulBoundTo = getAddressString(account);
+                        const addressHex = soulBoundTo.startsWith("0x") ? soulBoundTo : "0x" + soulBoundTo;
+                        const collectionName = selectedSpace.poap.collection || 'POAP Collection';
+                        const payload = {
+                          type: 'entry_function_payload',
+                          function: '0x4::aptos_token::mint_soul_bound',
+                          type_arguments: [],
+                          arguments: [
+                            collectionName,                                 // collection: String
+                            selectedSpace.poap.description || '',           // description: String
+                            selectedSpace.poap.name || '',                  // name: String
+                            selectedSpace.poap.image || `ipfs://${selectedSpace.poap.ipfsHash}`,
+                            propertyKeys,                                   // property_keys: vector<String>
+                            propertyTypes,                                  // property_types: vector<String>
+                            propertyValues,                                 // property_values: vector<String>
+                            addressHex                                      // soul_bound_to: address (as hex string)
+                          ]
+                        };
+                        const response = await window.aptos.signAndSubmitTransaction(payload);
+                        alert('Mint transaction submitted! Tx hash: ' + response.hash);
+                        // Optionally update Firestore to record that this user minted
+                        // ...
+                      } catch (err) {
+                        alert('Mint failed: ' + (err.message || err));
+                      }
+                    }}
+                  >
+                    Mint POAP NFT
+                  </button>
+                </>
               )}
             </div>
           );
