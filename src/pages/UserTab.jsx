@@ -415,78 +415,15 @@ export default function UserTab() {
       }
 
       // --- POAP Collection creation (Aptos) ---
+      // REMOVE on-chain minting from UserTab: only create metadata, do not call window.aptos or mint here
       let poapCollectionName = '';
       let poapCollectionUri = '';
-      if (poapFieldsFilled && window.aptos) {
-        // Username without last 4 chars
+      // Only set collection name/uri for metadata, do not mint
+      if (poapFieldsFilled) {
         const uname = (user.username || user.address || '').slice(0, -4);
-        // Make collection name unique per space
         const uniqueSuffix = `${form.title}-${Date.now()}`;
         poapCollectionName = `${uname}'s space POAPs - ${uniqueSuffix}`;
         poapCollectionUri = poapIpfsHash ? `ipfs://${poapIpfsHash}` : '';
-        // Final defensive log and check before sending transaction
-        console.log('Aptos create_collection args:', [
-          poap.description,                // description
-          poapMaxSupply,                   // max_supply
-          poapCollectionName,              // name
-          poapCollectionUri,               // uri
-          true,                            // mutable_description
-          false,                           // mutable_royalty
-          false,                           // mutable_uri
-          false,                           // mutable_token_description
-          false,                           // mutable_token_name
-          false,                           // mutable_token_properties
-          false,                           // mutable_token_uri
-          true,                            // tokens_burnable_by_creator
-          false,                           // tokens_freezable_by_creator
-          '1',                             // royalty_numerator (set to 1 for 0% royalty)
-          '1'                              // royalty_denominator (set to 1 for 0% royalty)
-        ]);
-        console.log('Required args for aptos_token::create_collection:', [
-          'description (string)',
-          'max_supply (u64, stringified integer)',
-          'name (string)',
-          'uri (string)',
-          'mutable_description (boolean)',
-          'mutable_royalty (boolean)',
-          'mutable_uri (boolean)',
-          'mutable_token_description (boolean)',
-          'mutable_token_name (boolean)',
-          'mutable_token_properties (boolean)',
-          'mutable_token_uri (boolean)',
-          'tokens_burnable_by_creator (boolean)',
-          'tokens_freezable_by_creator (boolean)',
-          'royalty_numerator (u64, stringified integer)',
-          'royalty_denominator (u64, stringified integer)'
-        ]);
-        const collectionPayload = {
-          type: 'entry_function_payload',
-          function: '0x4::aptos_token::create_collection',
-          type_arguments: [],
-          arguments: [
-            poap.description,                // description
-            poapMaxSupply,                   // max_supply
-            poapCollectionName,              // name
-            poapCollectionUri,               // uri
-            true,                            // mutable_description
-            false,                           // mutable_royalty
-            false,                           // mutable_uri
-            false,                           // mutable_token_description
-            false,                           // mutable_token_name
-            false,                           // mutable_token_properties
-            false,                           // mutable_token_uri
-            true,                            // tokens_burnable_by_creator
-            false,                           // tokens_freezable_by_creator
-            '1',                             // royalty_numerator (set to 1 for 0% royalty)
-            '1'                              // royalty_denominator (set to 1 for 0% royalty)
-          ]
-        };
-        console.log('Collection payload about to be sent:', JSON.stringify(collectionPayload, null, 2));
-        try {
-          await window.aptos.signAndSubmitTransaction(collectionPayload);
-        } catch (e) {
-          if (!String(e).includes('already exists')) throw e;
-        }
       }
       // Prepare space data
       const spaceData = {
