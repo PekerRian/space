@@ -276,12 +276,12 @@ export default function UserTab() {
       const formData = new FormData();
       formData.append('file', poap.file);
       const res = await fetch('/api/upload', { method: 'POST', body: formData });
+      const text = await res.text();
       let data;
       try {
-        data = await res.json();
+        data = JSON.parse(text);
       } catch (e) {
-        // Not JSON, get text for debugging
-        const text = await res.text();
+        // Not JSON, show raw text
         console.error('POAP image upload failed: Non-JSON response:', text);
         setErr('POAP image upload failed: ' + text);
         setPoapUploading(false);
