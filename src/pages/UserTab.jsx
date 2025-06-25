@@ -277,6 +277,13 @@ export default function UserTab() {
       formData.append('file', poap.file);
       const res = await fetch('http://localhost:5001/upload', { method: 'POST', body: formData });
       const data = await res.json();
+      if (!res.ok) {
+        // Log backend error to web console
+        console.error('POAP image upload failed:', data.error);
+        setErr('POAP image upload failed: ' + data.error);
+        setPoapUploading(false);
+        return '';
+      }
       setPoap(p => ({ ...p, ipfsHash: data.ipfsHash }));
       setPoapUploading(false);
       return data.ipfsHash;
@@ -377,6 +384,11 @@ export default function UserTab() {
           })
         });
         const metadata = await metadataRes.json();
+        if (!metadataRes.ok) {
+          // Log backend error to web console
+          console.error('POAP metadata upload failed:', metadata.error);
+          throw new Error('Metadata upload failed: ' + metadata.error);
+        }
         if (!metadata.ipfsHash) throw new Error('Metadata upload failed');
         poapMetadataIpfsHash = metadata.ipfsHash;
       }
