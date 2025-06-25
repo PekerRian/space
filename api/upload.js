@@ -1,6 +1,8 @@
 // /api/upload.js
 import formidable from 'formidable';
 import fs from 'fs';
+import FormData from 'form-data';
+import fetch from 'node-fetch';
 
 // Use this handler as a Vercel serverless function
 export const config = {
@@ -20,9 +22,19 @@ export default async function handler(req, res) {
     if (!file) return res.status(400).json({ error: 'No file uploaded' });
     try {
       const data = fs.readFileSync(file.filepath);
-      // Use Pinata or your preferred IPFS service here
-      // Example: return a fake hash for demo
-      res.status(200).json({ ipfsHash: 'QmFakeHashForDemo' });
+      const formData = new FormData();
+      formData.append('file', data, file.originalFilename);
+      // Pinata JWT from environment variable
+      const pinataRes = await fetch('https://api.pinata.cloud/pinning/pinFileToIPFS', {
+        method: 'POST',
+        headers: {
+          Authorization: `Bearer ${process.env.PINATA_JWT}`,
+        },
+        body: formData,
+      });
+      const pinataData = await pinataRes.json();
+      if (!pinataData.IpfsHash) throw new Error('Pinata upload failed');
+      res.status(200).json({ ipfsHash: pinataData.IpfsHash });
     } catch (e) {
       res.status(500).json({ error: e.message });
     }
