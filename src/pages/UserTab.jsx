@@ -184,6 +184,14 @@ export default function UserTab() {
   const [enablePoap, setEnablePoap] = useState(false); // NEW: POAP enable checkbox
   const [spacePassword, setSpacePassword] = useState(""); // NEW: password field
 
+  // Handler for POAP enable checkbox
+  const handleEnablePoapChange = (e) => {
+    setEnablePoap(e.target.checked);
+    if (!e.target.checked) {
+      setPoap({ name: '', space: '', description: '', file: null, ipfsHash: '', maxSupply: '' });
+    }
+  };
+
   // Helper to reliably get the wallet address as a string
   const getAddressString = (acct) => {
     if (!acct?.address) return "";
