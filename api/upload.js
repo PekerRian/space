@@ -21,12 +21,20 @@ export default async function handler(req, res) {
   form.parse(req, async (err, fields, files) => {
     if (err) return res.status(500).json({ error: 'Form parse error' });
     const file = files.file;
-    if (!file) return res.status(400).json({ error: 'No file uploaded' });
+    console.log('Formidable file object:', file);
+    // Support both formidable v2+ and older, and array or object
+    let filePath = file?.filepath || file?.path;
+    if (Array.isArray(file)) {
+      filePath = file[0]?.filepath || file[0]?.path;
+    }
+    if (!filePath) {
+      return res.status(500).json({ error: 'File path not found in upload', file });
+    }
     try {
-      console.log('Uploading file to Pinata:', file.originalFilename, file.mimetype, file.size);
-      const data = fs.readFileSync(file.filepath);
+      console.log('Uploading file to Pinata:', file.originalFilename || file[0]?.originalFilename, file.mimetype || file[0]?.mimetype, file.size || file[0]?.size);
+      const data = fs.readFileSync(filePath);
       const formData = new FormData();
-      formData.append('file', data, file.originalFilename);
+      formData.append('file', data, file.originalFilename || file[0]?.originalFilename);
       // Pinata JWT from environment variable
       if (!process.env.PINATA_JWT) {
         console.error('PINATA_JWT environment variable is not set');
