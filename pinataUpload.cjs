@@ -3,16 +3,15 @@ const multer = require('multer');
 const PinataSDK = require('@pinata/sdk');
 const cors = require('cors');
 const { Readable } = require('stream');
-const fs = require('fs');
-const path = require('path');
 
-// Replace with your actual Pinata API Key and Secret
-const pinata = new PinataSDK('a93ecc32760e91f60533', '691e79ab1074435587915825241a52b9294802acf9f34181f64ea51fd7c7968c');
+// Use environment variables for Pinata API keys (set PINATA_API_KEY and PINATA_API_SECRET in your environment)
+const pinata = new PinataSDK(process.env.PINATA_API_KEY, process.env.PINATA_API_SECRET);
 const upload = multer({ storage: multer.memoryStorage() }); // Ensure memory storage
 
 const app = express();
 app.use(cors());
 
+// File upload endpoint
 app.post('/upload', upload.single('file'), async (req, res) => {
   try {
     if (!req.file) {
@@ -32,13 +31,14 @@ app.post('/upload', upload.single('file'), async (req, res) => {
   }
 });
 
+// Metadata upload endpoint (no disk writes, uploads JSON from memory)
 app.post('/upload-metadata', express.json(), async (req, res) => {
   try {
     const { name, space, description, image } = req.body;
     if (!name || !space || !description) {
       return res.status(400).json({ error: 'Missing required fields: name, space, description' });
     }
-    // Save the metadata as a JSON file for NFT metadata
+    // Build metadata JSON
     const metadata = {
       name,
       description,
@@ -49,13 +49,12 @@ app.post('/upload-metadata', express.json(), async (req, res) => {
     if (image) {
       metadata.image = image;
     }
-    // Write the JSON file to disk (optional, for your own records)
+    // Convert metadata to a buffer and create a readable stream
+    const metadataBuffer = Buffer.from(JSON.stringify(metadata, null, 2));
+    const metadataStream = Readable.from(metadataBuffer);
     const fileName = `${name.replace(/[^a-zA-Z0-9-_]/g, '_')}-metadata.json`;
-    const filePath = path.join(__dirname, fileName);
-    fs.writeFileSync(filePath, JSON.stringify(metadata, null, 2));
     // Upload the JSON to Pinata
-    const fileStream = fs.createReadStream(filePath);
-    const result = await pinata.pinFileToIPFS(fileStream, {
+    const result = await pinata.pinFileToIPFS(metadataStream, {
       pinataMetadata: { name: fileName }
     });
     console.log('Pinata metadata file result:', result);
