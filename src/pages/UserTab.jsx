@@ -275,7 +275,7 @@ export default function UserTab() {
     try {
       const formData = new FormData();
       formData.append('file', poap.file);
-      const res = await fetch('http://localhost:5001/upload', { method: 'POST', body: formData });
+      const res = await fetch('/api/upload', { method: 'POST', body: formData });
       const data = await res.json();
       if (!res.ok) {
         // Log backend error to web console
@@ -373,7 +373,7 @@ export default function UserTab() {
       // --- POAP metadata upload ---
       let poapMetadataIpfsHash = '';
       if (poapFieldsFilled) {
-        const metadataRes = await fetch('http://localhost:5001/upload-metadata', {
+        const metadataRes = await fetch('/api/upload-metadata', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
