@@ -113,16 +113,8 @@ function PopupModal({ open, onClose, message }) {
 function SpaceModal({ open, onClose, space, onMint, minting, mintError, mintSuccess, signAndSubmitTransaction, account }) {
   if (!open || !space) return null;
   const handleMint = async () => {
-    if (!space.collectionObj) {
-      alert('No on-chain collection object found for this space.');
-      return;
-    }
-    try {
-      await mintPoap({ signAndSubmitTransaction, account, collectionObj: space.collectionObj });
-      if (onMint) onMint();
-    } catch (e) {
-      alert('Mint failed: ' + (e.message || e));
-    }
+    await handleMintPoap(space);
+    if (onMint) onMint();
   };
   return (
     <div className="calendar-modal-overlay" style={{ zIndex: 1000 }} onClick={onClose}>
@@ -551,38 +543,15 @@ export default function UserTab() {
     return "Invalid date";
   };
 
-  // Mint POAP NFT logic
+  // Mint POAP NFT logic (using Move module)
   async function handleMintPoap(space) {
     setMinting(true);
     setMintError("");
     setMintSuccess("");
     try {
-      if (!window.aptos) throw new Error("Aptos wallet not found");
-      if (!space.poap) throw new Error("No POAP info for this space");
       if (!account?.address) throw new Error("Wallet address not found");
-      // Prepare args for minting soulbound NFT under the collection
-      // All property vectors must be empty string arrays (vector<string>)
-      const propertyKeys = [];
-      const propertyTypes = [];
-      const propertyValues = []; // vector<string>, not vector<vector<u8>>
-      const soulBoundTo = getAddressString(account);
-      const addressHex = soulBoundTo.startsWith("0x") ? soulBoundTo : "0x" + soulBoundTo;
-      const payload = {
-        type: 'entry_function_payload',
-        function: '0x4::aptos_token::mint_soul_bound',
-        type_arguments: [],
-        arguments: [
-          space.poap.collection,           // collection: String
-          space.poap.description || '',    // description: String
-          space.poap.name,                 // name: String
-          space.poap.image || '',          // uri: String (image or metadata URI)
-          propertyKeys,                    // property_keys: vector<String>
-          propertyTypes,                   // property_types: vector<String>
-          propertyValues,                  // property_values: vector<String>
-          addressHex                       // soul_bound_to: address (as hex string)
-        ]
-      };
-      await window.aptos.signAndSubmitTransaction(payload);
+      if (!space.collectionObj) throw new Error("No on-chain collection object found for this space");
+      await mintPoap({ signAndSubmitTransaction, account, collectionObj: space.collectionObj });
       setMintSuccess("POAP NFT minted! Check your wallet.");
     } catch (e) {
       setMintError(e.message || String(e));
