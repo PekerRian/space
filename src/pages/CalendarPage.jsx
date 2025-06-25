@@ -88,6 +88,9 @@ function CalendarPage() {
   const [poapStatus, setPoapStatus] = useState("");
   const [poapIpfsHash, setPoapIpfsHash] = useState("");
   const [minting, setMinting] = useState(false);
+  const [mintPassword, setMintPassword] = useState("");
+  const [showPasswordPrompt, setShowPasswordPrompt] = useState(false);
+  const [passwordError, setPasswordError] = useState("");
 
   useEffect(() => {
     fetchSpaces().then(fetchedSpaces => {
@@ -441,66 +444,87 @@ function CalendarPage() {
                 <>
                   <button
                     style={{marginTop:12, background:'#ffe066', color:'#181a2b', fontWeight:'bold', border:'none', borderRadius:6, padding:'8px 18px', fontSize:16, cursor:'pointer'}}
-                    onClick={async () => {
-                      if (!window.aptos) {
-                        alert('Aptos wallet not found');
-                        return;
-                      }
-                      // Only allow mint if user hasn't minted for this space (frontend check)
-                      if (selectedSpace.poap.mintedBy && selectedSpace.poap.mintedBy.includes(account?.address)) {
-                        alert('You have already minted this POAP.');
-                        return;
-                      }
-                      try {
-                        // --- Updated mint logic to match UserTab.jsx ---
-                        // Helper to reliably get the wallet address as a string
-                        const getAddressString = (acct) => {
-                          if (!acct?.address) return "";
-                          if (typeof acct.address === "string") return acct.address;
-                          if (typeof acct.address.toString === "function") return acct.address.toString();
-                          return String(acct.address);
-                        };
-                        const propertyKeys = [];
-                        const propertyTypes = [];
-                        const propertyValues = [];
-                        const soulBoundTo = getAddressString(account);
-                        const addressHex = soulBoundTo.startsWith("0x") ? soulBoundTo : "0x" + soulBoundTo;
-                        // Use the creator's address as the collection owner for public minting
-                        const collectionOwner = selectedSpace.poap.creator || selectedSpace.creator || selectedSpace.owner;
-                        const collectionName = selectedSpace.poap.collection || 'POAP Collection';
-                        const imageUri = typeof selectedSpace.poap.image === 'string' && selectedSpace.poap.image
-                          ? selectedSpace.poap.image
-                          : `ipfs://${selectedSpace.poap.ipfsHash}`;
-                        const payload = {
-                          type: 'entry_function_payload',
-                          function: '0x4::aptos_token::mint_soul_bound',
-                          type_arguments: [],
-                          arguments: [
-                            collectionOwner,                                 // collection_owner: address
-                            collectionName,                                 // collection: String
-                            selectedSpace.poap.description || '',           // description: String
-                            selectedSpace.poap.name || '',                  // name: String
-                            imageUri,                                       // uri: String (must be a string)
-                            propertyKeys,                                   // property_keys: vector<String>
-                            propertyTypes,                                  // property_types: vector<String>
-                            propertyValues,                                 // property_values: vector<String>
-                            addressHex                                      // soul_bound_to: address (as hex string)
-                          ]
-                        };
-                        console.log('[NFT MINT] Minting POAP NFT with payload:', payload);
-                        const response = await window.aptos.signAndSubmitTransaction(payload);
-                        console.log('[NFT MINT] Mint transaction submitted! Response:', response);
-                        alert('Mint transaction submitted! Tx hash: ' + response.hash);
-                        // Optionally update Firestore to record that this user minted
-                        // ...
-                      } catch (err) {
-                        console.error('[NFT MINT] Mint failed:', err);
-                        alert('Mint failed: ' + (err.message || err));
-                      }
-                    }}
+                    onClick={() => setShowPasswordPrompt(true)}
                   >
                     Mint POAP NFT
                   </button>
+                  {/* Password Prompt Modal */}
+                  <Modal open={showPasswordPrompt} onClose={() => { setShowPasswordPrompt(false); setMintPassword(""); setPasswordError(""); }}>
+                    <div style={{ textAlign: 'center' }}>
+                      <h3>Enter Space Password to Mint</h3>
+                      <input
+                        type="password"
+                        value={mintPassword}
+                        onChange={e => setMintPassword(e.target.value)}
+                        placeholder="Space Password"
+                        style={{ margin: '12px 0', padding: 8, borderRadius: 4, border: '1px solid #ffe066', width: '80%' }}
+                      />
+                      <div style={{ color: 'red', minHeight: 18 }}>{passwordError}</div>
+                      <button
+                        style={{ background: '#ffe066', color: '#181a2b', fontWeight: 'bold', border: 'none', borderRadius: 6, padding: '8px 18px', fontSize: 16, cursor: 'pointer', marginTop: 8 }}
+                        onClick={async () => {
+                          if (mintPassword !== selectedSpace.spacePassword) {
+                            setPasswordError('Incorrect password.');
+                            return;
+                          }
+                          setPasswordError("");
+                          setShowPasswordPrompt(false);
+                          // ...existing mint logic...
+                          if (!window.aptos) {
+                            alert('Aptos wallet not found');
+                            return;
+                          }
+                          if (selectedSpace.poap.mintedBy && selectedSpace.poap.mintedBy.includes(account?.address)) {
+                            alert('You have already minted this POAP.');
+                            return;
+                          }
+                          try {
+                            const getAddressString = (acct) => {
+                              if (!acct?.address) return "";
+                              if (typeof acct.address === "string") return acct.address;
+                              if (typeof acct.address.toString === "function") return acct.address.toString();
+                              return String(acct.address);
+                            };
+                            const propertyKeys = [];
+                            const propertyTypes = [];
+                            const propertyValues = [];
+                            const soulBoundTo = getAddressString(account);
+                            const addressHex = soulBoundTo.startsWith("0x") ? soulBoundTo : "0x" + soulBoundTo;
+                            const collectionOwner = selectedSpace.poap.creator || selectedSpace.creator || selectedSpace.owner;
+                            const collectionName = selectedSpace.poap.collection || 'POAP Collection';
+                            const imageUri = typeof selectedSpace.poap.image === 'string' && selectedSpace.poap.image
+                              ? selectedSpace.poap.image
+                              : `ipfs://${selectedSpace.poap.ipfsHash}`;
+                            const payload = {
+                              type: 'entry_function_payload',
+                              function: '0x4::aptos_token::mint_soul_bound',
+                              type_arguments: [],
+                              arguments: [
+                                collectionOwner,
+                                collectionName,
+                                selectedSpace.poap.description || '',
+                                selectedSpace.poap.name || '',
+                                imageUri,
+                                propertyKeys,
+                                propertyTypes,
+                                propertyValues,
+                                addressHex
+                              ]
+                            };
+                            console.log('[NFT MINT] Minting POAP NFT with payload:', payload);
+                            const response = await window.aptos.signAndSubmitTransaction(payload);
+                            console.log('[NFT MINT] Mint transaction submitted! Response:', response);
+                            alert('Mint transaction submitted! Tx hash: ' + response.hash);
+                          } catch (err) {
+                            console.error('[NFT MINT] Mint failed:', err);
+                            alert('Mint failed: ' + (err.message || err));
+                          }
+                        }}
+                      >
+                        Mint
+                      </button>
+                    </div>
+                  </Modal>
                 </>
               )}
             </div>

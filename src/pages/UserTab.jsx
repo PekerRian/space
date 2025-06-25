@@ -181,6 +181,8 @@ export default function UserTab() {
   const [minting, setMinting] = useState(false);
   const [mintError, setMintError] = useState("");
   const [mintSuccess, setMintSuccess] = useState("");
+  const [enablePoap, setEnablePoap] = useState(false); // NEW: POAP enable checkbox
+  const [spacePassword, setSpacePassword] = useState(""); // NEW: password field
 
   // Helper to reliably get the wallet address as a string
   const getAddressString = (acct) => {
@@ -326,17 +328,16 @@ export default function UserTab() {
       return;
     }
     // --- POAP validation ---
-    const poapFieldsFilled = poap.name || poap.space || poap.description || poap.file;
-    if (poapFieldsFilled && (!poap.name || !poap.space || !poap.description || !poap.file)) {
+    // Only validate POAP fields if enabled
+    const poapFieldsFilled = enablePoap && (poap.name || poap.space || poap.description || poap.file);
+    if (enablePoap && (!poap.name || !poap.space || !poap.description || !poap.file)) {
       setErr('If you want to set up a POAP, all POAP fields are required.');
       return;
     }
     // --- POAP maxSupply validation ---
-    if (poapFieldsFilled) {
-      if (!poap.maxSupply || !/^[0-9]+$/.test(poap.maxSupply) || parseInt(poap.maxSupply) <= 0) {
-        setErr('Max Supply must be a positive integer.');
-        return;
-      }
+    if (enablePoap && (!poap.maxSupply || !/^[0-9]+$/.test(poap.maxSupply) || parseInt(poap.maxSupply) <= 0)) {
+      setErr('Max Supply must be a positive integer.');
+      return;
     }
     // Extra: Defensive check for maxSupply before blockchain call
     // This ensures that even if the UI is bypassed, the value is always a valid integer string
@@ -494,7 +495,7 @@ export default function UserTab() {
         upvotedBy: [],
         createdAt: new Date().toISOString(),
         space_votes: 0,
-        poap: poapFieldsFilled ? {
+        poap: enablePoap ? {
           name: poap.name,
           space: poap.space,
           description: poap.description,
@@ -502,8 +503,10 @@ export default function UserTab() {
           ipfsHash: poapIpfsHash,
           metadataIpfsHash: poapMetadataIpfsHash,
           collection: poapCollectionName,
-          maxSupply: poapMaxSupply
+          maxSupply: poap.maxSupply
         } : null,
+        enablePoap,
+        spacePassword, // include password in space data
       };
 
       // Generate a unique ID for the space
@@ -815,6 +818,56 @@ export default function UserTab() {
                     />
                   </label>
                 </div>
+                <label style={{ display: 'block', margin: '12px 0 4px 0' }}>
+                  <input type="checkbox" checked={enablePoap} onChange={handleEnablePoapChange} /> Enable POAP for this space?
+                </label>
+                <label style={{ display: 'block', margin: '12px 0 4px 0' }}>
+                  Space Password (required to mint POAP from calendar):
+                  <input type="password" value={spacePassword} onChange={handlePasswordChange} style={{ marginLeft: 8 }} />
+                </label>
+                <fieldset disabled={!enablePoap} style={{ opacity: enablePoap ? 1 : 0.5, border: '1px solid #ffe066', padding: 12, margin: '12px 0' }}>
+                  <legend>POAP Details</legend>
+                  <label className="calendar-label" style={{ width: '100%' }}>
+                    POAP Name
+                    <input
+                      name="name"
+                      className="calendar-input"
+                      value={poap.name}
+                      onChange={handlePoapInput}
+                      placeholder="POAP Name"
+                      style={{ width: '100%' }}
+                    />
+                  </label>
+                  <label className="calendar-label" style={{ width: '100%' }}>
+                    POAP Description
+                    <textarea
+                      name="description"
+                      className="calendar-input"
+                      value={poap.description}
+                      onChange={handlePoapInput}
+                      placeholder="POAP Description"
+                      rows={2}
+                      style={{ width: '100%' }}
+                    />
+                  </label>
+                  <label className="calendar-label" style={{ width: '100%' }}>
+                    POAP Image
+                    <input type="file" accept="image/*" onChange={handlePoapFile} />
+                  </label>
+                  <label className="calendar-label" style={{ width: '100%' }}>
+                    Max Supply
+                    <input
+                      name="maxSupply"
+                      className="calendar-input"
+                      type="number"
+                      min="1"
+                      value={poap.maxSupply || ''}
+                      onChange={e => setPoap(p => ({ ...p, maxSupply: e.target.value }))}
+                      placeholder="Max Supply (number of NFTs)"
+                      style={{ width: '100%' }}
+                    />
+                  </label>
+                </fieldset>
                 <button type="submit" className="calendar-btn" style={{ width: '100%' }}>Schedule</button>
                 {err && <p className="calendar-error">{err}</p>}
                 {success && <p className="calendar-success">{success}</p>}
@@ -890,6 +943,17 @@ export default function UserTab() {
                     Delete
                   </button>
                 )}
+                <button
+                  onClick={async () => {
+                    // Toggle mintEnabled in Firestore
+                    const ref = doc(db, 'spaces', space.id);
+                    await updateDoc(ref, { mintEnabled: !space.mintEnabled });
+                    setSpaces(spaces => spaces.map(s => s.id === space.id ? { ...s, mintEnabled: !space.mintEnabled } : s));
+                  }}
+                  style={{ marginTop: 8, background: space.mintEnabled ? '#ffe066' : '#888', color: '#181a2b', cursor: 'pointer', border: 'none', borderRadius: 4, padding: '6px 12px' }}
+                >
+                  {space.mintEnabled ? 'Disable Mint on Calendar' : 'Enable Mint on Calendar'}
+                </button>
               </div>
             ))}
           </div>
