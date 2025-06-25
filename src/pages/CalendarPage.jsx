@@ -169,13 +169,14 @@ function CalendarPage() {
         // 1. Upload image to Pinata
         const formData = new FormData();
         formData.append('file', poapForm.file);
-        const res = await fetch('http://localhost:5001/upload', { method: 'POST', body: formData });
+        // Use Vercel serverless endpoint
+        const res = await fetch('/api/upload', { method: 'POST', body: formData });
         const data = await res.json();
         if (!data.ipfsHash) throw new Error('IPFS upload failed');
         setPoapIpfsHash(data.ipfsHash);
 
         // 2. Upload metadata JSON to Pinata using your backend
-        const metaRes = await fetch('http://localhost:5001/upload-metadata', {
+        const metaRes = await fetch('/api/upload-metadata', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
