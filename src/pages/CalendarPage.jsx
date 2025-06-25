@@ -469,59 +469,26 @@ function CalendarPage() {
                           }
                           setPasswordError("");
                           setShowPasswordPrompt(false);
-                          // ...existing mint logic...
-                          if (!window.aptos) {
-                            alert('Aptos wallet not found');
-                            return;
+                          // Mint POAP NFT logic (using Move module)
+                          async function handleMintPoap(selectedSpace) {
+                            setMinting(true);
+                            setPasswordError("");
+                            try {
+                              if (!account?.address) throw new Error("Wallet address not found");
+                              if (!selectedSpace.collectionObj) throw new Error("No on-chain collection object found for this space");
+                              await mintPoap({ signAndSubmitTransaction, account, collectionObj: selectedSpace.collectionObj });
+                              alert('POAP NFT minted! Check your wallet.');
+                            } catch (e) {
+                              alert('Mint failed: ' + (e.message || String(e)));
+                            } finally {
+                              setMinting(false);
+                            }
                           }
-                          if (selectedSpace.poap.mintedBy && selectedSpace.poap.mintedBy.includes(account?.address)) {
-                            alert('You have already minted this POAP.');
-                            return;
-                          }
-                          try {
-                            const getAddressString = (acct) => {
-                              if (!acct?.address) return "";
-                              if (typeof acct.address === "string") return acct.address;
-                              if (typeof acct.address.toString === "function") return acct.address.toString();
-                              return String(acct.address);
-                            };
-                            const propertyKeys = [];
-                            const propertyTypes = [];
-                            const propertyValues = [];
-                            const soulBoundTo = getAddressString(account);
-                            const addressHex = soulBoundTo.startsWith("0x") ? soulBoundTo : "0x" + soulBoundTo;
-                            const collectionOwner = selectedSpace.poap.creator || selectedSpace.creator || selectedSpace.owner;
-                            const collectionName = selectedSpace.poap.collection || 'POAP Collection';
-                            const imageUri = typeof selectedSpace.poap.image === 'string' && selectedSpace.poap.image
-                              ? selectedSpace.poap.image
-                              : `ipfs://${selectedSpace.poap.ipfsHash}`;
-                            const payload = {
-                              type: 'entry_function_payload',
-                              function: '0x4::aptos_token::mint_soul_bound',
-                              type_arguments: [],
-                              arguments: [
-                                collectionOwner,
-                                collectionName,
-                                selectedSpace.poap.description || '',
-                                selectedSpace.poap.name || '',
-                                imageUri,
-                                propertyKeys,
-                                propertyTypes,
-                                propertyValues,
-                                addressHex
-                              ]
-                            };
-                            console.log('[NFT MINT] Minting POAP NFT with payload:', payload);
-                            const response = await window.aptos.signAndSubmitTransaction(payload);
-                            console.log('[NFT MINT] Mint transaction submitted! Response:', response);
-                            alert('Mint transaction submitted! Tx hash: ' + response.hash);
-                          } catch (err) {
-                            console.error('[NFT MINT] Mint failed:', err);
-                            alert('Mint failed: ' + (err.message || err));
-                          }
+                          await handleMintPoap(selectedSpace);
                         }}
+                        disabled={minting}
                       >
-                        Mint
+                        {minting ? 'Minting...' : 'Mint POAP'}
                       </button>
                     </div>
                   </Modal>
