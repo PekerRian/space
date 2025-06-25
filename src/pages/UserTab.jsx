@@ -406,97 +406,90 @@ export default function UserTab() {
         poapMetadataIpfsHash = metadata.ipfsHash;
       }
 
-      try {
-        // --- POAP Collection creation (Aptos) ---
-        let collectionObj = null;
-        if (enablePoap && account && signAndSubmitTransaction) {
-          try {
-            const txResult = await createCollection({
-              signAndSubmitTransaction,
-              account,
-              name: poap.name,
-              description: poap.description,
-              uri: poapIpfsHash ? `ipfs://${poapIpfsHash}` : '',
-              max_supply: parseInt(poap.maxSupply, 10) || 10,
-              start_time: 0,
-              end_time: 1000,
-              limit: 1,
-              fee: 0
-            });
-            collectionObj = extractCollectionObjFromTx(txResult);
-            if (!collectionObj) throw new Error('Failed to get collection object address from transaction');
-          } catch (collectionError) {
-            console.error('Error creating POAP collection on-chain:', collectionError);
-            setErr('Error creating POAP collection: ' + (collectionError.message || collectionError));
-            return;
-          }
-        }
-        // Prepare space data
-        const spaceData = {
-          username: user.username || user.address,
-          twitter: user.twitter || "",
-          title: form.title,
-          description: form.description,
-          date: startDate.toISOString(),
-          end: endDate.toISOString(),
-          categories: form.categories.join(", "),
-          languages: form.languages.join(", "),
-          twitter_link: form.twitter_link || "",
-          owner: user.username,
-          creator: user.address,
-          creatorStatus: status,
-          upvotes: 0,
-          upvotedBy: [],
-          createdAt: new Date().toISOString(),
-          space_votes: 0,
-          poap: enablePoap ? {
-            name: poap.name,
-            space: poap.space,
-            description: poap.description,
-            image: poapIpfsHash ? `ipfs://${poapIpfsHash}` : '',
-            ipfsHash: poapIpfsHash,
-            metadataIpfsHash: poapMetadataIpfsHash,
-            collection: poapCollectionName,
-            maxSupply: poap.maxSupply
-          } : null,
-          collectionObj: collectionObj || null, // top-level for easy access
-          enablePoap,
-          spacePassword, // include password in space data
-        };
-
-        // Generate a unique ID for the space
-        const spaceId = `${user.address}_${Date.now()}`;
-
-        // Upload to spaces collection (main collection for spaces)
-        await setDoc(doc(db, "spaces", spaceId), spaceData);
-
-        setForm({
-          title: "",
-          description: "",
-          start: "12:00",
-          end: "12:30",
-          categories: [],
-          languages: [],
-          twitter_link: "",
+      // --- POAP Collection creation (Aptos) ---
+      let collectionObj = null;
+      if (enablePoap && account && signAndSubmitTransaction) {
+        const txResult = await createCollection({
+          signAndSubmitTransaction,
+          account,
+          name: poap.name,
+          description: poap.description,
+          uri: poapIpfsHash ? `ipfs://${poapIpfsHash}` : '',
+          max_supply: parseInt(poap.maxSupply, 10) || 10,
+          start_time: 0,
+          end_time: 1000,
+          limit: 1,
+          fee: 0
         });
-        setPoap({ name: '', space: '', description: '', file: null, ipfsHash: '', maxSupply: '' });
-        setSuccess("Space scheduled and uploaded to 'spaces' collection!");
-        const uname = user.username || user.address;
-        fetchSpacesByUser(uname).then(spacesArr => {
-          const fixedSpaces = spacesArr.map(s => ({ ...s, id: s.id || s.docId || s._id || s.address_date || '' }));
-          setSpaces(fixedSpaces);
-        });
-
-        // CALENDAR POPUP LOGIC
-        if (status === "host") {
-          setCalendarPopup("Great! your space is now scheduled!");
-        } else {
-          setCalendarPopup("Your space will not be posted on the calendar yet. Please have the community help you upvote it.");
-        }
-      } catch (error) {
-        setErr(error.message);
-        console.error('Error uploading space:', error);
+        collectionObj = extractCollectionObjFromTx(txResult);
+        if (!collectionObj) throw new Error('Failed to get collection object address from transaction');
       }
+      // Prepare space data
+      const spaceData = {
+        username: user.username || user.address,
+        twitter: user.twitter || "",
+        title: form.title,
+        description: form.description,
+        date: startDate.toISOString(),
+        end: endDate.toISOString(),
+        categories: form.categories.join(", "),
+        languages: form.languages.join(", "),
+        twitter_link: form.twitter_link || "",
+        owner: user.username,
+        creator: user.address,
+        creatorStatus: status,
+        upvotes: 0,
+        upvotedBy: [],
+        createdAt: new Date().toISOString(),
+        space_votes: 0,
+        poap: enablePoap ? {
+          name: poap.name,
+          space: poap.space,
+          description: poap.description,
+          image: poapIpfsHash ? `ipfs://${poapIpfsHash}` : '',
+          ipfsHash: poapIpfsHash,
+          metadataIpfsHash: poapMetadataIpfsHash,
+          collection: poapCollectionName,
+          maxSupply: poap.maxSupply
+        } : null,
+        collectionObj: collectionObj || null, // top-level for easy access
+        enablePoap,
+        spacePassword, // include password in space data
+      };
+
+      // Generate a unique ID for the space
+      const spaceId = `${user.address}_${Date.now()}`;
+
+      // Upload to spaces collection (main collection for spaces)
+      await setDoc(doc(db, "spaces", spaceId), spaceData);
+
+      setForm({
+        title: "",
+        description: "",
+        start: "12:00",
+        end: "12:30",
+        categories: [],
+        languages: [],
+        twitter_link: "",
+      });
+      setPoap({ name: '', space: '', description: '', file: null, ipfsHash: '', maxSupply: '' });
+      setSuccess("Space scheduled and uploaded to 'spaces' collection!");
+      const uname = user.username || user.address;
+      fetchSpacesByUser(uname).then(spacesArr => {
+        const fixedSpaces = spacesArr.map(s => ({ ...s, id: s.id || s.docId || s._id || s.address_date || '' }));
+        setSpaces(fixedSpaces);
+      });
+
+      // CALENDAR POPUP LOGIC
+      if (status === "host") {
+        setCalendarPopup("Great! your space is now scheduled!");
+      } else {
+        setCalendarPopup("Your space will not be posted on the calendar yet. Please have the community help you upvote it.");
+      }
+    } catch (error) {
+      setErr(error.message);
+      console.error('Error uploading space:', error);
+    }
   };
 
   // UPDATED handleDelete: also update votes and spacesUpvoted
