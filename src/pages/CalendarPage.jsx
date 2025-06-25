@@ -4,7 +4,7 @@ import Calendar from "react-calendar";
 import "react-calendar/dist/Calendar.css";
 import "../calendar-custom.css";
 import { LoadingBuffer } from "../App";
-import { useWallet, signAndSubmitTransaction } from "@aptos-labs/wallet-adapter-react";
+import { useWallet } from "@aptos-labs/wallet-adapter-react";
 import { mintPoap } from '../utils/aptosPoap';
 
 // Helper: get all timezones (fallback to a static list if not supported)
@@ -67,7 +67,7 @@ function isSpaceVisibleOnCalendar(space) {
 }
 
 function CalendarPage() {
-  const { account } = useWallet();
+  const { account, signAndSubmitTransaction } = useWallet();
   const [spaces, setSpaces] = useState([]);
   const [selectedDate, setSelectedDate] = useState(new Date());
   const [selectedSpace, setSelectedSpace] = useState(null);
