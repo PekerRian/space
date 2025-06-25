@@ -49,3 +49,34 @@ export async function getRegistry() {
   };
   return client.view(payload);
 }
+
+// Returns the collection object address from the transaction result
+export function extractCollectionObjFromTx(txResult) {
+  // For Aptos, the collection object address is usually in the events or changes
+  // Try to find a resource or event with the collection object address
+  if (!txResult) return null;
+  // Check for events with collection object address
+  if (txResult.events && Array.isArray(txResult.events)) {
+    for (const event of txResult.events) {
+      if (event.data && event.data.collection_object) {
+        return event.data.collection_object;
+      }
+      // Sometimes the address is in event.data.object or similar
+      if (event.data && event.data.object) {
+        return event.data.object;
+      }
+    }
+  }
+  // Check for resource changes
+  if (txResult.changes && Array.isArray(txResult.changes)) {
+    for (const change of txResult.changes) {
+      if (change.data && change.data.collection_object) {
+        return change.data.collection_object;
+      }
+    }
+  }
+  // Fallback: check for any address-like string in the result
+  const str = JSON.stringify(txResult);
+  const match = str.match(/0x[a-fA-F0-9]{32,}/);
+  return match ? match[0] : null;
+}

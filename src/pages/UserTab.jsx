@@ -7,7 +7,7 @@ import Calendar from "react-calendar";
 import "react-calendar/dist/Calendar.css";
 import "../calendar-custom.css";
 import { LoadingBuffer } from "../App";
-import { mintPoap, getRegistry } from '../utils/aptosPoap';
+import { mintPoap, getRegistry, createCollection, extractCollectionObjFromTx } from '../utils/aptosPoap';
 
 const categories = ["gaming", "defi", "nft", "community", "others"];
 const languages = ["english", "tagalog", "malay", "hausa", "pidgin", "mandarin", "spanish"];
@@ -407,15 +407,23 @@ export default function UserTab() {
       }
 
       // --- POAP Collection creation (Aptos) ---
-      // REMOVE on-chain minting from UserTab: only create metadata, do not call window.aptos or mint here
-      let poapCollectionName = '';
-      let poapCollectionUri = '';
-      // Only set collection name/uri for metadata, do not mint
-      if (poapFieldsFilled) {
-        const uname = (user.username || user.address || '').slice(0, -4);
-        const uniqueSuffix = `${form.title}-${Date.now()}`;
-        poapCollectionName = `${uname}'s space POAPs - ${uniqueSuffix}`;
-        poapCollectionUri = poapIpfsHash ? `ipfs://${poapIpfsHash}` : '';
+      let collectionObj = null;
+      if (enablePoap && account && signAndSubmitTransaction) {
+        // Call on-chain create_collection and extract collectionObj
+        const txResult = await createCollection({
+          signAndSubmitTransaction,
+          account,
+          name: poap.name,
+          description: poap.description,
+          uri: poapIpfsHash ? `ipfs://${poapIpfsHash}` : '',
+          max_supply: parseInt(poap.maxSupply, 10) || 10,
+          start_time: 0,
+          end_time: 1000,
+          limit: 1,
+          fee: 0
+        });
+        collectionObj = extractCollectionObjFromTx(txResult);
+        if (!collectionObj) throw new Error('Failed to get collection object address from transaction');
       }
       // Prepare space data
       const spaceData = {
@@ -445,6 +453,7 @@ export default function UserTab() {
           collection: poapCollectionName,
           maxSupply: poap.maxSupply
         } : null,
+        collectionObj: collectionObj || null, // top-level for easy access
         enablePoap,
         spacePassword, // include password in space data
       };
