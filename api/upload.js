@@ -1,4 +1,6 @@
 // /api/upload.js
+// This endpoint uploads files to Pinata using a JWT set as the PINATA_JWT environment variable.
+// Make sure to set PINATA_JWT in your Vercel project settings.
 import formidable from 'formidable';
 import fs from 'fs';
 import FormData from 'form-data';
