@@ -276,11 +276,20 @@ export default function UserTab() {
       const formData = new FormData();
       formData.append('file', poap.file);
       const res = await fetch('/api/upload', { method: 'POST', body: formData });
-      const data = await res.json();
+      let data;
+      try {
+        data = await res.json();
+      } catch (e) {
+        // Not JSON, get text for debugging
+        const text = await res.text();
+        console.error('POAP image upload failed: Non-JSON response:', text);
+        setErr('POAP image upload failed: ' + text);
+        setPoapUploading(false);
+        return '';
+      }
       if (!res.ok) {
-        // Log backend error to web console
-        console.error('POAP image upload failed:', data.error);
-        setErr('POAP image upload failed: ' + data.error);
+        console.error('POAP image upload failed:', data.error || data);
+        setErr('POAP image upload failed: ' + (data.error || data));
         setPoapUploading(false);
         return '';
       }
