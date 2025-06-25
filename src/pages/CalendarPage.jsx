@@ -487,6 +487,7 @@ function CalendarPage() {
                             alert('POAP NFT minted! Check your wallet.');
                           } catch (e) {
                             setPasswordError('Mint failed: ' + (e.message || String(e)));
+                            console.error('Error minting POAP:', e);
                           } finally {
                             setMinting(false);
                           }
