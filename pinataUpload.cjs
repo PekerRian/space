@@ -15,6 +15,7 @@ app.use(cors());
 app.post('/upload', upload.single('file'), async (req, res) => {
   try {
     if (!req.file) {
+      console.error('Upload failed: No file uploaded');
       return res.status(400).json({ error: 'No file uploaded' });
     }
     console.log('Received file:', req.file.originalname, req.file.mimetype, req.file.size);
@@ -27,6 +28,17 @@ app.post('/upload', upload.single('file'), async (req, res) => {
     res.json({ ipfsHash: result.IpfsHash });
   } catch (err) {
     console.error('Pinata error:', err);
+    if (err.response) {
+      // Pinata SDK error with response
+      console.error('Pinata error response:', err.response.data || err.response);
+    }
+    if (req.file) {
+      console.error('File info:', {
+        originalname: req.file.originalname,
+        mimetype: req.file.mimetype,
+        size: req.file.size
+      });
+    }
     res.status(500).json({ error: err.message });
   }
 });
