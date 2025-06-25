@@ -205,6 +205,7 @@ function CalendarPage() {
       setMinting(true);
       setPoapStatus("");
       try {
+        // Only pass the collection object address as required by the Move module
         await mintPoap({ signAndSubmitTransaction, account, collectionObj });
         setPoapStatus("Minted successfully!");
         if (onMinted) onMinted();
