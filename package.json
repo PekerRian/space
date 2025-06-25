@@ -24,6 +24,7 @@
     "firebase": "^11.9.1",
     "formidable": "^3.5.4",
     "multer": "^2.0.1",
+    "node-fetch": "^3.3.2",
     "react": "^19.1.0",
     "react-calendar": "^6.0.0",
     "react-dom": "^19.1.0",
