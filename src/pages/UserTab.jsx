@@ -191,7 +191,7 @@ export default function UserTab() {
   const getAddressString = (acct) => {
     if (!acct?.address) return "";
     if (typeof acct.address === "string") return acct.address;
-    if (typeof acct.address.toString === "function") return acct.address.toString();
+    if (acct.address && typeof acct.address.toString === "function") return acct.address.toString();
     return String(acct.address);
   };
 
