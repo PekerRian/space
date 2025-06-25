@@ -5,7 +5,7 @@ import "react-calendar/dist/Calendar.css";
 import "../calendar-custom.css";
 import { LoadingBuffer } from "../App";
 import { useWallet } from "@aptos-labs/wallet-adapter-react";
-import { mintPoap, getRegistry } from '../utils/aptosPoap';
+import { mintPoap } from '../utils/aptosPoap';
 
 // Helper: get all timezones (fallback to a static list if not supported)
 const TIMEZONES =
@@ -200,12 +200,11 @@ function CalendarPage() {
       setMinting(false);
     }
 
-    // In PoapMintForm or POAP mint logic, add on-chain mint logic
+    // Only pass the collection object address as required by the Move module
     async function handlePoapMint(collectionObj) {
       setMinting(true);
       setPoapStatus("");
       try {
-        // Only pass the collection object address as required by the Move module
         await mintPoap({ signAndSubmitTransaction, account, collectionObj });
         setPoapStatus("Minted successfully!");
         if (onMinted) onMinted();
