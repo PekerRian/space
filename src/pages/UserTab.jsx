@@ -192,6 +192,9 @@ export default function UserTab() {
     }
   };
 
+  // Handler for password field
+  const handlePasswordChange = (e) => setSpacePassword(e.target.value);
+
   // Helper to reliably get the wallet address as a string
   const getAddressString = (acct) => {
     if (!acct?.address) return "";
