@@ -475,7 +475,13 @@ function CalendarPage() {
                             setPasswordError("");
                             try {
                               if (!account?.address) throw new Error("Wallet address not found");
-                              if (!selectedSpace.collectionObj) throw new Error("No on-chain collection object found for this space");
+                              if (!selectedSpace.collectionObj) {
+                                // Try to fetch the latest registry and match by space name or id
+                                // Optionally, show a more helpful error or guide the user to create the collection first
+                                setPasswordError("No on-chain collection object found for this space. Please ensure the collection was created and try again.");
+                                setMinting(false);
+                                return;
+                              }
                               await mintPoap({ signAndSubmitTransaction, account, collectionObj: selectedSpace.collectionObj });
                               alert('POAP NFT minted! Check your wallet.');
                             } catch (e) {
