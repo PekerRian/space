@@ -722,8 +722,8 @@ export default function UserTab() {
                     style={{ width: '100%' }}
                   />
                 </label>
-                {/* POAP NFT Setup */}
-                <div style={{border:'1px solid #ffe066', borderRadius:8, padding:12, margin:'16px 0'}}>
+                {/* POAP NFT Setup - REMOVE THIS DUPLICATE FORM BLOCK */}
+                {/* <div style={{border:'1px solid #ffe066', borderRadius:8, padding:12, margin:'16px 0'}}>
                   <h3 style={{margin:'0 0 8px 0'}}>POAP NFT Setup</h3>
                   <label className="calendar-label" style={{ width: '100%' }}>
                     POAP Name
@@ -765,7 +765,7 @@ export default function UserTab() {
                       style={{ width: '100%' }}
                     />
                   </label>
-                </div>
+                </div> */}
                 <label style={{ display: 'block', margin: '12px 0 4px 0' }}>
                   <input type="checkbox" checked={enablePoap} onChange={handleEnablePoapChange} /> Enable POAP for this space?
                 </label>
