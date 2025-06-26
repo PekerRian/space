@@ -439,7 +439,8 @@ export default function UserTab() {
           start_time: startTime, // pass as number, not array
           end_time: endTime,     // pass as number, not array
           limit: 1,              // pass as number, not array
-          fee: 0                 // pass as number, not array
+          fee: 0,                // pass as number, not array
+          account                // ensure account is passed
         });
         console.log('createCollection payload:', payload);
         if (!payload || typeof payload !== 'object' || !('function' in payload)) {
