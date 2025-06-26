@@ -8,10 +8,14 @@ const MODULE_NAME = 'poap_launchpad';
 const client = new AptosClient(NODE_URL);
 
 // Calls the on-chain create_collection entry function
-export function createCollection({ name, description, uri, max_supply = 10, start_time = 0, end_time = 1000, limit = 1, fee = 0, account }) {
+export function createCollection({ name, description, uri, max_supply = 10, start_time, end_time, limit = 1, fee = 0, account }) {
   if (!account || !account.address) {
     throw new Error('Account is missing or invalid in createCollection');
   }
+  // Set default start_time to now if not provided, end_time to 24h later
+  const now = Math.floor(Date.now() / 1000);
+  const start = typeof start_time === 'number' && start_time > 0 ? start_time : now;
+  const end = typeof end_time === 'number' && end_time > start ? end_time : now + 24 * 60 * 60;
   // Defensive: log and check max_supply type
   console.log('createCollection: max_supply type:', typeof max_supply, 'value:', max_supply);
   if (typeof max_supply !== 'number' && typeof max_supply !== 'bigint' && typeof max_supply !== 'string') {
@@ -25,8 +29,8 @@ export function createCollection({ name, description, uri, max_supply = 10, star
       description,
       uri,
       max_supply,
-      start_time,
-      end_time,
+      start,
+      end,
       limit,
       fee
     ]

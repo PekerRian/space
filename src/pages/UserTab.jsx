@@ -470,8 +470,22 @@ export default function UserTab() {
           throw new Error('No transaction result returned from wallet.');
         }
         console.log('createCollection txResult:', txResult);
-        collectionObj = extractCollectionObjFromTx(txResult);
-        console.log('Extracted collectionObj:', collectionObj);
+        // Prefer extracting collectionObj from index2 event
+        if (
+          txResult &&
+          txResult.events &&
+          Array.isArray(txResult.events) &&
+          txResult.events[2] &&
+          txResult.events[2].type &&
+          txResult.events[2].type.endsWith('::poap_launchpad::CollectionCreatedEvent') &&
+          txResult.events[2].data &&
+          txResult.events[2].data.collection_obj_addr
+        ) {
+          collectionObj = txResult.events[2].data.collection_obj_addr;
+        } else {
+          collectionObj = extractCollectionObjFromTx(txResult);
+        }
+        console.log('Extracted collectionObj from index2:', collectionObj);
         // Immediately proceed to save, do not wait for on-chain existence
       }
       // Prepare space data
