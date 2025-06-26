@@ -132,3 +132,15 @@ export async function collectionExists(collectionObj) {
     return false;
   }
 }
+
+// Fetch all resources at the collection object address
+export async function getCollectionResources(collectionObjAddr) {
+  if (!collectionObjAddr) return null;
+  try {
+    const resources = await client.getAccountResources(collectionObjAddr);
+    return resources;
+  } catch (e) {
+    console.error('Failed to fetch collection resources:', e);
+    return null;
+  }
+}
