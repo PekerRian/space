@@ -62,16 +62,18 @@ export async function getRegistry() {
 
 // Returns the collection object address from the transaction result
 export function extractCollectionObjFromTx(txResult) {
-  // For Aptos, the collection object address is usually in the events or changes
-  // Try to find a resource or event with the collection object address
   if (!txResult) return null;
-  // Check for events with collection object address
+  // Look for the CollectionCreatedEvent
   if (txResult.events && Array.isArray(txResult.events)) {
     for (const event of txResult.events) {
+      // Modern Move event: collection_obj_addr
+      if (event.data && event.data.collection_obj_addr) {
+        return event.data.collection_obj_addr;
+      }
+      // Legacy: collection_object or object
       if (event.data && event.data.collection_object) {
         return event.data.collection_object;
       }
-      // Sometimes the address is in event.data.object or similar
       if (event.data && event.data.object) {
         return event.data.object;
       }
@@ -80,6 +82,9 @@ export function extractCollectionObjFromTx(txResult) {
   // Check for resource changes
   if (txResult.changes && Array.isArray(txResult.changes)) {
     for (const change of txResult.changes) {
+      if (change.data && change.data.collection_obj_addr) {
+        return change.data.collection_obj_addr;
+      }
       if (change.data && change.data.collection_object) {
         return change.data.collection_object;
       }
