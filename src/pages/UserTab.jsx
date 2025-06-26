@@ -7,7 +7,7 @@ import Calendar from "react-calendar";
 import "react-calendar/dist/Calendar.css";
 import "../calendar-custom.css";
 import { LoadingBuffer } from "../App";
-import { mintPoap, getRegistry, createCollection, extractCollectionObjFromTx } from '../utils/aptosPoap';
+import { mintPoap, getRegistry, createCollection, extractCollectionObjFromTx, collectionExists } from '../utils/aptosPoap';
 
 const categories = ["gaming", "defi", "nft", "community", "others"];
 const languages = ["english", "tagalog", "malay", "hausa", "pidgin", "mandarin", "spanish"];
