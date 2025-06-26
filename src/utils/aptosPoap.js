@@ -33,7 +33,7 @@ export function createCollection({ name, description, uri, max_supply = 10, star
   };
   console.log('About to return createCollection data', data);
   return {
-    sender: account.address,
+    sender: typeof account.address === 'string' ? account.address : account.address.toString(),
     data
   };
 }
