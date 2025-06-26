@@ -471,8 +471,35 @@ export default function UserTab() {
         spacePassword, // include password in space data
       };
 
-      // Generate a unique ID for the space
-      const spaceId = `${user.address}_${Date.now()}`;
+      // Add global error handlers for debugging
+      if (typeof window !== 'undefined') {
+        window.addEventListener('error', function (e) {
+          console.error('Global error:', e.error, e);
+        });
+        window.addEventListener('unhandledrejection', function (e) {
+          console.error('Global unhandled rejection:', e.reason, e);
+        });
+      }
+
+      // Check for undefined or function values in spaceData and poap
+      Object.entries(spaceData).forEach(([k, v]) => {
+        if (typeof v === 'function') {
+          console.error('Function found in spaceData at key:', k);
+        }
+        if (typeof v === 'undefined') {
+          console.error('Undefined found in spaceData at key:', k);
+        }
+      });
+      if (spaceData.poap && typeof spaceData.poap === 'object') {
+        Object.entries(spaceData.poap).forEach(([k, v]) => {
+          if (typeof v === 'function') {
+            console.error('Function found in spaceData.poap at key:', k);
+          }
+          if (typeof v === 'undefined') {
+            console.error('Undefined found in spaceData.poap at key:', k);
+          }
+        });
+      }
 
       // Upload to spaces collection (main collection for spaces)
       console.log('Uploading to Firestore:', spaceData);
