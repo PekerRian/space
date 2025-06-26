@@ -16,9 +16,9 @@ export function createCollection({ name, description, uri, max_supply = 10, star
   function toMoveOptionU64(val) {
     return val != null ? { vec: [val.toString()] } : { vec: [] };
   }
-  // Set default start_time to 10 seconds in the past to ensure minting is active immediately
+  // Always set start_time to now - 10 to ensure public mint is active immediately
   const now = Math.floor(Date.now() / 1000);
-  const start = typeof start_time === 'number' && start_time > 0 ? start_time : now - 10;
+  const start = now - 10;
   const end = typeof end_time === 'number' && end_time > start ? end_time : now + 24 * 60 * 60;
   // Defensive: log and check max_supply type
   console.log('createCollection: max_supply type:', typeof max_supply, 'value:', max_supply);
