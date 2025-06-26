@@ -483,23 +483,9 @@ function CalendarPage() {
                               setMinting(false);
                               return;
                             }
-                            // Wait/check for collection existence before minting
+                            // Directly mint without waiting for on-chain existence
                             setPasswordError('');
                             setMinting(true);
-                            const { collectionExists } = await import('../utils/aptosPoap');
-                            let retries = 0;
-                            const maxRetries = 10;
-                            const delay = ms => new Promise(res => setTimeout(res, ms));
-                            while (!(await collectionExists(selectedSpace.collectionObj)) && retries < maxRetries) {
-                              setPasswordError(`Waiting for collection to exist on-chain... (attempt ${retries + 1})`);
-                              await delay(1500);
-                              retries++;
-                            }
-                            if (!(await collectionExists(selectedSpace.collectionObj))) {
-                              setPasswordError('Collection object does not exist on-chain. Please try again later.');
-                              setMinting(false);
-                              return;
-                            }
                             await mintPoap({ signAndSubmitTransaction, account, collectionObj: selectedSpace.collectionObj });
                             alert('POAP NFT minted! Check your wallet.');
                           } catch (e) {
