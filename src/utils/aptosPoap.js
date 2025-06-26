@@ -12,6 +12,11 @@ export function createCollection({ name, description, uri, max_supply = 10, star
   if (!account || !account.address) {
     throw new Error('Account is missing or invalid in createCollection');
   }
+  // Defensive: log and check max_supply type
+  console.log('createCollection: max_supply type:', typeof max_supply, 'value:', max_supply);
+  if (typeof max_supply !== 'number' && typeof max_supply !== 'bigint' && typeof max_supply !== 'string') {
+    throw new Error('max_supply must be a number, bigint, or string');
+  }
   const data = {
     function: `${MODULE_ADDR}::${MODULE_NAME}::create_collection`,
     typeArguments: [],
@@ -20,10 +25,10 @@ export function createCollection({ name, description, uri, max_supply = 10, star
       description,
       uri,
       max_supply,
-      [start_time],
-      [end_time],
-      [limit],
-      [fee]
+      start_time,
+      end_time,
+      limit,
+      fee
     ]
   };
   console.log('About to return createCollection data', data);
