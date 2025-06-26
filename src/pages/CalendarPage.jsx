@@ -25,7 +25,7 @@ const TIMEZONES =
 // Helper: safely parse Firestore Timestamp or ISO string or return null
 function safeToDate(date) {
   if (!date) return null;
-  if (typeof date === "object" && typeof date.seconds === "number") {
+  if (typeof date === "object" && date !== null && "seconds" in date && typeof date.seconds === "number") {
     return new Date(date.seconds * 1000);
   }
   if (typeof date === "string" && !isNaN(Date.parse(date))) {
@@ -63,7 +63,7 @@ function Modal({ children, open, onClose }) {
 
 // SPACE VISIBILITY LOGIC
 function isSpaceVisibleOnCalendar(space) {
-  return space.creatorStatus === "host" || (space.upvotes || 0) >= 25;
+  return (space && space.creatorStatus === "host") || ((space && space.upvotes) || 0) >= 25;
 }
 
 function CalendarPage() {
@@ -124,9 +124,9 @@ function CalendarPage() {
 
   // Filter logic
   function spaceMatchesFilters(space) {
-    const langs = (space.languages || "").split(",").map(l => l.trim().toLowerCase());
-    const cats = (space.categories || "").split(",").map(c => c.trim().toLowerCase());
-    const host = (space.username || "").toLowerCase();
+    const langs = (space?.languages || "").split(",").map(l => l.trim().toLowerCase());
+    const cats = (space?.categories || "").split(",").map(c => c.trim().toLowerCase());
+    const host = (space?.username || "").toLowerCase();
     return (
       (!languageFilter || langs.includes(languageFilter.toLowerCase())) &&
       (!categoryFilter || cats.includes(categoryFilter.toLowerCase())) &&
@@ -138,7 +138,7 @@ function CalendarPage() {
   const spacesForSelectedDate = spaces
     .filter(isSpaceVisibleOnCalendar)
     .filter(space => {
-      const spaceDate = safeToDate(space.date);
+      const spaceDate = safeToDate(space?.date);
       if (!spaceDate) return false;
       // Convert spaceDate to selected timezone and compare date parts
       const dateStr = spaceDate.toLocaleDateString("en-CA", { timeZone: timezone });
@@ -148,7 +148,7 @@ function CalendarPage() {
 
   const hourlySchedule = Array.from({ length: 24 }, (_, h) => ({
     hour: h,
-    spaces: spacesForSelectedDate.filter(space => getHour(space.date, timezone) === h)
+    spaces: spacesForSelectedDate.filter(space => getHour(space?.date, timezone) === h)
   }));
 
   // POAP form handlers
@@ -385,40 +385,40 @@ function CalendarPage() {
           const isCreator = account && (account.address === selectedSpace.creator || account.address?.toString() === selectedSpace.creator);
           return (
             <div>
-              <h2 style={{ fontSize: 20.8 }}>{selectedSpace.title}</h2>
+              <h2 style={{ fontSize: 20.8 }}>{selectedSpace.title || 'Untitled Space'}</h2>
               <div style={{ marginBottom: 6.4 }}>
-                <b>Host:</b> {selectedSpace.username}
+                <b>Host:</b> {selectedSpace.username || '—'}
                 {selectedSpace.twitter && (
                   <span>
-                    {" "}·{" "}
-                    <a href={selectedSpace.twitter} target="_blank" rel="noopener noreferrer" style={{ color: "#1da1f2", fontSize: 12.8 }}>
+                    {' '}·{' '}
+                    <a href={selectedSpace.twitter} target="_blank" rel="noopener noreferrer" style={{ color: '#1da1f2', fontSize: 12.8 }}>
                       Twitter Profile
                     </a>
                   </span>
                 )}
               </div>
               <div style={{ marginBottom: 6.4 }}>
-                <b>Date:</b> {startDate ? startDate.toLocaleDateString(undefined, { timeZone: timezone }) : "—"}
+                <b>Date:</b> {startDate ? startDate.toLocaleDateString(undefined, { timeZone: timezone }) : '—'}
                 <br />
-                <b>Time:</b> {startDate ? startDate.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit", timeZone: timezone }) : "—"}
-                {endDate && <> - {endDate.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit", timeZone: timezone })}</>}
+                <b>Time:</b> {startDate ? startDate.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', timeZone: timezone }) : '—'}
+                {endDate && <> - {endDate.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', timeZone: timezone })}</>}
               </div>
               <div style={{ marginBottom: 6.4 }}>
-                <b>Categories:</b> {selectedSpace.categories || "—"}
+                <b>Categories:</b> {selectedSpace.categories || '—'}
                 <br />
-                <b>Languages:</b> {selectedSpace.languages || "—"}
+                <b>Languages:</b> {selectedSpace.languages || '—'}
               </div>
               <div style={{ marginBottom: 6.4 }}>
                 <b>Brief Description:</b>
                 <div
                   style={{
                     marginTop: 1.6,
-                    whiteSpace: "pre-line",
-                    color: "#fff",
-                    fontStyle: selectedSpace.description ? "normal" : "italic"
+                    whiteSpace: 'pre-line',
+                    color: '#fff',
+                    fontStyle: selectedSpace.description ? 'normal' : 'italic'
                   }}
                 >
-                  {selectedSpace.description ? selectedSpace.description : "No description provided."}
+                  {selectedSpace.description ? selectedSpace.description : 'No description provided.'}
                 </div>
               </div>
               {selectedSpace.twitter_link && (
@@ -428,19 +428,19 @@ function CalendarPage() {
                     target="_blank"
                     rel="noopener noreferrer"
                     className="calendar-event-link"
-                    style={{ color: "#1da1f2", fontWeight: "bold", fontSize: 12.8 }}
+                    style={{ color: '#1da1f2', fontWeight: 'bold', fontSize: 12.8 }}
                   >
                     Join Twitter Space
                   </a>
                 </div>
               )}
-              {selectedSpace.creatorStatus !== "host" && (selectedSpace.upvotes || 0) >= 25 && (
-                <div style={{ color: "#b28d00", fontWeight: "bold", marginTop: 8 }}>
+              {selectedSpace.creatorStatus !== 'host' && (selectedSpace.upvotes || 0) >= 25 && (
+                <div style={{ color: '#b28d00', fontWeight: 'bold', marginTop: 8 }}>
                   🌟 This space is featured because it reached 25+ upvotes!
                 </div>
               )}
               {/* POAP Mint Button in Modal for all users */}
-              {selectedSpace.poap && selectedSpace.poap.ipfsHash && (
+              {selectedSpace.poap && typeof selectedSpace.poap === 'object' && selectedSpace.poap.ipfsHash && (
                 <>
                   <button
                     style={{marginTop:12, background:'#ffe066', color:'#181a2b', fontWeight:'bold', border:'none', borderRadius:6, padding:'8px 18px', fontSize:16, cursor:'pointer'}}
@@ -469,7 +469,6 @@ function CalendarPage() {
                           }
                           setPasswordError("");
                           setShowPasswordPrompt(false);
-                          // Mint POAP NFT logic (using Move module)
                           setMinting(true);
                           try {
                             if (!account?.address) throw new Error("Wallet address not found");
@@ -478,7 +477,7 @@ function CalendarPage() {
                               setMinting(false);
                               return;
                             }
-                            if (!selectedSpace.collectionObj) {
+                            if (!('collectionObj' in selectedSpace) || !selectedSpace.collectionObj) {
                               setPasswordError("No on-chain collection object found for this space. Please ensure the collection was created and try again.");
                               setMinting(false);
                               return;
@@ -486,7 +485,7 @@ function CalendarPage() {
                             await mintPoap({ signAndSubmitTransaction, account, collectionObj: selectedSpace.collectionObj });
                             alert('POAP NFT minted! Check your wallet.');
                           } catch (e) {
-                            setPasswordError('Mint failed: ' + (e.message || String(e)));
+                            setPasswordError('Mint failed: ' + (e && e.message ? e.message : String(e)));
                             console.error('Error minting POAP:', e);
                           } finally {
                             setMinting(false);
