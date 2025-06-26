@@ -472,19 +472,7 @@ export default function UserTab() {
         console.log('createCollection txResult:', txResult);
         collectionObj = extractCollectionObjFromTx(txResult);
         console.log('Extracted collectionObj:', collectionObj);
-        // Wait for collection to exist on-chain before saving and allowing mint
-        let retries = 0;
-        const maxRetries = 10;
-        const delay = ms => new Promise(res => setTimeout(res, ms));
-        while (!(await collectionExists(collectionObj)) && retries < maxRetries) {
-          console.log(`Waiting for collection to exist on-chain... (attempt ${retries + 1})`);
-          await delay(1500);
-          retries++;
-        }
-        if (!(await collectionExists(collectionObj))) {
-          console.error('Collection object does not exist on-chain after waiting:', collectionObj);
-          throw new Error('Collection object does not exist on-chain. Please try again later.');
-        }
+        // Immediately proceed to save, do not wait for on-chain existence
       }
       // Prepare space data
       const spaceData = {
