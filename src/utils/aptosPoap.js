@@ -12,6 +12,10 @@ export function createCollection({ name, description, uri, max_supply = 10, star
   if (!account || !account.address) {
     throw new Error('Account is missing or invalid in createCollection');
   }
+  // Helper to encode Move Option<u64> for Aptos SDK
+  function toMoveOptionU64(val) {
+    return val != null ? { vec: [val.toString()] } : { vec: [] };
+  }
   // Set default start_time to 10 seconds in the past to ensure minting is active immediately
   const now = Math.floor(Date.now() / 1000);
   const start = typeof start_time === 'number' && start_time > 0 ? start_time : now - 10;
@@ -29,8 +33,8 @@ export function createCollection({ name, description, uri, max_supply = 10, star
       description,
       uri,
       max_supply,
-      start,
-      end,
+      toMoveOptionU64(start),
+      toMoveOptionU64(end),
       limit,
       fee
     ]
