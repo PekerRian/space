@@ -8,37 +8,38 @@ const MODULE_NAME = 'launchpad';
 const client = new AptosClient(NODE_URL);
 
 // Calls the on-chain create_collection entry function
-export function createCollection({ name, description, uri, max_supply = 10, start_time = 0, end_time = 1000, limit = 1, fee = 0 }) {
-  const payload = {
+export function createCollection({ name, description, uri, max_supply = 10, start_time = 0, end_time = 1000, limit = 1, fee = 0, account }) {
+  const data = {
     function: `${MODULE_ADDR}::${MODULE_NAME}::create_collection`,
-    type_arguments: [],
-    arguments: [
-      name,         // name first
-      description,  // then description
+    typeArguments: [],
+    functionArguments: [
+      name,
+      description,
       uri,
       max_supply,
-      [start_time], // Option<u64>
-      [end_time],   // Option<u64>
-      [limit],      // Option<u64>
-      [fee]         // Option<u64>
-    ],
-    type: 'entry_function_payload',
+      [start_time],
+      [end_time],
+      [limit],
+      [fee]
+    ]
   };
-  console.log('About to return createCollection payload', payload);
-  return payload;
+  console.log('About to return createCollection data', data);
+  return {
+    sender: account.address,
+    data
+  };
 }
 
 // Calls the on-chain mint_nft entry function
 export async function mintPoap({signAndSubmitTransaction, account, collectionObj}) {
   if (!signAndSubmitTransaction) throw new Error('Wallet not connected');
-  const payload = {
-    type: 'entry_function_payload',
+  const data = {
     function: `${MODULE_ADDR}::${MODULE_NAME}::mint_nft`,
-    type_arguments: [],
-    arguments: [collectionObj],
+    typeArguments: [],
+    functionArguments: [collectionObj],
   };
-  console.log('About to call signAndSubmitTransaction for mintPoap', { payload, account });
-  return signAndSubmitTransaction({ payload });
+  console.log('About to call signAndSubmitTransaction for mintPoap', { data, account });
+  return signAndSubmitTransaction({ sender: account.address, data });
 }
 
 // Reads the registry (view function)
