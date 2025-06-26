@@ -14,8 +14,8 @@ export function createCollection({ name, description, uri, max_supply = 10, star
     function: `${MODULE_ADDR}::${MODULE_NAME}::create_collection`,
     type_arguments: [],
     arguments: [
-      description,
-      name,
+      name,         // name first
+      description,  // then description
       uri,
       max_supply,
       [start_time], // Option<u64>
