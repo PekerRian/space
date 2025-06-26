@@ -448,7 +448,12 @@ export default function UserTab() {
         }
         let txResult;
         try {
-          txResult = await signAndSubmitTransaction(payload); // FIX: pass payload directly
+          // Defensive: ensure payload is valid
+          if (!payload || typeof payload !== 'object' || !('function' in payload)) {
+            console.error('Invalid payload for signAndSubmitTransaction:', payload);
+            throw new Error('Invalid transaction payload');
+          }
+          txResult = await signAndSubmitTransaction({ payload }); // CORRECT: wrap payload in object
         } catch (err) {
           console.error('signAndSubmitTransaction failed:', err, 'payload:', payload, 'account:', account);
           throw new Error('Failed to submit transaction: ' + (err?.message || err));
