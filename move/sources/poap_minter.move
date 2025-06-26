@@ -1,4 +1,4 @@
-module aptos_poap::launchpad {
+module aptos_poap::poap_launchpad {
     use std::option::{Self, Option};
     use std::signer;
     use std::string::{Self, String};
