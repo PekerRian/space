@@ -62,21 +62,28 @@ export async function getRegistry() {
 
 // Returns the collection object address from the transaction result
 export function extractCollectionObjFromTx(txResult) {
-  if (!txResult) return null;
-  // Look for the CollectionCreatedEvent
-  if (txResult.events && Array.isArray(txResult.events)) {
-    for (const event of txResult.events) {
-      // Modern Move event: collection_obj_addr
-      if (event.data && event.data.collection_obj_addr) {
-        return event.data.collection_obj_addr;
-      }
-      // Legacy: collection_object or object
-      if (event.data && event.data.collection_object) {
-        return event.data.collection_object;
-      }
-      if (event.data && event.data.object) {
-        return event.data.object;
-      }
+  if (!txResult || !txResult.events || !Array.isArray(txResult.events)) return null;
+  // Try to get from index2 if it matches the expected event type
+  const event = txResult.events[2];
+  if (
+    event &&
+    event.type &&
+    event.type.endsWith('::poap_launchpad::CollectionCreatedEvent') &&
+    event.data &&
+    event.data.collection_obj_addr
+  ) {
+    return event.data.collection_obj_addr;
+  }
+  // Fallback: search all events as before
+  for (const event of txResult.events) {
+    if (event.data && event.data.collection_obj_addr) {
+      return event.data.collection_obj_addr;
+    }
+    if (event.data && event.data.collection_object) {
+      return event.data.collection_object;
+    }
+    if (event.data && event.data.object) {
+      return event.data.object;
     }
   }
   // Check for resource changes
@@ -90,7 +97,6 @@ export function extractCollectionObjFromTx(txResult) {
       }
     }
   }
-  // Do NOT fallback to regex: if not found, return null
   return null;
 }
 
