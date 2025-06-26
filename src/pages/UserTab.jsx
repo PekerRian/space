@@ -215,9 +215,11 @@ export default function UserTab() {
             }
             setUser(userData);
           } else {
+            console.warn('No user found in Firestore for address:', address);
             setUser(null);
           }
         } catch (error) {
+          console.error('Error loading user from Firestore:', error, 'address:', address);
           setUser(null);
         } finally {
           setLoading(false);
@@ -380,7 +382,10 @@ export default function UserTab() {
       let poapIpfsHash = '';
       if (poap.file) {
         poapIpfsHash = await uploadPoapImage();
-        if (!poapIpfsHash) throw new Error('POAP image upload failed');
+        if (!poapIpfsHash) {
+          console.error('POAP image upload failed, poapIpfsHash:', poapIpfsHash, 'poap:', poap);
+          throw new Error('POAP image upload failed');
+        }
       }
 
       // --- POAP metadata upload ---
@@ -399,10 +404,13 @@ export default function UserTab() {
         const metadata = await metadataRes.json();
         if (!metadataRes.ok) {
           // Log backend error to web console
-          console.error('POAP metadata upload failed:', metadata.error);
+          console.error('POAP metadata upload failed:', metadata.error, 'metadata:', metadata, 'poap:', poap);
           throw new Error('Metadata upload failed: ' + metadata.error);
         }
-        if (!metadata.ipfsHash) throw new Error('Metadata upload failed');
+        if (!metadata.ipfsHash) {
+          console.error('POAP metadata upload missing ipfsHash:', metadata);
+          throw new Error('Metadata upload failed');
+        }
         poapMetadataIpfsHash = metadata.ipfsHash;
       }
 
@@ -442,16 +450,20 @@ export default function UserTab() {
         try {
           txResult = await signAndSubmitTransaction(payload); // FIX: pass payload directly
         } catch (err) {
-          console.error('signAndSubmitTransaction failed:', err);
+          console.error('signAndSubmitTransaction failed:', err, 'payload:', payload, 'account:', account);
           throw new Error('Failed to submit transaction: ' + (err?.message || err));
         }
         if (!txResult) {
+          console.error('No transaction result returned from wallet. Payload:', payload, 'Account:', account);
           throw new Error('No transaction result returned from wallet.');
         }
         console.log('createCollection txResult:', txResult);
         collectionObj = extractCollectionObjFromTx(txResult);
         console.log('Extracted collectionObj:', collectionObj);
-        if (!collectionObj) throw new Error('Failed to get collection object address from transaction');
+        if (!collectionObj) {
+          console.error('Failed to get collection object address from transaction. txResult:', txResult);
+          throw new Error('Failed to get collection object address from transaction');
+        }
       }
       // Prepare space data
       const spaceData = {
@@ -565,7 +577,7 @@ export default function UserTab() {
       }
     } catch (error) {
       setErr(error.message);
-      console.error('Error uploading space:', error);
+      console.error('Error uploading space:', error, 'user:', user, 'form:', form, 'poap:', poap, 'enablePoap:', enablePoap);
     }
   };
 
