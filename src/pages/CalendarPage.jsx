@@ -483,15 +483,19 @@ function CalendarPage() {
                               setMinting(false);
                               return;
                             }
-                            // Directly mint without waiting for on-chain existence
                             setPasswordError('');
                             setMinting(true);
-                            await mintPoap({ signAndSubmitTransaction, account, collectionObj: selectedSpace.collectionObj });
-                            alert('POAP NFT minted! Check your wallet.');
+                            try {
+                              await mintPoap({ signAndSubmitTransaction, account, collectionObj: selectedSpace.collectionObj });
+                              alert('POAP NFT minted! Check your wallet.');
+                            } catch (e) {
+                              setPasswordError('Mint failed: ' + (e && e.message ? e.message : String(e)));
+                              console.error('Error minting POAP:', e);
+                            } finally {
+                              setMinting(false);
+                            }
                           } catch (e) {
-                            setPasswordError('Mint failed: ' + (e && e.message ? e.message : String(e)));
-                            console.error('Error minting POAP:', e);
-                          } finally {
+                            setPasswordError('Mint failed: ' + (e.message || e));
                             setMinting(false);
                           }
                         }}
