@@ -419,7 +419,7 @@ export default function UserTab() {
           throw new Error('Wallet adapter is not ready. Please reconnect your wallet.');
         }
         // Build the payload only (do not call signAndSubmitTransaction inside createCollection)
-        const payload = await createCollection({
+        const payload = createCollection({
           name: poap.name,
           description: poap.description,
           uri: poapIpfsHash ? `ipfs://${poapIpfsHash}` : '',
