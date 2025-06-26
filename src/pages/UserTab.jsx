@@ -448,7 +448,12 @@ export default function UserTab() {
         }
         let txResult;
         try {
-          // Defensive: ensure payload is valid
+          // Extra logging and defensive checks
+          console.log('signAndSubmitTransaction:', signAndSubmitTransaction, 'typeof:', typeof signAndSubmitTransaction);
+          console.log('payload to submit:', payload);
+          if (!signAndSubmitTransaction || typeof signAndSubmitTransaction !== 'function') {
+            throw new Error('signAndSubmitTransaction is not a function or not defined');
+          }
           if (!payload || typeof payload !== 'object' || !('function' in payload)) {
             console.error('Invalid payload for signAndSubmitTransaction:', payload);
             throw new Error('Invalid transaction payload');
