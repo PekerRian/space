@@ -1,4 +1,4 @@
-// Utility for APT transfer (from Flowers page)
+// Utility for APT transfer (Move entry function format, compatible with all wallets)
 export async function transferApt(signAndSubmitTransaction, account, toAddress, amount) {
   if (typeof signAndSubmitTransaction !== "function") {
     throw new Error("Wallet not connected or not compatible.");
@@ -11,12 +11,13 @@ export async function transferApt(signAndSubmitTransaction, account, toAddress, 
   const octas = Math.floor(amt * 1e8);
   if (!Number.isInteger(octas) || octas <= 0) throw new Error("Amount must be at least 0.00000001 APT.");
 
-  return await signAndSubmitTransaction({
-    sender: account.address,
-    data: {
-      function: "0x1::coin::transfer",
-      typeArguments: ["0x1::aptos_coin::AptosCoin"],
-      functionArguments: [toAddress, octas],
-    },
-  });
+  // Use Move entry function payload for maximum compatibility
+  const payload = {
+    type: "entry_function_payload",
+    function: "0x1::coin::transfer",
+    type_arguments: ["0x1::aptos_coin::AptosCoin"],
+    arguments: [toAddress, octas],
+  };
+  console.log('About to call signAndSubmitTransaction for transferApt', { payload, account });
+  return await signAndSubmitTransaction({ payload });
 }
