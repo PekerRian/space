@@ -18,7 +18,7 @@ export function createCollection({ name, description, uri, max_supply = 10, star
     throw new Error('max_supply must be a number, bigint, or string');
   }
   const data = {
-    function: `${MODULE_ADDR}::${MODULE_NAME}::create_collection`,
+    function: `0x94f6da03f45fde2d18fd17d88671fc3d82fa4978329deee5012a41d1ad19a093::aptos_poap::launchpad::create_collection`,
     typeArguments: [],
     functionArguments: [
       name,
@@ -42,7 +42,7 @@ export function createCollection({ name, description, uri, max_supply = 10, star
 export async function mintPoap({signAndSubmitTransaction, account, collectionObj}) {
   if (!signAndSubmitTransaction) throw new Error('Wallet not connected');
   const data = {
-    function: `${MODULE_ADDR}::${MODULE_NAME}::mint_nft`,
+    function: `0x94f6da03f45fde2d18fd17d88671fc3d82fa4978329deee5012a41d1ad19a093::aptos_poap::launchpad::mint_nft`,
     typeArguments: [],
     functionArguments: [collectionObj],
   };
@@ -53,7 +53,7 @@ export async function mintPoap({signAndSubmitTransaction, account, collectionObj
 // Reads the registry (view function)
 export async function getRegistry() {
   const payload = {
-    function: `${MODULE_ADDR}::${MODULE_NAME}::get_registry`,
+    function: `0x94f6da03f45fde2d18fd17d88671fc3d82fa4978329deee5012a41d1ad19a093::aptos_poap::launchpad::get_registry`,
     type_arguments: [],
     arguments: [],
   };

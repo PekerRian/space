@@ -1,4 +1,4 @@
-module public_poap_minter::launchpad {
+module aptos_poap::launchpad {
     use std::option::{Self, Option};
     use std::signer;
     use std::string::{Self, String};
@@ -12,6 +12,7 @@ module public_poap_minter::launchpad {
     use minter::token_components;
     use minter::mint_stage;
     use minter::collection_components;
+    use aptos_std::event;
 
     // Error codes
     const ENO_ACTIVE_STAGES: u64 = 1;
@@ -30,7 +31,11 @@ module public_poap_minter::launchpad {
         collection_owner_obj: Object<CollectionOwnerObjConfig>,
     }
     struct Registry has key {
-        collection_objects: vector<Object<Collection>>
+        collection_objects: vector<Object<Collection>>,
+    }
+    #[event]
+    struct CollectionCreatedEvent has drop, store {
+        collection_obj_addr: address,
     }
 
     fun init_module(sender: &signer) {
@@ -51,7 +56,7 @@ module public_poap_minter::launchpad {
         public_mint_limit_per_addr: Option<u64>,
         public_mint_fee_per_nft: Option<u64>,
     ) acquires Registry, CollectionConfig {
-        let collection_owner_obj_constructor_ref = &object::create_object(@public_poap_minter);
+        let collection_owner_obj_constructor_ref = &object::create_object(@aptos_poap);
         let collection_owner_obj_signer = &object::generate_signer(collection_owner_obj_constructor_ref);
         let collection_obj_constructor_ref =
             &collection::create_fixed_collection(
@@ -88,8 +93,12 @@ module public_poap_minter::launchpad {
                 public_mint_fee_per_nft,
             );
         };
-        let registry = borrow_global_mut<Registry>(@public_poap_minter);
+        let registry = borrow_global_mut<Registry>(@aptos_poap);
         vector::push_back(&mut registry.collection_objects, collection_obj);
+        // Emit event for frontend extraction
+        event::emit(CollectionCreatedEvent {
+            collection_obj_addr: collection_obj_addr,
+        });
     }
 
     // Entry: public mint, 1-per-wallet
@@ -111,7 +120,7 @@ module public_poap_minter::launchpad {
     // Views
     #[view]
     public fun get_registry(): vector<Object<Collection>> acquires Registry {
-        let registry = borrow_global<Registry>(@public_poap_minter);
+        let registry = borrow_global<Registry>(@aptos_poap);
         registry.collection_objects
     }
     #[view]

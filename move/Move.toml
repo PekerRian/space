@@ -1,10 +1,10 @@
 [package]
-name = "public_poap_minter"
+name = "aptos_poap"
 version = "0.0.1"
 authors = ["0x94f6da03f45fde2d18fd17d88671fc3d82fa4978329deee5012a41d1ad19a093"]
 
 [addresses]
-public_poap_minter = "94f6da03f45fde2d18fd17d88671fc3d82fa4978329deee5012a41d1ad19a093"
+aptos_poap = "94f6da03f45fde2d18fd17d88671fc3d82fa4978329deee5012a41d1ad19a093"
 aptos_framework = "0x1"
 aptos_token_objects = "0x4"
 minter = "0x3c41ff6b5845e0094e19888cba63773591be9de59cafa9e582386f6af15dd490"
