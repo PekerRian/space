@@ -2,7 +2,7 @@
 import { AptosClient, Types } from 'aptos';
 
 const NODE_URL = 'https://fullnode.testnet.aptoslabs.com';
-const MODULE_ADDR = '0x94f6da03f45fde2d18fd17d88671fc3d82fa4978329deee5012a41d1ad19a093';
+const MODULE_ADDR = '0x170518deafae63b378f1deb898d69e2e22b1d5e40b50a45f85ceaf1175de2e2d';
 const MODULE_NAME = 'poap_launchpad';
 
 const client = new AptosClient(NODE_URL);
@@ -18,7 +18,7 @@ export function createCollection({ name, description, uri, max_supply = 10, star
     throw new Error('max_supply must be a number, bigint, or string');
   }
   const data = {
-    function: `0x94f6da03f45fde2d18fd17d88671fc3d82fa4978329deee5012a41d1ad19a093::aptos_poap::poap_launchpad::create_collection`,
+    function: `0x170518deafae63b378f1deb898d69e2e22b1d5e40b50a45f85ceaf1175de2e2d::aptos_poap::poap_launchpad::create_collection`,
     typeArguments: [],
     functionArguments: [
       name,
@@ -42,7 +42,7 @@ export function createCollection({ name, description, uri, max_supply = 10, star
 export async function mintPoap({signAndSubmitTransaction, account, collectionObj}) {
   if (!signAndSubmitTransaction) throw new Error('Wallet not connected');
   const data = {
-    function: `0x94f6da03f45fde2d18fd17d88671fc3d82fa4978329deee5012a41d1ad19a093::aptos_poap::poap_launchpad::mint_nft`,
+    function: `0x170518deafae63b378f1deb898d69e2e22b1d5e40b50a45f85ceaf1175de2e2d::aptos_poap::poap_launchpad::mint_nft`,
     typeArguments: [],
     functionArguments: [collectionObj],
   };
@@ -53,7 +53,7 @@ export async function mintPoap({signAndSubmitTransaction, account, collectionObj
 // Reads the registry (view function)
 export async function getRegistry() {
   const payload = {
-    function: `0x94f6da03f45fde2d18fd17d88671fc3d82fa4978329deee5012a41d1ad19a093::aptos_poap::poap_launchpad::get_registry`,
+    function: `0x170518deafae63b378f1deb898d69e2e22b1d5e40b50a45f85ceaf1175de2e2d::aptos_poap::poap_launchpad::get_registry`,
     type_arguments: [],
     arguments: [],
   };
