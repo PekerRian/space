@@ -46,7 +46,7 @@ export async function mintPoap({signAndSubmitTransaction, account, collectionObj
     typeArguments: [],
     functionArguments: [collectionObj],
   };
-  console.log('About to call signAndSubmitTransaction for mintPoap', { data, account });
+  console.log('About to call signAndSubmitTransaction for mintPoap', { data, account, collectionObj });
   return signAndSubmitTransaction({ sender: account.address, data });
 }
 
