@@ -483,9 +483,11 @@ export default function UserTab() {
         ) {
           collectionObj = txResult.events[2].data.collection_obj_addr;
         } else {
-          collectionObj = extractCollectionObjFromTx(txResult);
+          // Always use the async version and pass the tx hash for fallback
+          const txHash = txResult?.hash || txResult?.transactionHash;
+          collectionObj = await extractCollectionObjFromTx(txResult, txHash);
         }
-        console.log('Extracted collectionObj from index2:', collectionObj);
+        console.log('Extracted collectionObj from index2 or fallback:', collectionObj);
         // Immediately proceed to save, do not wait for on-chain existence
       }
       // Prepare space data
