@@ -12,9 +12,9 @@ export function createCollection({ name, description, uri, max_supply = 10, star
   if (!account || !account.address) {
     throw new Error('Account is missing or invalid in createCollection');
   }
-  // Set default start_time to now if not provided, end_time to 24h later
+  // Set default start_time to 10 seconds in the past to ensure minting is active immediately
   const now = Math.floor(Date.now() / 1000);
-  const start = typeof start_time === 'number' && start_time > 0 ? start_time : now;
+  const start = typeof start_time === 'number' && start_time > 0 ? start_time : now - 10;
   const end = typeof end_time === 'number' && end_time > start ? end_time : now + 24 * 60 * 60;
   // Defensive: log and check max_supply type
   console.log('createCollection: max_supply type:', typeof max_supply, 'value:', max_supply);
