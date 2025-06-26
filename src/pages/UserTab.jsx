@@ -420,7 +420,6 @@ export default function UserTab() {
         }
         // Build the payload only (do not call signAndSubmitTransaction inside createCollection)
         const payload = await createCollection({
-          account,
           name: poap.name,
           description: poap.description,
           uri: poapIpfsHash ? `ipfs://${poapIpfsHash}` : '',
