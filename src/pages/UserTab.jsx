@@ -428,10 +428,10 @@ export default function UserTab() {
           description: poap.description,
           uri: poapIpfsHash ? `ipfs://${poapIpfsHash}` : '',
           max_supply: parseInt(poap.maxSupply, 10) || 10,
-          start_time: [startTime], // Option<u64> Some
-          end_time: [endTime],     // Option<u64> Some
-          limit: [1],              // Option<u64> Some
-          fee: [0]                 // Option<u64> Some (free)
+          start_time: startTime, // pass as number, not array
+          end_time: endTime,     // pass as number, not array
+          limit: 1,              // pass as number, not array
+          fee: 0                 // pass as number, not array
         });
         console.log('createCollection payload:', payload);
         if (!payload || typeof payload !== 'object' || !('function' in payload)) {
