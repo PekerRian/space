@@ -408,9 +408,18 @@ export default function UserTab() {
 
       // --- POAP Collection creation (Aptos) ---
       let collectionObj = null;
-      if (enablePoap && account && signAndSubmitTransaction) {
-        console.log('Calling createCollection with:', {
-          signAndSubmitTransaction,
+      if (enablePoap) {
+        // Defensive checks for wallet adapter
+        if (!account || typeof account !== 'object' || !account.address) {
+          console.error('Wallet account is missing or invalid:', account);
+          throw new Error('Wallet account is missing or invalid. Please reconnect your wallet.');
+        }
+        if (!signAndSubmitTransaction || typeof signAndSubmitTransaction !== 'function') {
+          console.error('signAndSubmitTransaction is missing or not a function:', signAndSubmitTransaction);
+          throw new Error('Wallet adapter is not ready. Please reconnect your wallet.');
+        }
+        // Build the payload only (do not call signAndSubmitTransaction inside createCollection)
+        const payload = await createCollection({
           account,
           name: poap.name,
           description: poap.description,
@@ -421,19 +430,14 @@ export default function UserTab() {
           limit: 1,
           fee: 0
         });
-        const txResult = await createCollection({
-          signAndSubmitTransaction,
-          account,
-          name: poap.name,
-          description: poap.description,
-          uri: poapIpfsHash ? `ipfs://${poapIpfsHash}` : '',
-          max_supply: parseInt(poap.maxSupply, 10) || 10,
-          start_time: 0,
-          end_time: 1000,
-          limit: 1,
-          fee: 0
-        });
-        console.log('createCollection result:', txResult);
+        console.log('createCollection payload:', payload);
+        if (!payload || typeof payload !== 'object' || !payload.function) {
+          console.error('createCollection did not return a valid payload:', payload);
+          throw new Error('Failed to build transaction payload for collection creation.');
+        }
+        // Now call signAndSubmitTransaction with the payload
+        const txResult = await signAndSubmitTransaction({ payload });
+        console.log('createCollection txResult:', txResult);
         collectionObj = extractCollectionObjFromTx(txResult);
         console.log('Extracted collectionObj:', collectionObj);
         if (!collectionObj) throw new Error('Failed to get collection object address from transaction');
