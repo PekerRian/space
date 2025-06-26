@@ -65,33 +65,48 @@ export async function getRegistry() {
 }
 
 // Returns the collection object address from the transaction result
-export function extractCollectionObjFromTx(txResult) {
-  if (!txResult || !txResult.events || !Array.isArray(txResult.events)) return null;
-  // Try to get from index2 if it matches the expected event type
-  const event = txResult.events[2];
-  if (
-    event &&
-    event.type &&
-    event.type.endsWith('::poap_launchpad::CollectionCreatedEvent') &&
-    event.data &&
-    event.data.collection_obj_addr
-  ) {
-    return event.data.collection_obj_addr;
-  }
-  // Fallback: search all events as before
-  for (const event of txResult.events) {
-    if (event.data && event.data.collection_obj_addr) {
+export async function extractCollectionObjFromTx(txResult, txHash) {
+  // If events are present, use the current logic
+  if (txResult && txResult.events && Array.isArray(txResult.events)) {
+    const event = txResult.events[2];
+    if (
+      event &&
+      event.type &&
+      event.type.endsWith('::poap_launchpad::CollectionCreatedEvent') &&
+      event.data &&
+      event.data.collection_obj_addr
+    ) {
       return event.data.collection_obj_addr;
     }
-    if (event.data && event.data.collection_object) {
-      return event.data.collection_object;
+    for (const event of txResult.events) {
+      if (event.data && event.data.collection_obj_addr) {
+        return event.data.collection_obj_addr;
+      }
+      if (event.data && event.data.collection_object) {
+        return event.data.collection_object;
+      }
+      if (event.data && event.data.object) {
+        return event.data.object;
+      }
     }
-    if (event.data && event.data.object) {
-      return event.data.object;
+  }
+  // If events are missing, try fetching the transaction details from the Aptos node
+  if (txHash) {
+    try {
+      const txDetails = await client.getTransactionByHash(txHash);
+      if (txDetails && txDetails.events && Array.isArray(txDetails.events)) {
+        for (const event of txDetails.events) {
+          if (event.data && event.data.collection_obj_addr) {
+            return event.data.collection_obj_addr;
+          }
+        }
+      }
+    } catch (e) {
+      console.error('Failed to fetch transaction details from Aptos node:', e);
     }
   }
   // Check for resource changes
-  if (txResult.changes && Array.isArray(txResult.changes)) {
+  if (txResult && txResult.changes && Array.isArray(txResult.changes)) {
     for (const change of txResult.changes) {
       if (change.data && change.data.collection_obj_addr) {
         return change.data.collection_obj_addr;
