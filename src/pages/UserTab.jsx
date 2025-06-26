@@ -409,6 +409,18 @@ export default function UserTab() {
       // --- POAP Collection creation (Aptos) ---
       let collectionObj = null;
       if (enablePoap && account && signAndSubmitTransaction) {
+        console.log('Calling createCollection with:', {
+          signAndSubmitTransaction,
+          account,
+          name: poap.name,
+          description: poap.description,
+          uri: poapIpfsHash ? `ipfs://${poapIpfsHash}` : '',
+          max_supply: parseInt(poap.maxSupply, 10) || 10,
+          start_time: 0,
+          end_time: 1000,
+          limit: 1,
+          fee: 0
+        });
         const txResult = await createCollection({
           signAndSubmitTransaction,
           account,
@@ -421,7 +433,9 @@ export default function UserTab() {
           limit: 1,
           fee: 0
         });
+        console.log('createCollection result:', txResult);
         collectionObj = extractCollectionObjFromTx(txResult);
+        console.log('Extracted collectionObj:', collectionObj);
         if (!collectionObj) throw new Error('Failed to get collection object address from transaction');
       }
       // Prepare space data
@@ -449,7 +463,7 @@ export default function UserTab() {
           image: poapIpfsHash ? `ipfs://${poapIpfsHash}` : '',
           ipfsHash: poapIpfsHash,
           metadataIpfsHash: poapMetadataIpfsHash,
-          collection: poapCollectionName,
+          collection: collectionObj || null,
           maxSupply: poap.maxSupply
         } : null,
         collectionObj: collectionObj || null, // top-level for easy access
@@ -461,7 +475,9 @@ export default function UserTab() {
       const spaceId = `${user.address}_${Date.now()}`;
 
       // Upload to spaces collection (main collection for spaces)
+      console.log('Uploading to Firestore:', spaceData);
       await setDoc(doc(db, "spaces", spaceId), spaceData);
+      console.log('Upload to Firestore complete');
 
       setForm({
         title: "",
