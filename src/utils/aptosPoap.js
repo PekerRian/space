@@ -9,6 +9,9 @@ const client = new AptosClient(NODE_URL);
 
 // Calls the on-chain create_collection entry function
 export function createCollection({ name, description, uri, max_supply = 10, start_time = 0, end_time = 1000, limit = 1, fee = 0, account }) {
+  if (!account || !account.address) {
+    throw new Error('Account is missing or invalid in createCollection');
+  }
   const data = {
     function: `${MODULE_ADDR}::${MODULE_NAME}::create_collection`,
     typeArguments: [],

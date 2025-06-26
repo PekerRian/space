@@ -431,7 +431,7 @@ export default function UserTab() {
         const now = Math.floor(Date.now() / 1000);
         const startTime = now + 5 * 60; // 5 minutes from now
         const endTime = startTime + 60 * 60; // 1 hour after start
-        const payload = createCollection({
+        const txRequest = createCollection({
           name: poap.name,
           description: poap.description,
           uri: poapIpfsHash ? `ipfs://${poapIpfsHash}` : '',
@@ -442,34 +442,27 @@ export default function UserTab() {
           fee: 0,                // pass as number, not array
           account                // ensure account is passed
         });
-        console.log('createCollection payload:', payload);
-        if (!payload || typeof payload !== 'object' || !('function' in payload)) {
-          console.error('createCollection did not return a valid payload:', payload);
-          throw new Error('Failed to build transaction payload for collection creation.');
+        console.log('createCollection txRequest:', txRequest);
+        if (!txRequest || typeof txRequest !== 'object' || !txRequest.sender || !txRequest.data) {
+          console.error('createCollection did not return a valid txRequest:', txRequest);
+          throw new Error('Failed to build transaction request for collection creation.');
         }
         let txResult;
         try {
           // Extra logging and defensive checks
           console.log('signAndSubmitTransaction:', signAndSubmitTransaction, 'typeof:', typeof signAndSubmitTransaction);
-          console.log('payload to submit:', payload);
+          console.log('txRequest to submit:', txRequest);
           if (!signAndSubmitTransaction || typeof signAndSubmitTransaction !== 'function') {
             throw new Error('signAndSubmitTransaction is not a function or not defined');
           }
-          if (!payload || typeof payload !== 'object' || !('function' in payload)) {
-            console.error('Invalid payload for signAndSubmitTransaction:', payload);
-            throw new Error('Invalid transaction payload');
+          if (!txRequest || typeof txRequest !== 'object' || !txRequest.sender || !txRequest.data) {
+            console.error('Invalid txRequest for signAndSubmitTransaction:', txRequest);
+            throw new Error('Invalid transaction request');
           }
-          // Try both payload and transaction keys for compatibility
-          try {
-            txResult = await signAndSubmitTransaction({ payload });
-            console.log('signAndSubmitTransaction({ payload }) succeeded');
-          } catch (err1) {
-            console.warn('signAndSubmitTransaction({ payload }) failed, trying { transaction }', err1);
-            txResult = await signAndSubmitTransaction({ transaction: payload });
-            console.log('signAndSubmitTransaction({ transaction }) succeeded');
-          }
+          txResult = await signAndSubmitTransaction(txRequest);
+          console.log('signAndSubmitTransaction(txRequest) succeeded');
         } catch (err) {
-          console.error('signAndSubmitTransaction failed:', err, 'payload:', payload, 'account:', account);
+          console.error('signAndSubmitTransaction failed:', err, 'txRequest:', txRequest, 'account:', account);
           throw new Error('Failed to submit transaction: ' + (err?.message || err));
         }
         if (!txResult) {
