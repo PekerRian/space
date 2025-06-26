@@ -25,6 +25,8 @@ export function createCollection({ name, description, uri, max_supply = 10, star
   if (typeof max_supply !== 'number' && typeof max_supply !== 'bigint' && typeof max_supply !== 'string') {
     throw new Error('max_supply must be a number, bigint, or string');
   }
+  // Defensive: ensure limit is always a valid number (default 1)
+  const safeLimit = typeof limit === 'number' && limit > 0 ? limit : 1;
   const data = {
     function: `${MODULE_ADDR}::${MODULE_NAME}::create_collection`,
     typeArguments: [],
@@ -35,7 +37,7 @@ export function createCollection({ name, description, uri, max_supply = 10, star
       max_supply,
       toMoveOptionU64(start),
       toMoveOptionU64(end),
-      limit,
+      toMoveOptionU64(safeLimit),
       fee
     ]
   };
