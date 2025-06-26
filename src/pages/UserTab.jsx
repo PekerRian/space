@@ -474,10 +474,29 @@ export default function UserTab() {
       });
       setPoap({ name: '', space: '', description: '', file: null, ipfsHash: '', maxSupply: '' });
       setSuccess("Space scheduled and uploaded to 'spaces' collection!");
-      const uname = user.username || user.address;
+      const uname = (user && (user.username || user.address)) ? (user.username || user.address) : null;
+      if (!uname) {
+        console.error('User object missing username and address:', user);
+        setErr('User information is incomplete.');
+        return;
+      }
       fetchSpacesByUser(uname).then(spacesArr => {
-        const fixedSpaces = spacesArr.map(s => ({ ...s, id: s.id || s.docId || s._id || s.address_date || '' }));
+        if (!Array.isArray(spacesArr)) {
+          console.error('fetchSpacesByUser did not return an array:', spacesArr);
+          setErr('Failed to fetch spaces.');
+          return;
+        }
+        const fixedSpaces = spacesArr.map(s => {
+          if (!s) {
+            console.error('Null/undefined space in spacesArr:', spacesArr);
+            return { id: '' };
+          }
+          return { ...s, id: s.id || s.docId || s._id || s.address_date || '' };
+        });
         setSpaces(fixedSpaces);
+      }).catch(err => {
+        console.error('Error in fetchSpacesByUser:', err);
+        setErr('Failed to fetch spaces: ' + (err && err.message ? err.message : String(err)));
       });
 
       // CALENDAR POPUP LOGIC
