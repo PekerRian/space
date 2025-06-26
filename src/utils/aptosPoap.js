@@ -90,10 +90,8 @@ export function extractCollectionObjFromTx(txResult) {
       }
     }
   }
-  // Fallback: check for any address-like string in the result
-  const str = JSON.stringify(txResult);
-  const match = str.match(/0x[a-fA-F0-9]{32,}/);
-  return match ? match[0] : null;
+  // Do NOT fallback to regex: if not found, return null
+  return null;
 }
 
 // Utility to check if a collection object exists on-chain
