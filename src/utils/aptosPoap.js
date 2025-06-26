@@ -90,3 +90,17 @@ export function extractCollectionObjFromTx(txResult) {
   const match = str.match(/0x[a-fA-F0-9]{32,}/);
   return match ? match[0] : null;
 }
+
+// Utility to check if a collection object exists on-chain
+export async function collectionExists(collectionObj) {
+  if (!collectionObj) return false;
+  try {
+    // Try to fetch the resource at the collectionObj address
+    const resource = await client.getAccountResources(collectionObj);
+    // If resources are returned, the object exists
+    return Array.isArray(resource) && resource.length > 0;
+  } catch (e) {
+    // If the object does not exist, Aptos will throw an error
+    return false;
+  }
+}
