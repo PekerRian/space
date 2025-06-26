@@ -557,6 +557,13 @@ export default function UserTab() {
       await setDoc(doc(db, "spaces", spaceId), { ...spaceData, collectionObj });
       console.log('Upload to Firestore complete, collectionObj:', collectionObj);
 
+      // Show user-facing alert for collection address
+      if (collectionObj && typeof collectionObj === 'string' && collectionObj.startsWith('0x')) {
+        alert(`Collection created! Collection address recorded in Firebase:\n${collectionObj}`);
+      } else {
+        alert('Warning: Collection address was not recorded correctly. Please check the transaction and try again.');
+      }
+
       setForm({
         title: "",
         description: "",
