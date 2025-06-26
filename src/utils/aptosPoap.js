@@ -27,6 +27,8 @@ export function createCollection({ name, description, uri, max_supply = 10, star
   }
   // Defensive: ensure limit is always a valid number (default 1)
   const safeLimit = typeof limit === 'number' && limit > 0 ? limit : 1;
+  // Defensive: ensure fee is always a valid number (default 0)
+  const safeFee = typeof fee === 'number' && fee >= 0 ? fee : 0;
   const data = {
     function: `${MODULE_ADDR}::${MODULE_NAME}::create_collection`,
     typeArguments: [],
@@ -38,7 +40,7 @@ export function createCollection({ name, description, uri, max_supply = 10, star
       toMoveOptionU64(start),
       toMoveOptionU64(end),
       toMoveOptionU64(safeLimit),
-      fee
+      toMoveOptionU64(safeFee)
     ]
   };
   console.log('About to return createCollection data', data);
