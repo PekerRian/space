@@ -471,6 +471,7 @@ function CalendarPage() {
                           setShowPasswordPrompt(false);
                           setMinting(true);
                           try {
+                            console.log('Minting: selectedSpace.collectionObj =', selectedSpace.collectionObj);
                             if (!account?.address) throw new Error("Wallet address not found");
                             if (!signAndSubmitTransaction) {
                               setPasswordError("Wallet not connected. Please connect your wallet.");
