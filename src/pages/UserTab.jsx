@@ -870,7 +870,7 @@ export default function UserTab() {
                 </label>
                 <label style={{ display: 'block', margin: '12px 0 4px 0' }}>
                   Space Password (required to mint POAP from calendar):
-                  <input type="password" value={spacePassword} onChange={handlePasswordChange} style={{ marginLeft: 8 }} />
+                  <input type="password" value={spacePassword} onChange={handlePasswordChange} style={{ marginLeft: 8, color: 'black' }} />
                 </label>
                 <fieldset disabled={!enablePoap} style={{ opacity: enablePoap ? 1 : 0.5, border: '1px solid #ffe066', padding: 12, margin: '12px 0' }}>
                   <legend>POAP Details</legend>
