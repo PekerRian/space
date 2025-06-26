@@ -419,15 +419,19 @@ export default function UserTab() {
           throw new Error('Wallet adapter is not ready. Please reconnect your wallet.');
         }
         // Build the payload only (do not call signAndSubmitTransaction inside createCollection)
+        // Set start_time to 5 minutes from now, end_time to 1 hour after start (both as Option<u64> arrays)
+        const now = Math.floor(Date.now() / 1000);
+        const startTime = now + 5 * 60; // 5 minutes from now
+        const endTime = startTime + 60 * 60; // 1 hour after start
         const payload = createCollection({
           name: poap.name,
           description: poap.description,
           uri: poapIpfsHash ? `ipfs://${poapIpfsHash}` : '',
           max_supply: parseInt(poap.maxSupply, 10) || 10,
-          start_time: 0,
-          end_time: 1000,
-          limit: 1,
-          fee: 0
+          start_time: [startTime], // Option<u64> Some
+          end_time: [endTime],     // Option<u64> Some
+          limit: [1],              // Option<u64> Some
+          fee: [0]                 // Option<u64> Some (free)
         });
         console.log('createCollection payload:', payload);
         if (!payload || typeof payload !== 'object' || !('function' in payload)) {
