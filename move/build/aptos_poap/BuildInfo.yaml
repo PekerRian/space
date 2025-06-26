@@ -27,7 +27,8 @@ compiled_package_info:
     full_model_generation: false
     install_dir: ~
     force_recompilation: false
-    additional_named_addresses: {}
+    additional_named_addresses:
+      aptos_poap: 94f6da03f45fde2d18fd17d88671fc3d82fa4978329deee5012a41d1ad19a093
     architecture: ~
     fetch_deps_only: false
     skip_fetch_latest_git_deps: false
