@@ -204,6 +204,13 @@ function CalendarPage() {
     async function handlePoapMint(collectionObj) {
       setMinting(true);
       setPoapStatus("");
+      // Show the collection address to the user before minting
+      const ok = window.confirm(`You are about to mint from collection address:\n${collectionObj}\n\nContinue?`);
+      if (!ok) {
+        setMinting(false);
+        setPoapStatus("Mint cancelled by user.");
+        return;
+      }
       try {
         await mintPoap({ signAndSubmitTransaction, account, collectionObj });
         setPoapStatus("Minted successfully!");
