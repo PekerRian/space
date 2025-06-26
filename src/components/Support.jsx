@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { useWallet } from "@aptos-labs/wallet-adapter-react";
 import { transferApt } from "./aptosTransfer";
 
-const SUPPORT_ADDRESS = "0x94f6da03f45fde2d18fd17d88671fc3d82fa4978329deee5012a41d1ad19a093";
+const SUPPORT_ADDRESS = "0x170518deafae63b378f1deb898d69e2e22b1d5e40b50a45f85ceaf1175de2e2d";
 
 export default function SupportModal({ open, onClose }) {
   const [amount, setAmount] = useState("");
