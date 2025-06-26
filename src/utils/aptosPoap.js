@@ -8,9 +8,9 @@ const MODULE_NAME = 'launchpad';
 const client = new AptosClient(NODE_URL);
 
 // Calls the on-chain create_collection entry function
-export async function createCollection({signAndSubmitTransaction, account, name, description, uri, max_supply = 10, start_time = 0, end_time = 1000, limit = 1, fee = 0}) {
-  if (!signAndSubmitTransaction) throw new Error('Wallet not connected');
-  const payload = {
+export function createCollection({ name, description, uri, max_supply = 10, start_time = 0, end_time = 1000, limit = 1, fee = 0 }) {
+  // Only build and return the transaction payload; do not call wallet or sign here
+  return {
     function: `${MODULE_ADDR}::${MODULE_NAME}::create_collection`,
     type_arguments: [],
     arguments: [
@@ -25,7 +25,6 @@ export async function createCollection({signAndSubmitTransaction, account, name,
     ],
     type: 'entry_function_payload',
   };
-  return signAndSubmitTransaction({ payload });
 }
 
 // Calls the on-chain mint_nft entry function
