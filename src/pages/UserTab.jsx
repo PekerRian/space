@@ -458,7 +458,15 @@ export default function UserTab() {
             console.error('Invalid payload for signAndSubmitTransaction:', payload);
             throw new Error('Invalid transaction payload');
           }
-          txResult = await signAndSubmitTransaction({ payload }); // CORRECT: wrap payload in object
+          // Try both payload and transaction keys for compatibility
+          try {
+            txResult = await signAndSubmitTransaction({ payload });
+            console.log('signAndSubmitTransaction({ payload }) succeeded');
+          } catch (err1) {
+            console.warn('signAndSubmitTransaction({ payload }) failed, trying { transaction }', err1);
+            txResult = await signAndSubmitTransaction({ transaction: payload });
+            console.log('signAndSubmitTransaction({ transaction }) succeeded');
+          }
         } catch (err) {
           console.error('signAndSubmitTransaction failed:', err, 'payload:', payload, 'account:', account);
           throw new Error('Failed to submit transaction: ' + (err?.message || err));
