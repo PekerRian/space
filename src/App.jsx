@@ -229,7 +229,7 @@ function App() {
     <div className="app-zoom-wrapper">
       <AptosWalletAdapterProvider
         autoConnect={true}
-        dappConfig={{ network: Network.MAINNET }}
+        dappConfig={{ network: Network.TESTNET }}
         onError={error => {
           console.log("error", error);
         }}
