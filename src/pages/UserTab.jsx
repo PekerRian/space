@@ -440,7 +440,7 @@ export default function UserTab() {
         }
         let txResult;
         try {
-          txResult = await signAndSubmitTransaction({ payload });
+          txResult = await signAndSubmitTransaction(payload); // FIX: pass payload directly
         } catch (err) {
           console.error('signAndSubmitTransaction failed:', err);
           throw new Error('Failed to submit transaction: ' + (err?.message || err));
