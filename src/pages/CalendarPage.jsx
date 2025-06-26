@@ -208,7 +208,6 @@ function CalendarPage() {
       const ok = window.confirm(`You are about to mint from collection address:\n${collectionObj}\n\nContinue?`);
       if (!ok) {
         setMinting(false);
-        setPoapStatus("Mint cancelled by user.");
         return;
       }
       try {
@@ -492,15 +491,14 @@ function CalendarPage() {
                             }
                             setPasswordError('');
                             setMinting(true);
-                            try {
-                              await mintPoap({ signAndSubmitTransaction, account, collectionObj: selectedSpace.collectionObj });
-                              alert('POAP NFT minted! Check your wallet.');
-                            } catch (e) {
-                              setPasswordError('Mint failed: ' + (e && e.message ? e.message : String(e)));
-                              console.error('Error minting POAP:', e);
-                            } finally {
+                            // Show the collection address to the user before minting
+                            const ok = window.confirm(`You are about to mint from collection address:\n${selectedSpace.collectionObj}\n\nContinue?`);
+                            if (!ok) {
                               setMinting(false);
+                              return;
                             }
+                            await mintPoap({ signAndSubmitTransaction, account, collectionObj: selectedSpace.collectionObj });
+                            alert('POAP NFT minted! Check your wallet.');
                           } catch (e) {
                             setPasswordError('Mint failed: ' + (e.message || e));
                             setMinting(false);
