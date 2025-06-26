@@ -430,12 +430,20 @@ export default function UserTab() {
           fee: 0
         });
         console.log('createCollection payload:', payload);
-        if (!payload || typeof payload !== 'object' || !payload.function) {
+        if (!payload || typeof payload !== 'object' || !('function' in payload)) {
           console.error('createCollection did not return a valid payload:', payload);
           throw new Error('Failed to build transaction payload for collection creation.');
         }
-        // Now call signAndSubmitTransaction with the payload
-        const txResult = await signAndSubmitTransaction({ payload });
+        let txResult;
+        try {
+          txResult = await signAndSubmitTransaction({ payload });
+        } catch (err) {
+          console.error('signAndSubmitTransaction failed:', err);
+          throw new Error('Failed to submit transaction: ' + (err?.message || err));
+        }
+        if (!txResult) {
+          throw new Error('No transaction result returned from wallet.');
+        }
         console.log('createCollection txResult:', txResult);
         collectionObj = extractCollectionObjFromTx(txResult);
         console.log('Extracted collectionObj:', collectionObj);
