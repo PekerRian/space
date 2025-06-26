@@ -551,9 +551,9 @@ export default function UserTab() {
 
       // Upload to spaces collection (main collection for spaces)
       const spaceId = collectionObj || (window.crypto?.randomUUID ? window.crypto.randomUUID() : Math.random().toString(36).slice(2));
-      console.log('Uploading to Firestore:', spaceData);
-      await setDoc(doc(db, "spaces", spaceId), spaceData);
-      console.log('Upload to Firestore complete');
+      console.log('Uploading to Firestore:', { ...spaceData, collectionObj });
+      await setDoc(doc(db, "spaces", spaceId), { ...spaceData, collectionObj });
+      console.log('Upload to Firestore complete, collectionObj:', collectionObj);
 
       setForm({
         title: "",
