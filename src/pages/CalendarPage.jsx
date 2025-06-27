@@ -6,6 +6,8 @@ import "../calendar-custom.css";
 import { LoadingBuffer } from "../App";
 import { useWallet } from "@aptos-labs/wallet-adapter-react";
 import { mintPoap } from '../utils/aptosPoap';
+import { db } from "../firebase";
+import { doc, getDoc, updateDoc } from "firebase/firestore";
 
 // Helper: get all timezones (fallback to a static list if not supported)
 const TIMEZONES =
@@ -477,7 +479,6 @@ function CalendarPage() {
                           setShowPasswordPrompt(false);
                           setMinting(true);
                           try {
-                            console.log('Minting: selectedSpace.collectionObj =', selectedSpace.collectionObj);
                             if (!account?.address) throw new Error("Wallet address not found");
                             if (!signAndSubmitTransaction) {
                               setPasswordError("Wallet not connected. Please connect your wallet.");
@@ -489,16 +490,46 @@ function CalendarPage() {
                               setMinting(false);
                               return;
                             }
-                            setPasswordError('');
-                            setMinting(true);
-                            // Show the collection address to the user before minting
-                            const ok = window.confirm(`You are about to mint from collection address:\n${selectedSpace.collectionObj}\n\nContinue?`);
-                            if (!ok) {
+                            // --- Firestore-driven NFT minting logic ---
+                            // Fetch latest nftMetadataUris and mintedIndices from Firestore
+                            const spaceRef = doc(db, 'spaces', selectedSpace.id || selectedSpace.collectionObj);
+                            const spaceSnap = await getDoc(spaceRef);
+                            let nftMetadataUris = selectedSpace.nftMetadataUris || [];
+                            let mintedIndices = [];
+                            if (spaceSnap.exists()) {
+                              const data = spaceSnap.data();
+                              if (Array.isArray(data.nftMetadataUris)) nftMetadataUris = data.nftMetadataUris;
+                              if (Array.isArray(data.mintedIndices)) mintedIndices = data.mintedIndices;
+                            }
+                            if (!nftMetadataUris || !Array.isArray(nftMetadataUris) || nftMetadataUris.length === 0) {
+                              setPasswordError("No NFT metadata URIs found for this space");
                               setMinting(false);
                               return;
                             }
-                            await mintPoap({ signAndSubmitTransaction, account, collectionObj: selectedSpace.collectionObj });
-                            alert('POAP NFT minted! Check your wallet.');
+                            // Find the first available index
+                            let mintIndex = -1;
+                            for (let i = 0; i < nftMetadataUris.length; i++) {
+                              if (!mintedIndices.includes(i)) {
+                                mintIndex = i;
+                                break;
+                              }
+                            }
+                            if (mintIndex === -1) {
+                              setPasswordError("All NFTs have been minted for this space");
+                              setMinting(false);
+                              return;
+                            }
+                            const metadataUri = nftMetadataUris[mintIndex];
+                            if (!metadataUri) {
+                              setPasswordError("NFT metadataUri is required");
+                              setMinting(false);
+                              return;
+                            }
+                            // Mint using the correct metadata URI
+                            await mintPoap({ signAndSubmitTransaction, account, collectionObj: selectedSpace.collectionObj, metadataUri });
+                            // Update mintedIndices in Firestore
+                            await updateDoc(spaceRef, { mintedIndices: [...mintedIndices, mintIndex] });
+                            alert(`POAP NFT minted for index ${mintIndex + 1}! Check your wallet.`);
                           } catch (e) {
                             setPasswordError('Mint failed: ' + (e.message || e));
                             setMinting(false);
