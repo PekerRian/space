@@ -436,11 +436,9 @@ export default function UserTab() {
           description: poap.description,
           uri: poapIpfsHash ? `ipfs://${poapIpfsHash}` : '',
           max_supply: parseInt(poap.maxSupply, 10) || 10,
-          start_time: startTime, // pass as number, not array
-          end_time: endTime,     // pass as number, not array
-          limit: 1,              // pass as number, not array
-          fee: 0,                // pass as number, not array
-          account                // ensure account is passed
+          limit: 1,
+          fee: 0,
+          account
         });
         console.log('createCollection txRequest:', txRequest);
         if (!txRequest || typeof txRequest !== 'object' || !txRequest.sender || !txRequest.data) {
