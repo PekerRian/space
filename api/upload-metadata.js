@@ -83,15 +83,19 @@ export default async function handler(req, res) {
         // Save to Firestore if spaceId is provided
         if (spaceId) {
           try {
+            console.log('[POAP] Writing to Firestore:', { spaceId, nftMetadataUris: metadataUris, nftMetadataFolder: `${result.IpfsHash}/${subfolder}` });
             const { getFirestore, doc, updateDoc } = await import('firebase-admin/firestore');
             const db = getFirestore();
             await updateDoc(doc(db, 'spaces', spaceId), {
               nftMetadataUris: metadataUris,
               nftMetadataFolder: `${result.IpfsHash}/${subfolder}`
             });
+            console.log('[POAP] Firestore update successful for spaceId:', spaceId);
           } catch (firestoreErr) {
             console.error('Failed to update Firestore with metadataUris:', firestoreErr);
           }
+        } else {
+          console.error('[POAP] No spaceId provided, cannot write nftMetadataUris to Firestore.');
         }
         // Return the CID, metadataPath, and metadataUris array
         const metadataPath = `${subfolder}/1.json`;
