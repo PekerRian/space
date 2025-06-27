@@ -669,18 +669,64 @@ export default function UserTab() {
   };
 
   // Mint POAP NFT logic (using Move module)
-  async function handleMintPoap(space) {
+  async function handleMintPoap(space, nftIndex = 0) {
     setMinting(true);
     setMintError("");
     setMintSuccess("");
     try {
       if (!account?.address) throw new Error("Wallet address not found");
       if (!space.collectionObj) throw new Error("No on-chain collection object found for this space");
-      if (!space.poap || !space.poap.metadataIpfsHash) throw new Error("No POAP metadata found for this space");
-      // Use the metadata URI (JSON file on IPFS, no .json extension)
-      const metadataUri = `https://gateway.pinata.cloud/ipfs/${space.poap.metadataIpfsHash}`;
+      if (!space.nftMetadataUris || !Array.isArray(space.nftMetadataUris) || space.nftMetadataUris.length === 0) {
+        throw new Error("No NFT metadata URIs found for this space");
+      }
+      if (nftIndex < 0 || nftIndex >= space.nftMetadataUris.length) {
+        throw new Error(`Invalid NFT index: ${nftIndex}`);
+      }
+      const metadataUri = space.nftMetadataUris[nftIndex];
+      if (!metadataUri) throw new Error("NFT metadataUri is required");
       await mintPoap({ signAndSubmitTransaction, account, collectionObj: space.collectionObj, metadataUri });
       setMintSuccess("POAP NFT minted! Check your wallet.");
+    } catch (e) {
+      setMintError(e.message || String(e));
+    } finally {
+      setMinting(false);
+    }
+  }
+
+  // Mint POAP NFT logic (using Move module)
+  async function handleMintNextAvailablePoap(space) {
+    setMinting(true);
+    setMintError("");
+    setMintSuccess("");
+    try {
+      if (!account?.address) throw new Error("Wallet address not found");
+      if (!space.collectionObj) throw new Error("No on-chain collection object found for this space");
+      if (!space.nftMetadataUris || !Array.isArray(space.nftMetadataUris) || space.nftMetadataUris.length === 0) {
+        throw new Error("No NFT metadata URIs found for this space");
+      }
+      // Fetch mintedIndices from Firestore
+      const { doc, getDoc, updateDoc } = await import("firebase/firestore");
+      const spaceRef = doc(db, "spaces", space.id);
+      const spaceSnap = await getDoc(spaceRef);
+      let mintedIndices = [];
+      if (spaceSnap.exists() && Array.isArray(spaceSnap.data().mintedIndices)) {
+        mintedIndices = spaceSnap.data().mintedIndices;
+      }
+      // Find the first available index
+      let mintIndex = -1;
+      for (let i = 0; i < space.nftMetadataUris.length; i++) {
+        if (!mintedIndices.includes(i)) {
+          mintIndex = i;
+          break;
+        }
+      }
+      if (mintIndex === -1) throw new Error("All NFTs have been minted for this space");
+      const metadataUri = space.nftMetadataUris[mintIndex];
+      if (!metadataUri) throw new Error("NFT metadataUri is required");
+      await mintPoap({ signAndSubmitTransaction, account, collectionObj: space.collectionObj, metadataUri });
+      // Update mintedIndices in Firestore
+      await updateDoc(spaceRef, { mintedIndices: [...mintedIndices, mintIndex] });
+      setMintSuccess(`POAP NFT minted for index ${mintIndex + 1}! Check your wallet.`);
     } catch (e) {
       setMintError(e.message || String(e));
     } finally {
