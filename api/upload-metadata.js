@@ -85,7 +85,10 @@ export default async function handler(req, res) {
           try {
             const { getFirestore, doc, updateDoc } = await import('firebase-admin/firestore');
             const db = getFirestore();
-            await updateDoc(doc(db, 'spaces', spaceId), { nftMetadataUris: metadataUris });
+            await updateDoc(doc(db, 'spaces', spaceId), {
+              nftMetadataUris: metadataUris,
+              nftMetadataFolder: `${result.IpfsHash}/${subfolder}`
+            });
           } catch (firestoreErr) {
             console.error('Failed to update Firestore with metadataUris:', firestoreErr);
           }
