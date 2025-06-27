@@ -387,10 +387,10 @@ export default function UserTab() {
         poapImageGatewayUrl = poapIpfsHash ? `https://peach-left-chimpanzee-996.mypinata.cloud/ipfs/${poapIpfsHash}` : '';
         // Use FormData instead of JSON
         const metadataFormData = new FormData();
-        metadataFormData.append('name', poap.name);
-        metadataFormData.append('space', poap.space);
-        metadataFormData.append('description', poap.description);
-        metadataFormData.append('image', poapImageGatewayUrl); // Use gateway URL for metadata
+        metadataFormData.append('name', String(poap.name));
+        metadataFormData.append('space', String(poap.space));
+        metadataFormData.append('description', String(poap.description));
+        metadataFormData.append('image', String(poapImageGatewayUrl)); // Use gateway URL for metadata
         const metadataRes = await fetch('/api/upload-metadata', {
           method: 'POST',
           body: metadataFormData
@@ -956,7 +956,7 @@ export default function UserTab() {
                     // Toggle mintEnabled in Firestore
                     const ref = doc(db, 'spaces', space.id);
                     await updateDoc(ref, { mintEnabled: !space.mintEnabled });
-                    setSpaces(spaces => spaces.map(s => s.id === space.id ? { ...s, mintEnabled: !space.mintEnabled } : s));
+                    setSpaces(spaces => spaces.map s => s.id === space.id ? { ...s, mintEnabled: !space.mintEnabled } : s));
                   }}
                   style={{ marginTop: 8, background: space.mintEnabled ? '#ffe066' : '#888', color: '#181a2b', cursor: 'pointer', border: 'none', borderRadius: 4, padding: '6px 12px' }}
                 >

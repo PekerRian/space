@@ -18,11 +18,12 @@ export default async function handler(req, res) {
     const form = formidable({ multiples: false });
     form.parse(req, async (err, fields, files) => {
       if (err) return res.status(400).json({ error: 'Invalid form data' });
-      const name = fields.name;
-      const space = fields.space;
-      const description = fields.description;
-      const image = fields.image;
-      const maxSupply = fields.maxSupply || 1;
+      // Ensure all fields are strings, not arrays
+      const name = Array.isArray(fields.name) ? fields.name[0] : fields.name;
+      const space = Array.isArray(fields.space) ? fields.space[0] : fields.space;
+      const description = Array.isArray(fields.description) ? fields.description[0] : fields.description;
+      const image = Array.isArray(fields.image) ? fields.image[0] : fields.image;
+      const maxSupply = Array.isArray(fields.maxSupply) ? fields.maxSupply[0] : fields.maxSupply || 1;
       if (!name || !space || !description || !image) {
         return res.status(400).json({ error: 'Missing required fields' });
       }
