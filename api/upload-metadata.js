@@ -36,7 +36,15 @@ export default async function handler(req, res) {
       const filesToUpload = [
         { filename: 'collection.json', content: Buffer.from(JSON.stringify(collectionMeta, null, 2)) }
       ];
-      for (let i = 1; i <= Number(maxSupply); i++) {
+      // Use 'limit' for the number of NFT metadata files, fallback to maxSupply or 1
+      let limit = 1;
+      if (fields.limit !== undefined) {
+        limit = parseInt(Array.isArray(fields.limit) ? fields.limit[0] : fields.limit, 10);
+      } else if (fields.maxSupply !== undefined) {
+        limit = parseInt(Array.isArray(fields.maxSupply) ? fields.maxSupply[0] : fields.maxSupply, 10);
+      }
+      if (isNaN(limit) || limit < 1) limit = 1;
+      for (let i = 1; i <= limit; i++) {
         const nftMeta = { name: `${name} #${i}`, description, image, type: 'nft' };
         filesToUpload.push({ filename: `${i}.json`, content: Buffer.from(JSON.stringify(nftMeta, null, 2)) });
       }
