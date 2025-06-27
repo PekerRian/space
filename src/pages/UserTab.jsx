@@ -414,11 +414,9 @@ export default function UserTab() {
       if (enablePoap) {
         // Defensive checks for wallet adapter
         if (!account || typeof account !== 'object' || !account.address) {
-          console.error('Wallet account is missing or invalid:', account);
           throw new Error('Wallet account is missing or invalid. Please reconnect your wallet.');
         }
         if (!signAndSubmitTransaction || typeof signAndSubmitTransaction !== 'function') {
-          console.error('signAndSubmitTransaction is missing or not a function:', signAndSubmitTransaction);
           throw new Error('Wallet adapter is not ready. Please reconnect your wallet.');
         }
         // Build the payload only (do not call signAndSubmitTransaction inside createCollection)
@@ -429,40 +427,30 @@ export default function UserTab() {
         const txRequest = createCollection({
           name: poap.name,
           description: poap.description,
-          uri: poapIpfsHash ? `https://peach-left-chimpanzee-996.mypinata.cloud/ipfs/${poapIpfsHash}` : '', // Use gateway URL for on-chain metadata
+          uri: poapIpfsHash ? `https://gateway.pinata.cloud/ipfs/${poapIpfsHash}` : '', // Use public gateway for on-chain metadata
           max_supply: parseInt(poap.maxSupply, 10) || 10,
           limit: 1,
           fee: 0,
           account
         });
-        console.log('createCollection txRequest:', txRequest);
         if (!txRequest || typeof txRequest !== 'object' || !txRequest.sender || !txRequest.data) {
-          console.error('createCollection did not return a valid txRequest:', txRequest);
           throw new Error('Failed to build transaction request for collection creation.');
         }
         let txResult;
         try {
-          // Extra logging and defensive checks
-          console.log('signAndSubmitTransaction:', signAndSubmitTransaction, 'typeof:', typeof signAndSubmitTransaction);
-          console.log('txRequest to submit:', txRequest);
           if (!signAndSubmitTransaction || typeof signAndSubmitTransaction !== 'function') {
             throw new Error('signAndSubmitTransaction is not a function or not defined');
           }
           if (!txRequest || typeof txRequest !== 'object' || !txRequest.sender || !txRequest.data) {
-            console.error('Invalid txRequest for signAndSubmitTransaction:', txRequest);
             throw new Error('Invalid transaction request');
           }
           txResult = await signAndSubmitTransaction(txRequest);
-          console.log('signAndSubmitTransaction(txRequest) succeeded');
         } catch (err) {
-          console.error('signAndSubmitTransaction failed:', err, 'txRequest:', txRequest, 'account:', account);
           throw new Error('Failed to submit transaction: ' + (err?.message || err));
         }
         if (!txResult) {
-          console.error('No transaction result returned from wallet. Payload:', payload, 'Account:', account);
           throw new Error('No transaction result returned from wallet.');
         }
-        console.log('createCollection txResult:', txResult);
         // Prefer extracting collectionObj from index2 event
         if (
           txResult &&
@@ -480,7 +468,6 @@ export default function UserTab() {
           const txHash = txResult?.hash || txResult?.transactionHash;
           collectionObj = await extractCollectionObjFromTx(txResult, txHash);
         }
-        console.log('Extracted collectionObj from index2 or fallback:', collectionObj);
         // Immediately proceed to save, do not wait for on-chain existence
       }
       // Prepare space data
