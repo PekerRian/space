@@ -1,6 +1,7 @@
 // /api/upload-metadata.js
 import fetch from 'node-fetch';
 import formidable from 'formidable';
+import pinataSDK from '@pinata/sdk';
 
 export const config = {
   api: {
@@ -34,24 +35,32 @@ export default async function handler(req, res) {
         const nftMeta = { name: `${name} #${i}`, description, image, type: 'nft' };
         filesToUpload.push({ filename: `${i}.json`, content: Buffer.from(JSON.stringify(nftMeta, null, 2)) });
       }
-      // Pin the files to IPFS (Pinata) as a folder
-      const FormData = (await import('form-data')).default;
-      const formData = new FormData();
-      for (const file of filesToUpload) {
-        formData.append('file', file.content, { filename: file.filename, filepath: file.filename });
+      // Pin the files to IPFS (Pinata) as a folder using Pinata SDK
+      if (!process.env.PINATA_JWT) {
+        return res.status(500).json({ error: 'Pinata JWT is missing from environment variables.' });
       }
-      // Tell Pinata to wrap files in a directory
-      formData.append('pinataOptions', JSON.stringify({ wrapWithDirectory: true }));
-      const pinataRes = await fetch('https://api.pinata.cloud/pinning/pinFileToIPFS', {
-        method: 'POST',
-        headers: {
-          Authorization: `Bearer ${process.env.PINATA_JWT}`,
-        },
-        body: formData,
-      });
-      const pinataData = await pinataRes.json();
-      if (!pinataData.IpfsHash) return res.status(500).json({ error: 'Pinata upload failed' });
-      res.status(200).json({ ipfsHash: pinataData.IpfsHash });
+      const pinata = new pinataSDK({ pinataJWTKey: process.env.PINATA_JWT });
+      // Create a temp directory and write files for SDK folder upload
+      const fs = await import('fs/promises');
+      const os = await import('os');
+      const path = await import('path');
+      const tmpDir = await fs.mkdtemp(path.default.join(os.default.tmpdir(), 'poap-meta-'));
+      for (const file of filesToUpload) {
+        await fs.writeFile(path.default.join(tmpDir, file.filename), file.content);
+      }
+      try {
+        const result = await pinata.pinFromFS(tmpDir, { pinataOptions: { wrapWithDirectory: true } });
+        await fs.rm(tmpDir, { recursive: true, force: true });
+        if (!result.IpfsHash) {
+          console.error('Pinata SDK upload failed. Response:', result);
+          return res.status(500).json({ error: 'Pinata upload failed', pinata: result });
+        }
+        res.status(200).json({ ipfsHash: result.IpfsHash });
+      } catch (sdkErr) {
+        await fs.rm(tmpDir, { recursive: true, force: true });
+        console.error('Pinata SDK upload failed. Error:', sdkErr);
+        return res.status(500).json({ error: 'Pinata upload failed', pinata: sdkErr.message || sdkErr });
+      }
     });
   } catch (e) {
     res.status(500).json({ error: e.message });
