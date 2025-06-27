@@ -392,6 +392,8 @@ export default function UserTab() {
         metadataFormData.append('space', String(poap.space));
         metadataFormData.append('description', String(poap.description));
         metadataFormData.append('image', String(poapImageGatewayUrl)); // Use default gateway URL for metadata
+        // Always include spaceId for backend Firestore logic
+        metadataFormData.append('spaceId', String(poap.space));
         const metadataRes = await fetch('/api/upload-metadata', {
           method: 'POST',
           body: metadataFormData

@@ -181,15 +181,16 @@ function CalendarPage() {
         setPoapIpfsHash(data.ipfsHash);
 
         // 2. Upload metadata JSON to Pinata using your backend
+        // Use FormData and always include spaceId
+        const metaFormData = new FormData();
+        metaFormData.append('name', poapForm.name);
+        metaFormData.append('space', poapForm.space);
+        metaFormData.append('description', poapForm.description);
+        metaFormData.append('image', data.ipfsHash ? `https://gateway.pinata.cloud/ipfs/${data.ipfsHash}` : '');
+        metaFormData.append('spaceId', poapForm.space);
         const metaRes = await fetch('/api/upload-metadata', {
           method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            name: poapForm.name,
-            space: poapForm.space,
-            description: poapForm.description,
-            image: data.ipfsHash ? `https://gateway.pinata.cloud/ipfs/${data.ipfsHash}` : '' // Use public Pinata gateway URL
-          })
+          body: metaFormData
         });
         const metaData = await metaRes.json();
         if (!metaData.ipfsHash) throw new Error('Metadata upload failed');
