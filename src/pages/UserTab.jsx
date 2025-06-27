@@ -384,13 +384,14 @@ export default function UserTab() {
       let poapMetadataIpfsHash = '';
       let poapImageGatewayUrl = '';
       if (poapFieldsFilled) {
-        poapImageGatewayUrl = poapIpfsHash ? `https://peach-left-chimpanzee-996.mypinata.cloud/ipfs/${poapIpfsHash}` : '';
+        // Use the default Pinata gateway for maximum compatibility
+        poapImageGatewayUrl = poapIpfsHash ? `https://gateway.pinata.cloud/ipfs/${poapIpfsHash}` : '';
         // Use FormData instead of JSON
         const metadataFormData = new FormData();
         metadataFormData.append('name', String(poap.name));
         metadataFormData.append('space', String(poap.space));
         metadataFormData.append('description', String(poap.description));
-        metadataFormData.append('image', String(poapImageGatewayUrl)); // Use gateway URL for metadata
+        metadataFormData.append('image', String(poapImageGatewayUrl)); // Use default gateway URL for metadata
         const metadataRes = await fetch('/api/upload-metadata', {
           method: 'POST',
           body: metadataFormData
