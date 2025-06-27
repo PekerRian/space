@@ -566,9 +566,8 @@ export default function UserTab() {
       }
 
       // Upload to spaces collection (main collection for spaces)
-      const newSpaceId = collectionObj || (window.crypto?.randomUUID ? window.crypto.randomUUID() : Math.random().toString(36).slice(2));
-      console.log('Uploading to Firestore:', { ...spaceData, collectionObj });
-      await setDoc(doc(db, "spaces", newSpaceId), { ...spaceData, collectionObj });
+      // Only update the original document at spaces/{spaceId}
+      await setDoc(doc(db, "spaces", spaceId), { ...spaceData, collectionObj });
       console.log('Upload to Firestore complete, collectionObj:', collectionObj);
 
       // Show user-facing alert for collection address
