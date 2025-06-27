@@ -49,7 +49,7 @@ export default async function handler(req, res) {
       // Create a temp directory and write files for SDK folder upload
       const fs = await import('fs/promises');
       const os = await import('os');
-      const path = await import('path');
+      const path = await import('path');    
       let tmpDir;
       try {
         tmpDir = await fs.mkdtemp(path.default.join(os.default.tmpdir(), 'poap-meta-'));
@@ -60,13 +60,29 @@ export default async function handler(req, res) {
         const subfolder = path.default.basename(tmpDir);
         const result = await pinata.pinFromFS(tmpDir, { pinataOptions: { wrapWithDirectory: true } });
         await fs.rm(tmpDir, { recursive: true, force: true });
+        // After successful Pinata upload
         if (!result || !result.IpfsHash) {
           console.error('Pinata upload did not return a valid IpfsHash:', result);
           return res.status(500).json({ error: 'Pinata upload failed: No IpfsHash returned', pinata: result });
         }
-        // Return the CID and the full relative path to 1.json
+        // Build array of metadata URIs
+        const metadataUris = [];
+        for (let i = 1; i <= limit; i++) {
+          metadataUris.push(`https://gateway.pinata.cloud/ipfs/${result.IpfsHash}/${subfolder}/${i}.json`);
+        }
+        // Save to Firestore if spaceId is provided
+        if (spaceId) {
+          try {
+            const { getFirestore, doc, updateDoc } = await import('firebase-admin/firestore');
+            const db = getFirestore();
+            await updateDoc(doc(db, 'spaces', spaceId), { nftMetadataUris: metadataUris });
+          } catch (firestoreErr) {
+            console.error('Failed to update Firestore with metadataUris:', firestoreErr);
+          }
+        }
+        // Return the CID, metadataPath, and metadataUris array
         const metadataPath = `${subfolder}/1.json`;
-        return res.status(200).json({ ipfsHash: result.IpfsHash, metadataPath });
+        return res.status(200).json({ ipfsHash: result.IpfsHash, metadataPath, metadataUris });
       } catch (sdkErr) {
         if (tmpDir) {
           await fs.rm(tmpDir, { recursive: true, force: true });
