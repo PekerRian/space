@@ -73,11 +73,6 @@ export default async function handler(req, res) {
           console.error('Pinata upload did not return a valid IpfsHash:', result);
           return res.status(500).json({ error: 'Pinata upload failed: No IpfsHash returned', pinata: result });
         }
-        // Build array of metadata URIs
-        const metadataUris = [];
-        for (let i = 1; i <= limit; i++) {
-          metadataUris.push(`https://gateway.pinata.cloud/ipfs/${result.IpfsHash}/${subfolder}/${i}.json`);
-        }
         // Extract spaceId from fields
         let spaceId = Array.isArray(fields.spaceId) ? fields.spaceId[0] : fields.spaceId;
         // Fallback: try to use 'space' as spaceId if spaceId is missing (legacy support)
@@ -88,7 +83,7 @@ export default async function handler(req, res) {
         // Save to Firestore if spaceId is provided
         if (spaceId) {
           try {
-            console.log('[POAP] Writing to Firestore:', { spaceId, nftMetadataUris: metadataUris, nftMetadataFolder: `${result.IpfsHash}/${subfolder}` });
+            console.log('[POAP] Writing to Firestore:', { spaceId, nftMetadataFolder: `${result.IpfsHash}/${subfolder}`, maxSupply: limit });
             const { getFirestore, doc, setDoc, updateDoc, getDoc } = await import('firebase-admin/firestore');
             const db = getFirestore();
             // If the document does not exist, create it (setDoc), else update it
@@ -96,27 +91,27 @@ export default async function handler(req, res) {
             const spaceDocSnap = await getDoc(spaceDocRef);
             if (!spaceDocSnap.exists) {
               await setDoc(spaceDocRef, {
-                nftMetadataUris: metadataUris,
-                nftMetadataFolder: `${result.IpfsHash}/${subfolder}`
+                nftMetadataFolder: `${result.IpfsHash}/${subfolder}`,
+                maxSupply: limit
               }, { merge: true });
               console.log('[POAP] Firestore document created for spaceId:', spaceId);
             } else {
               await updateDoc(spaceDocRef, {
-                nftMetadataUris: metadataUris,
-                nftMetadataFolder: `${result.IpfsHash}/${subfolder}`
+                nftMetadataFolder: `${result.IpfsHash}/${subfolder}`,
+                maxSupply: limit
               });
               console.log('[POAP] Firestore update successful for spaceId:', spaceId);
             }
           } catch (firestoreErr) {
-            console.error('Failed to update Firestore with metadataUris:', firestoreErr);
+            console.error('Failed to update Firestore with metadata folder:', firestoreErr);
           }
         } else {
-          console.error('[POAP] No spaceId provided, cannot write nftMetadataUris to Firestore.');
+          console.error('[POAP] No spaceId provided, cannot write nftMetadataFolder to Firestore.');
         }
-        // Return the CID, metadataPath, and metadataUris array
+        // Return the CID, metadataPath, and folder info
         const metadataPath = `${subfolder}/1.json`;
         // Always return the spaceId used for this operation
-        return res.status(200).json({ ipfsHash: result.IpfsHash, metadataPath, metadataUris, spaceId });
+        return res.status(200).json({ ipfsHash: result.IpfsHash, metadataPath, nftMetadataFolder: `${result.IpfsHash}/${subfolder}`, maxSupply: limit, spaceId });
       } catch (sdkErr) {
         if (tmpDir) {
           await fs.rm(tmpDir, { recursive: true, force: true });
