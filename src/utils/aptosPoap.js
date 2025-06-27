@@ -12,10 +12,10 @@ export function createCollection({ name, description, uri, max_supply = 10, limi
   if (!account || !account.address) {
     throw new Error('Account is missing or invalid in createCollection');
   }
-  // Always set start_time and end_time to the same value so minting is only open at creation
+  // Always set start_time to now - 10 and end_time to 1 year later (guaranteed open window)
   const now = Math.floor(Date.now() / 1000);
   const start = now - 10;
-  const end = start; // end time is the same as start time
+  const end = now + 365 * 24 * 60 * 60; // 1 year in seconds
   // Defensive: log and check max_supply type
   console.log('createCollection: max_supply type:', typeof max_supply, 'value:', max_supply);
   if (typeof max_supply !== 'number' && typeof max_supply !== 'bigint' && typeof max_supply !== 'string') {
