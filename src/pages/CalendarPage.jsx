@@ -183,20 +183,25 @@ function CalendarPage() {
         setPoapIpfsHash(data.ipfsHash);
 
         // 2. Upload metadata JSON to Pinata using your backend
-        // Use FormData and always include spaceId
+        // Use FormData and always include spaceId (UUID, not space name)
         const metaFormData = new FormData();
         metaFormData.append('name', poapForm.name);
         metaFormData.append('space', poapForm.space);
         metaFormData.append('description', poapForm.description);
         metaFormData.append('image', data.ipfsHash ? `https://gateway.pinata.cloud/ipfs/${data.ipfsHash}` : '');
-        metaFormData.append('spaceId', poapForm.space);
+        metaFormData.append('spaceId', spaceId); // FIX: use generated UUID
         const metaRes = await fetch('/api/upload-metadata', {
           method: 'POST',
           body: metaFormData
         });
         const metaData = await metaRes.json();
         if (!metaData.ipfsHash) throw new Error('Metadata upload failed');
-
+        // Log/verify returned spaceId for debugging
+        if (metaData.spaceId) {
+          console.log('[POAP][Calendar] Backend used spaceId:', metaData.spaceId);
+        } else {
+          console.warn('[POAP][Calendar] Backend did not return spaceId in response.');
+        }
         setPoapStatus('NFT metadata uploaded! Ready to mint on Aptos. Metadata IPFS: ' + metaData.ipfsHash);
         if (onMinted) onMinted(metaData.ipfsHash);
       } catch (err) {
