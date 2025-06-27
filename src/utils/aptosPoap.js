@@ -8,36 +8,31 @@ const MODULE_NAME = 'poap_launchpad';
 const client = new AptosClient(NODE_URL);
 
 // Calls the on-chain create_collection entry function
-export function createCollection({ name, description, uri, max_supply = 10, limit = 1, fee = 0, account }) {
+export function createCollection({ name, description, uri, max_supply = 10, start_time, end_time, limit = 1, fee = 0, account }) {
   if (!account || !account.address) {
     throw new Error('Account is missing or invalid in createCollection');
   }
-  // Always set start_time to now - 10 and end_time to 1 year later (guaranteed open window)
+  // Set default start_time to 10 seconds in the past to ensure minting is active immediately
   const now = Math.floor(Date.now() / 1000);
-  const start = now - 10;
-  const end = now + 365 * 24 * 60 * 60; // 1 year in seconds
+  const start = typeof start_time === 'number' && start_time > 0 ? start_time : now - 10;
+  const end = typeof end_time === 'number' && end_time > start ? end_time : now + 24 * 60 * 60;
   // Defensive: log and check max_supply type
   console.log('createCollection: max_supply type:', typeof max_supply, 'value:', max_supply);
   if (typeof max_supply !== 'number' && typeof max_supply !== 'bigint' && typeof max_supply !== 'string') {
     throw new Error('max_supply must be a number, bigint, or string');
   }
-  // Defensive: ensure limit is always a valid number (default 1)
-  const safeLimit = typeof limit === 'number' && limit > 0 ? limit : 1;
-  // Defensive: ensure fee is always a valid number (default 0)
-  const safeFee = typeof fee === 'number' && fee >= 0 ? fee : 0;
-  // Always encode all Option<u64> as Some (never None)
   const data = {
     function: `${MODULE_ADDR}::${MODULE_NAME}::create_collection`,
     typeArguments: [],
     functionArguments: [
-      description, // 1
-      name,        // 2
-      uri,         // 3
-      max_supply,  // 4
-      { vec: [start.toString()] },      // 5 - always Some
-      { vec: [end.toString()] },        // 6 - always Some
-      { vec: [safeLimit.toString()] },  // 7 - always Some
-      { vec: [safeFee.toString()] }     // 8 - always Some
+      name,
+      description,
+      uri,
+      max_supply,
+      start,
+      end,
+      limit,
+      fee
     ]
   };
   console.log('About to return createCollection data', data);

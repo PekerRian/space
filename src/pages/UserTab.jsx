@@ -742,37 +742,6 @@ export default function UserTab() {
                   </div>
                 </label>
 
-                <div style={{ display: "flex", gap: "0.8em", marginBottom: "0.8em", flexWrap: 'wrap' }}>
-                  <label className="calendar-label" style={{ flex: 1, minWidth: 120 }}>
-                    Start
-                    <select
-                      name="start"
-                      className="calendar-input"
-                      value={form.start}
-                      onChange={handleChange}
-                      style={{ width: '100%' }}
-                    >
-                      {timeOptions.map((t) => (
-                        <option key={t} value={t}>{t}</option>
-                      ))}
-                    </select>
-                  </label>
-                  <label className="calendar-label" style={{ flex: 1, minWidth: 120 }}>
-                    End
-                    <select
-                      name="end"
-                      className="calendar-input"
-                      value={form.end}
-                      onChange={handleChange}
-                      style={{ width: '100%' }}
-                    >
-                      {timeOptions.map((t) => (
-                        <option key={t} value={t}>{t}</option>
-                      ))}
-                    </select>
-                  </label>
-                </div>
-
                 <label className="calendar-label" style={{ width: '100%' }}>
                   Categories
                   <div className="user-tab-category-list" style={{ flexWrap: 'wrap', width: '100%' }}>
