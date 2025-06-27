@@ -1,44 +1,44 @@
 // /api/upload-metadata.js
 import fetch from 'node-fetch';
-import fs from 'fs/promises';
-import os from 'os';
-import path from 'path';
+import formidable from 'formidable';
+
+export const config = {
+  api: {
+    bodyParser: false,
+  },
+};
 
 export default async function handler(req, res) {
   if (req.method !== 'POST') {
     return res.status(405).json({ error: 'Method not allowed' });
   }
   try {
-    // Parse FormData for metadata fields and file
-    const multiparty = (await import('multiparty')).default;
-    const form = new multiparty.Form();
+    // Use formidable to parse the incoming form data
+    const form = formidable({ multiples: false });
     form.parse(req, async (err, fields, files) => {
       if (err) return res.status(400).json({ error: 'Invalid form data' });
-      const name = fields.name?.[0];
-      const space = fields.space?.[0];
-      const description = fields.description?.[0];
-      const image = fields.image?.[0];
-      const maxSupply = fields.maxSupply?.[0] || 1;
+      const name = fields.name;
+      const space = fields.space;
+      const description = fields.description;
+      const image = fields.image;
+      const maxSupply = fields.maxSupply || 1;
       if (!name || !space || !description || !image) {
         return res.status(400).json({ error: 'Missing required fields' });
       }
-      // 1. Create a temp folder
-      const tmpDir = await fs.mkdtemp(path.join(os.tmpdir(), 'poap-meta-'));
-      // 2. Write collection.json
+      // Create in-memory metadata files
       const collectionMeta = { name, space, description, image, type: 'collection' };
-      await fs.writeFile(path.join(tmpDir, 'collection.json'), JSON.stringify(collectionMeta, null, 2));
-      // 3. Write per-NFT metadata files
+      const filesToUpload = [
+        { filename: 'collection.json', content: Buffer.from(JSON.stringify(collectionMeta, null, 2)) }
+      ];
       for (let i = 1; i <= Number(maxSupply); i++) {
         const nftMeta = { name: `${name} #${i}`, description, image, type: 'nft' };
-        await fs.writeFile(path.join(tmpDir, `${i}.json`), JSON.stringify(nftMeta, null, 2));
+        filesToUpload.push({ filename: `${i}.json`, content: Buffer.from(JSON.stringify(nftMeta, null, 2)) });
       }
-      // 4. Pin the folder to IPFS (Pinata)
+      // Pin the files to IPFS (Pinata) as a folder
       const FormData = (await import('form-data')).default;
       const formData = new FormData();
-      const tmpFiles = await fs.readdir(tmpDir);
-      for (const file of tmpFiles) {
-        const fileContent = await fs.readFile(path.join(tmpDir, file));
-        formData.append('file', fileContent, file);
+      for (const file of filesToUpload) {
+        formData.append('file', file.content, { filename: file.filename });
       }
       const pinataRes = await fetch('https://api.pinata.cloud/pinning/pinFileToIPFS', {
         method: 'POST',
@@ -48,7 +48,6 @@ export default async function handler(req, res) {
         body: formData,
       });
       const pinataData = await pinataRes.json();
-      await fs.rm(tmpDir, { recursive: true, force: true });
       if (!pinataData.IpfsHash) return res.status(500).json({ error: 'Pinata upload failed' });
       res.status(200).json({ ipfsHash: pinataData.IpfsHash });
     });
