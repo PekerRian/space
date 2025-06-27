@@ -693,8 +693,8 @@ export default function UserTab() {
     }
   }
 
-  // Mint POAP NFT logic (using Move module)
-  async function handleMintNextAvailablePoap(space) {
+  // Mint POAP NFT logic (using Move module) for calendar (next available)
+  async function handleCalendarMintPoap(space) {
     setMinting(true);
     setMintError("");
     setMintSuccess("");
