@@ -78,6 +78,8 @@ export default async function handler(req, res) {
         for (let i = 1; i <= limit; i++) {
           metadataUris.push(`https://gateway.pinata.cloud/ipfs/${result.IpfsHash}/${subfolder}/${i}.json`);
         }
+        // Extract spaceId from fields
+        const spaceId = Array.isArray(fields.spaceId) ? fields.spaceId[0] : fields.spaceId;
         // Save to Firestore if spaceId is provided
         if (spaceId) {
           try {
