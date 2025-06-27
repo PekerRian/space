@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { useWallet } from "@aptos-labs/wallet-adapter-react";
-import { fetchSpacesByUser, deleteSpace } from "../utils/spaces";
+import { fetchSpacesByUser, deleteSpace, addSpace } from "../utils/spaces";
 import { doc, getDoc, updateDoc, setDoc } from "firebase/firestore";
 import { db } from "../firebase";
 import Calendar from "react-calendar";
