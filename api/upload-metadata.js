@@ -38,8 +38,10 @@ export default async function handler(req, res) {
       const FormData = (await import('form-data')).default;
       const formData = new FormData();
       for (const file of filesToUpload) {
-        formData.append('file', file.content, { filename: file.filename });
+        formData.append('file', file.content, { filename: file.filename, filepath: file.filename });
       }
+      // Tell Pinata to wrap files in a directory
+      formData.append('pinataOptions', JSON.stringify({ wrapWithDirectory: true }));
       const pinataRes = await fetch('https://api.pinata.cloud/pinning/pinFileToIPFS', {
         method: 'POST',
         headers: {
