@@ -504,7 +504,9 @@ function CalendarPage() {
                             console.log('[POAP][Calendar] Minting for spaceId:', selectedSpace.id || selectedSpace.collectionObj, 'nftMetadataUris:', nftMetadataUris, 'mintedIndices:', mintedIndices);
                             if (!nftMetadataUris || !Array.isArray(nftMetadataUris) || nftMetadataUris.length === 0) {
                               console.error('[POAP][Calendar] No NFT metadata URIs found for this space:', selectedSpace.id || selectedSpace.collectionObj, nftMetadataUris);
-                              setPasswordError("No NFT metadata URIs found for this space");
+                              console.error('[POAP][Calendar] Firestore doc data:', spaceSnap.exists() ? spaceSnap.data() : null);
+                              console.error('[POAP][Calendar] selectedSpace object:', selectedSpace);
+                              setPasswordError("No NFT metadata URIs found for this space. Please contact the space creator or try again later.");
                               setMinting(false);
                               return;
                             }
