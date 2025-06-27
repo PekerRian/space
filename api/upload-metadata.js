@@ -17,7 +17,10 @@ export default async function handler(req, res) {
     // Use formidable to parse the incoming form data
     const form = formidable({ multiples: false });
     form.parse(req, async (err, fields, files) => {
-      if (err) return res.status(400).json({ error: 'Invalid form data' });
+      if (err) {
+        console.error('Formidable parse error:', err);
+        return res.status(400).json({ error: 'Invalid form data', details: err.message || err });
+      }
       // Ensure all fields are strings, not arrays
       const name = Array.isArray(fields.name) ? fields.name[0] : fields.name;
       const space = Array.isArray(fields.space) ? fields.space[0] : fields.space;
@@ -25,7 +28,8 @@ export default async function handler(req, res) {
       const image = Array.isArray(fields.image) ? fields.image[0] : fields.image;
       const maxSupply = Array.isArray(fields.maxSupply) ? fields.maxSupply[0] : fields.maxSupply || 1;
       if (!name || !space || !description || !image) {
-        return res.status(400).json({ error: 'Missing required fields' });
+        console.error('Missing required fields:', { name, space, description, image });
+        return res.status(400).json({ error: 'Missing required fields', fields: { name, space, description, image } });
       }
       // Create in-memory metadata files
       const collectionMeta = { name, space, description, image, type: 'collection' };
@@ -38,6 +42,7 @@ export default async function handler(req, res) {
       }
       // Pin the files to IPFS (Pinata) as a folder using Pinata SDK
       if (!process.env.PINATA_JWT) {
+        console.error('Pinata JWT is missing from environment variables.');
         return res.status(500).json({ error: 'Pinata JWT is missing from environment variables.' });
       }
       const pinata = new pinataSDK({ pinataJWTKey: process.env.PINATA_JWT });
@@ -45,17 +50,25 @@ export default async function handler(req, res) {
       const fs = await import('fs/promises');
       const os = await import('os');
       const path = await import('path');
-      const tmpDir = await fs.mkdtemp(path.default.join(os.default.tmpdir(), 'poap-meta-'));
-      for (const file of filesToUpload) {
-        await fs.writeFile(path.default.join(tmpDir, file.filename), file.content);
-      }
+      let tmpDir;
       try {
+        tmpDir = await fs.mkdtemp(path.default.join(os.default.tmpdir(), 'poap-meta-'));
+        for (const file of filesToUpload) {
+          await fs.writeFile(path.default.join(tmpDir, file.filename), file.content);
+        }
         const result = await pinata.pinFromFS(tmpDir, { pinataOptions: { wrapWithDirectory: true } });
         await fs.rm(tmpDir, { recursive: true, force: true });
+        if (!result || !result.IpfsHash) {
+          console.error('Pinata upload did not return a valid IpfsHash:', result);
+          return res.status(500).json({ error: 'Pinata upload failed: No IpfsHash returned', pinata: result });
+        }
         // Return only the CID (IpfsHash) for use as https://gateway.pinata.cloud/ipfs/<CID>
         return res.status(200).json({ ipfsHash: result.IpfsHash });
       } catch (sdkErr) {
-        await fs.rm(tmpDir, { recursive: true, force: true });
+        if (tmpDir) {
+          await fs.rm(tmpDir, { recursive: true, force: true });
+        }
+        console.error('Pinata upload failed:', sdkErr);
         return res.status(500).json({ error: 'Pinata upload failed', pinata: sdkErr.message || sdkErr });
       }
     });
