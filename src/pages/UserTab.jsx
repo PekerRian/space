@@ -351,23 +351,15 @@ export default function UserTab() {
       poapMaxSupply = String(parseInt(poap.maxSupply, 10));
     }
     // ---
-    const [startHour, startMin] = form.start.split(":").map(Number);
-    const [endHour, endMin] = form.end.split(":").map(Number);
-    const startDate = new Date(selectedDate);
-    startDate.setHours(startHour, startMin, 0, 0);
-    const endDate = new Date(selectedDate);
-    endDate.setHours(endHour, endMin, 0, 0);
-
-    // Check: Start date must not be in the past
-    if (startDate < new Date()) {
-      setErr("You cannot schedule a space in the past.");
-      return;
-    }
-
-    if (endDate <= startDate) {
-      setErr("End time must be after start time.");
-      return;
-    }
+    // Remove any time validation logic
+    // if (!form.start || !form.end) {
+    //   setError('Please select a start and end time.');
+    //   return;
+    // }
+    // if (form.end <= form.start) {
+    //   setError('End time must be after start time.');
+    //   return;
+    // }
 
     try {
       // Before posting, fetch the latest status from Firestore
@@ -494,8 +486,8 @@ export default function UserTab() {
         twitter: user.twitter || "",
         title: form.title,
         description: form.description,
-        date: startDate.toISOString(),
-        end: endDate.toISOString(),
+        date: selectedDate.toISOString(),
+        end: selectedDate.toISOString(),
         categories: form.categories.join(", "),
         languages: form.languages.join(", "),
         twitter_link: form.twitter_link || "",
