@@ -8,18 +8,14 @@ const MODULE_NAME = 'poap_launchpad';
 const client = new AptosClient(NODE_URL);
 
 // Calls the on-chain create_collection entry function
-export function createCollection({ name, description, uri, max_supply = 10, start_time, end_time, limit = 1, fee = 0, account }) {
+export function createCollection({ name, description, uri, max_supply = 10, limit = 1, fee = 0, account }) {
   if (!account || !account.address) {
     throw new Error('Account is missing or invalid in createCollection');
   }
-  // Helper to encode Move Option<u64> for Aptos SDK
-  function toMoveOptionU64(val) {
-    return val != null ? { vec: [val.toString()] } : { vec: [] };
-  }
-  // Always set start_time to now - 10 to ensure public mint is active immediately
+  // Always set start_time to now - 10 and end_time to 1 year later
   const now = Math.floor(Date.now() / 1000);
   const start = now - 10;
-  const end = typeof end_time === 'number' && end_time > start ? end_time : now + 24 * 60 * 60;
+  const end = now + 365 * 24 * 60 * 60; // 1 year in seconds
   // Defensive: log and check max_supply type
   console.log('createCollection: max_supply type:', typeof max_supply, 'value:', max_supply);
   if (typeof max_supply !== 'number' && typeof max_supply !== 'bigint' && typeof max_supply !== 'string') {
@@ -29,6 +25,7 @@ export function createCollection({ name, description, uri, max_supply = 10, star
   const safeLimit = typeof limit === 'number' && limit > 0 ? limit : 1;
   // Defensive: ensure fee is always a valid number (default 0)
   const safeFee = typeof fee === 'number' && fee >= 0 ? fee : 0;
+  // Always encode all Option<u64> as Some (never None)
   const data = {
     function: `${MODULE_ADDR}::${MODULE_NAME}::create_collection`,
     typeArguments: [],
@@ -37,10 +34,10 @@ export function createCollection({ name, description, uri, max_supply = 10, star
       name,        // 2
       uri,         // 3
       max_supply,  // 4
-      toMoveOptionU64(start),      // 5
-      toMoveOptionU64(end),        // 6
-      toMoveOptionU64(safeLimit),  // 7
-      toMoveOptionU64(safeFee)     // 8
+      { vec: [start.toString()] },      // 5 - always Some
+      { vec: [end.toString()] },        // 6 - always Some
+      { vec: [safeLimit.toString()] },  // 7 - always Some
+      { vec: [safeFee.toString()] }     // 8 - always Some
     ]
   };
   console.log('About to return createCollection data', data);
