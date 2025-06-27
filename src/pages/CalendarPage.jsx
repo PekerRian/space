@@ -190,6 +190,7 @@ function CalendarPage() {
         metaFormData.append('description', poapForm.description);
         metaFormData.append('image', data.ipfsHash ? `https://gateway.pinata.cloud/ipfs/${data.ipfsHash}` : '');
         metaFormData.append('spaceId', spaceId); // FIX: use generated UUID
+        metaFormData.append('maxSupply', poapForm.maxSupply || 1); // Ensure maxSupply is sent for correct NFT count
         const metaRes = await fetch('/api/upload-metadata', {
           method: 'POST',
           body: metaFormData

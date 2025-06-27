@@ -409,6 +409,7 @@ export default function UserTab() {
         metadataFormData.append('description', String(poap.description));
         metadataFormData.append('image', String(poapImageGatewayUrl)); // Use default gateway URL for metadata
         metadataFormData.append('spaceId', spaceId); // Use the generated spaceId
+        metadataFormData.append('maxSupply', String(poap.maxSupply)); // Ensure maxSupply is sent for correct NFT count
         const metadataRes = await fetch('/api/upload-metadata', {
           method: 'POST',
           body: metadataFormData
