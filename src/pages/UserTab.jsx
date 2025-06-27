@@ -956,7 +956,7 @@ export default function UserTab() {
                     // Toggle mintEnabled in Firestore
                     const ref = doc(db, 'spaces', space.id);
                     await updateDoc(ref, { mintEnabled: !space.mintEnabled });
-                    setSpaces(spaces => spaces.map s => s.id === space.id ? { ...s, mintEnabled: !space.mintEnabled } : s));
+                    setSpaces(spaces => spaces.map(s => s.id === space.id ? { ...s, mintEnabled: !space.mintEnabled } : s));
                   }}
                   style={{ marginTop: 8, background: space.mintEnabled ? '#ffe066' : '#888', color: '#181a2b', cursor: 'pointer', border: 'none', borderRadius: 4, padding: '6px 12px' }}
                 >
