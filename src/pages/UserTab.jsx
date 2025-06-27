@@ -385,15 +385,15 @@ export default function UserTab() {
       let poapImageGatewayUrl = '';
       if (poapFieldsFilled) {
         poapImageGatewayUrl = poapIpfsHash ? `https://peach-left-chimpanzee-996.mypinata.cloud/ipfs/${poapIpfsHash}` : '';
+        // Use FormData instead of JSON
+        const metadataFormData = new FormData();
+        metadataFormData.append('name', poap.name);
+        metadataFormData.append('space', poap.space);
+        metadataFormData.append('description', poap.description);
+        metadataFormData.append('image', poapImageGatewayUrl); // Use gateway URL for metadata
         const metadataRes = await fetch('/api/upload-metadata', {
           method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            name: poap.name,
-            space: poap.space,
-            description: poap.description,
-            image: poapImageGatewayUrl // Use gateway URL for metadata
-          })
+          body: metadataFormData
         });
         const metadata = await metadataRes.json();
         if (!metadataRes.ok) {
