@@ -8,6 +8,7 @@ import "react-calendar/dist/Calendar.css";
 import "../calendar-custom.css";
 import { LoadingBuffer } from "../App";
 import { mintPoap, getRegistry, createCollection, extractCollectionObjFromTx, collectionExists } from '../utils/aptosPoap';
+import { v4 as uuidv4 } from 'uuid'; // Add at the top
 
 const categories = ["gaming", "defi", "nft", "community", "others"];
 const languages = ["english", "tagalog", "malay", "hausa", "pidgin", "mandarin", "spanish"];
@@ -175,6 +176,7 @@ export default function UserTab() {
   const [mintSuccess, setMintSuccess] = useState("");
   const [enablePoap, setEnablePoap] = useState(false); // NEW: POAP enable checkbox
   const [spacePassword, setSpacePassword] = useState(""); // NEW: password field
+  const [spaceId, setSpaceId] = useState(() => uuidv4()); // Generate a unique spaceId for each new space
 
   // Handler for POAP enable checkbox
   const handleEnablePoapChange = (e) => {
@@ -370,6 +372,20 @@ export default function UserTab() {
         status = userSnap.data().status || "participant";
       }
 
+      // --- CREATE SPACE WITH spaceId ---
+      await addSpace(spaceId, {
+        title: form.title,
+        description: form.description,
+        start: form.start,
+        end: form.end,
+        categories: form.categories.join(", "),
+        languages: form.languages.join(", "),
+        twitter_link: form.twitter_link,
+        owner: user.username || user.address,
+        spaceId,
+        // ...add any other fields needed...
+      });
+
       // --- POAP image upload ---
       let poapIpfsHash = '';
       if (poap.file) {
@@ -392,8 +408,7 @@ export default function UserTab() {
         metadataFormData.append('space', String(poap.space));
         metadataFormData.append('description', String(poap.description));
         metadataFormData.append('image', String(poapImageGatewayUrl)); // Use default gateway URL for metadata
-        // Always include spaceId for backend Firestore logic
-        metadataFormData.append('spaceId', String(poap.space));
+        metadataFormData.append('spaceId', spaceId); // Use the generated spaceId
         const metadataRes = await fetch('/api/upload-metadata', {
           method: 'POST',
           body: metadataFormData
@@ -551,9 +566,9 @@ export default function UserTab() {
       }
 
       // Upload to spaces collection (main collection for spaces)
-      const spaceId = collectionObj || (window.crypto?.randomUUID ? window.crypto.randomUUID() : Math.random().toString(36).slice(2));
+      const newSpaceId = collectionObj || (window.crypto?.randomUUID ? window.crypto.randomUUID() : Math.random().toString(36).slice(2));
       console.log('Uploading to Firestore:', { ...spaceData, collectionObj });
-      await setDoc(doc(db, "spaces", spaceId), { ...spaceData, collectionObj });
+      await setDoc(doc(db, "spaces", newSpaceId), { ...spaceData, collectionObj });
       console.log('Upload to Firestore complete, collectionObj:', collectionObj);
 
       // Show user-facing alert for collection address

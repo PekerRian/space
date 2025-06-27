@@ -8,6 +8,7 @@ import { useWallet } from "@aptos-labs/wallet-adapter-react";
 import { mintPoap } from '../utils/aptosPoap';
 import { db } from "../firebase";
 import { doc, getDoc, updateDoc } from "firebase/firestore";
+import { v4 as uuidv4 } from 'uuid'; // Add at the top
 
 // Helper: get all timezones (fallback to a static list if not supported)
 const TIMEZONES =
@@ -74,6 +75,7 @@ function CalendarPage() {
   const [selectedDate, setSelectedDate] = useState(new Date());
   const [selectedSpace, setSelectedSpace] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [spaceId, setSpaceId] = useState(() => uuidv4()); // Generate a unique spaceId for each new space
 
   // Filter states
   const [languageFilter, setLanguageFilter] = useState("");
