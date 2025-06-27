@@ -501,7 +501,9 @@ function CalendarPage() {
                               if (Array.isArray(data.nftMetadataUris)) nftMetadataUris = data.nftMetadataUris;
                               if (Array.isArray(data.mintedIndices)) mintedIndices = data.mintedIndices;
                             }
+                            console.log('[POAP][Calendar] Minting for spaceId:', selectedSpace.id || selectedSpace.collectionObj, 'nftMetadataUris:', nftMetadataUris, 'mintedIndices:', mintedIndices);
                             if (!nftMetadataUris || !Array.isArray(nftMetadataUris) || nftMetadataUris.length === 0) {
+                              console.error('[POAP][Calendar] No NFT metadata URIs found for this space:', selectedSpace.id || selectedSpace.collectionObj, nftMetadataUris);
                               setPasswordError("No NFT metadata URIs found for this space");
                               setMinting(false);
                               return;
