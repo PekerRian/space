@@ -33,14 +33,14 @@ export function createCollection({ name, description, uri, max_supply = 10, star
     function: `${MODULE_ADDR}::${MODULE_NAME}::create_collection`,
     typeArguments: [],
     functionArguments: [
-      name,
-      description,
-      uri,
-      max_supply,
-      toMoveOptionU64(start),
-      toMoveOptionU64(end),
-      toMoveOptionU64(safeLimit),
-      toMoveOptionU64(safeFee)
+      description, // 1
+      name,        // 2
+      uri,         // 3
+      max_supply,  // 4
+      toMoveOptionU64(start),      // 5
+      toMoveOptionU64(end),        // 6
+      toMoveOptionU64(safeLimit),  // 7
+      toMoveOptionU64(safeFee)     // 8
     ]
   };
   console.log('About to return createCollection data', data);
