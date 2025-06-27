@@ -676,10 +676,10 @@ export default function UserTab() {
     try {
       if (!account?.address) throw new Error("Wallet address not found");
       if (!space.collectionObj) throw new Error("No on-chain collection object found for this space");
-      if (!space.poap || !space.poap.image) throw new Error("No POAP image found for this space");
-      // Use the image URI saved in Firestore (always a direct gateway URL)
-      const imageUri = space.poap.image;
-      await mintPoap({ signAndSubmitTransaction, account, collectionObj: space.collectionObj, metadataUri: imageUri });
+      if (!space.poap || !space.poap.metadataIpfsHash) throw new Error("No POAP metadata found for this space");
+      // Use the metadata URI (JSON file on IPFS, no .json extension)
+      const metadataUri = `https://gateway.pinata.cloud/ipfs/${space.poap.metadataIpfsHash}`;
+      await mintPoap({ signAndSubmitTransaction, account, collectionObj: space.collectionObj, metadataUri });
       setMintSuccess("POAP NFT minted! Check your wallet.");
     } catch (e) {
       setMintError(e.message || String(e));
