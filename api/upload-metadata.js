@@ -10,7 +10,7 @@ export default async function handler(req, res) {
   }
   try {
     // Parse FormData for metadata fields and file
-    const multiparty = require('multiparty');
+    const multiparty = (await import('multiparty')).default;
     const form = new multiparty.Form();
     form.parse(req, async (err, fields, files) => {
       if (err) return res.status(400).json({ error: 'Invalid form data' });
@@ -33,7 +33,7 @@ export default async function handler(req, res) {
         await fs.writeFile(path.join(tmpDir, `${i}.json`), JSON.stringify(nftMeta, null, 2));
       }
       // 4. Pin the folder to IPFS (Pinata)
-      const FormData = require('form-data');
+      const FormData = (await import('form-data')).default;
       const formData = new FormData();
       const tmpFiles = await fs.readdir(tmpDir);
       for (const file of tmpFiles) {
