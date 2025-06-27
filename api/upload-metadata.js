@@ -115,7 +115,8 @@ export default async function handler(req, res) {
         }
         // Return the CID, metadataPath, and metadataUris array
         const metadataPath = `${subfolder}/1.json`;
-        return res.status(200).json({ ipfsHash: result.IpfsHash, metadataPath, metadataUris });
+        // Always return the spaceId used for this operation
+        return res.status(200).json({ ipfsHash: result.IpfsHash, metadataPath, metadataUris, spaceId });
       } catch (sdkErr) {
         if (tmpDir) {
           await fs.rm(tmpDir, { recursive: true, force: true });
