@@ -499,6 +499,7 @@ export default function UserTab() {
         poapImageUrl = poapIpfsHash ? `https://gateway.pinata.cloud/ipfs/${poapIpfsHash}` : '';
       }
       const spaceData = {
+        spaceId, // Ensure spaceId is always present in the document
         username: user.username || user.address,
         twitter: user.twitter || "",
         title: form.title,
