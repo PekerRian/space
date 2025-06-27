@@ -500,7 +500,9 @@ function CalendarPage() {
                             }
                             // --- Firestore-driven NFT minting logic ---
                             // Fetch latest nftMetadataUris and mintedIndices from Firestore
-                            const spaceRef = doc(db, 'spaces', selectedSpace.id || selectedSpace.collectionObj);
+                            const docId = selectedSpace.id || selectedSpace.collectionObj;
+                            console.log('[POAP][Calendar] Attempting to fetch Firestore doc for spaceId:', docId);
+                            const spaceRef = doc(db, 'spaces', docId);
                             const spaceSnap = await getDoc(spaceRef);
                             let nftMetadataUris = selectedSpace.nftMetadataUris || [];
                             let mintedIndices = [];
@@ -509,9 +511,9 @@ function CalendarPage() {
                               if (Array.isArray(data.nftMetadataUris)) nftMetadataUris = data.nftMetadataUris;
                               if (Array.isArray(data.mintedIndices)) mintedIndices = data.mintedIndices;
                             }
-                            console.log('[POAP][Calendar] Minting for spaceId:', selectedSpace.id || selectedSpace.collectionObj, 'nftMetadataUris:', nftMetadataUris, 'mintedIndices:', mintedIndices);
+                            console.log('[POAP][Calendar] Minting for spaceId:', docId, 'nftMetadataUris:', nftMetadataUris, 'mintedIndices:', mintedIndices);
                             if (!nftMetadataUris || !Array.isArray(nftMetadataUris) || nftMetadataUris.length === 0) {
-                              console.error('[POAP][Calendar] No NFT metadata URIs found for this space:', selectedSpace.id || selectedSpace.collectionObj, nftMetadataUris);
+                              console.error('[POAP][Calendar] No NFT metadata URIs found for this space:', docId, nftMetadataUris);
                               console.error('[POAP][Calendar] Firestore doc data:', spaceSnap.exists() ? spaceSnap.data() : null);
                               console.error('[POAP][Calendar] selectedSpace object:', selectedSpace);
                               setPasswordError("No NFT metadata URIs found for this space. Please contact the space creator or try again later.");
@@ -532,6 +534,7 @@ function CalendarPage() {
                               return;
                             }
                             const metadataUri = nftMetadataUris[mintIndex];
+                            console.log('[POAP][Calendar] Will mint using metadataUri:', metadataUri);
                             if (!metadataUri) {
                               setPasswordError("NFT metadataUri is required");
                               setMinting(false);
