@@ -419,6 +419,10 @@ export default function UserTab() {
         if (!signAndSubmitTransaction || typeof signAndSubmitTransaction !== 'function') {
           throw new Error('Wallet adapter is not ready. Please reconnect your wallet.');
         }
+        // Enforce: POAP image gateway URL must be a direct image (never .json or folder path)
+        if (!poapImageGatewayUrl || typeof poapImageGatewayUrl !== 'string' || poapImageGatewayUrl.endsWith('.json') || poapImageGatewayUrl.endsWith('/') || poapImageGatewayUrl.includes('/metadata') || poapImageGatewayUrl.includes('/folder')) {
+          throw new Error('Invalid POAP image URL: must be a direct public IPFS image gateway URL (not a .json or folder path).');
+        }
         // Build the payload only (do not call signAndSubmitTransaction inside createCollection)
         // Set start_time to 5 minutes from now, end_time to 1 hour after start (both as Option<u64> arrays)
         const now = Math.floor(Date.now() / 1000);
@@ -471,6 +475,12 @@ export default function UserTab() {
         // Immediately proceed to save, do not wait for on-chain existence
       }
       // Prepare space data
+      // Ensure poap.image is always a direct image gateway URL (never .json or folder)
+      let poapImageUrl = '';
+      if (enablePoap) {
+        // Always use the gateway URL for the image
+        poapImageUrl = poapIpfsHash ? `https://gateway.pinata.cloud/ipfs/${poapIpfsHash}` : '';
+      }
       const spaceData = {
         username: user.username || user.address,
         twitter: user.twitter || "",
@@ -492,7 +502,7 @@ export default function UserTab() {
           name: poap.name,
           space: poap.space,
           description: poap.description,
-          image: poapImageGatewayUrl, // Use gateway URL for Firestore
+          image: poapImageUrl, // Always direct image gateway URL
           ipfsHash: poapIpfsHash,
           metadataIpfsHash: poapMetadataIpfsHash,
           collection: collectionObj || null,
@@ -502,6 +512,11 @@ export default function UserTab() {
         enablePoap,
         spacePassword, // include password in space data
       };
+
+      // Final check: ensure poap.image is never a .json or folder path
+      if (spaceData.poap && spaceData.poap.image && (spaceData.poap.image.endsWith('.json') || spaceData.poap.image.endsWith('/'))) {
+        throw new Error('POAP image URL is invalid. It must be a direct image gateway URL, not a .json or folder path.');
+      }
 
       // Add global error handlers for debugging
       if (typeof window !== 'undefined') {
@@ -662,7 +677,7 @@ export default function UserTab() {
       if (!account?.address) throw new Error("Wallet address not found");
       if (!space.collectionObj) throw new Error("No on-chain collection object found for this space");
       if (!space.poap || !space.poap.image) throw new Error("No POAP image found for this space");
-      // Set the NFT URI to the image gateway URL (direct image path)
+      // Use the image URI saved in Firestore (always a direct gateway URL)
       const imageUri = space.poap.image;
       await mintPoap({ signAndSubmitTransaction, account, collectionObj: space.collectionObj, metadataUri: imageUri });
       setMintSuccess("POAP NFT minted! Check your wallet.");
