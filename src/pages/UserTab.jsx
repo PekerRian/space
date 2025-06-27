@@ -382,7 +382,9 @@ export default function UserTab() {
 
       // --- POAP metadata upload ---
       let poapMetadataIpfsHash = '';
+      let poapImageGatewayUrl = '';
       if (poapFieldsFilled) {
+        poapImageGatewayUrl = poapIpfsHash ? `https://peach-left-chimpanzee-996.mypinata.cloud/ipfs/${poapIpfsHash}` : '';
         const metadataRes = await fetch('/api/upload-metadata', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
@@ -390,7 +392,7 @@ export default function UserTab() {
             name: poap.name,
             space: poap.space,
             description: poap.description,
-            image: poapIpfsHash ? `ipfs://${poapIpfsHash}` : ''
+            image: poapImageGatewayUrl // Use gateway URL for metadata
           })
         });
         const metadata = await metadataRes.json();
@@ -502,7 +504,7 @@ export default function UserTab() {
           name: poap.name,
           space: poap.space,
           description: poap.description,
-          image: poapIpfsHash ? `ipfs://${poapIpfsHash}` : '',
+          image: poapImageGatewayUrl, // Use gateway URL for Firestore
           ipfsHash: poapIpfsHash,
           metadataIpfsHash: poapMetadataIpfsHash,
           collection: collectionObj || null,
