@@ -56,14 +56,17 @@ export default async function handler(req, res) {
         for (const file of filesToUpload) {
           await fs.writeFile(path.default.join(tmpDir, file.filename), file.content);
         }
+        // Get the subfolder name (basename of tmpDir)
+        const subfolder = path.default.basename(tmpDir);
         const result = await pinata.pinFromFS(tmpDir, { pinataOptions: { wrapWithDirectory: true } });
         await fs.rm(tmpDir, { recursive: true, force: true });
         if (!result || !result.IpfsHash) {
           console.error('Pinata upload did not return a valid IpfsHash:', result);
           return res.status(500).json({ error: 'Pinata upload failed: No IpfsHash returned', pinata: result });
         }
-        // Return only the CID (IpfsHash) for use as https://gateway.pinata.cloud/ipfs/<CID>
-        return res.status(200).json({ ipfsHash: result.IpfsHash });
+        // Return the CID and the full relative path to 1.json
+        const metadataPath = `${subfolder}/1.json`;
+        return res.status(200).json({ ipfsHash: result.IpfsHash, metadataPath });
       } catch (sdkErr) {
         if (tmpDir) {
           await fs.rm(tmpDir, { recursive: true, force: true });
