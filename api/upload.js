@@ -21,7 +21,6 @@ export default async function handler(req, res) {
   form.parse(req, async (err, fields, files) => {
     if (err) return res.status(500).json({ error: 'Form parse error' });
     const file = files.file;
-    console.log('Formidable file object:', file);
     // Support both formidable v2+ and older, and array or object
     let filePath = file?.filepath || file?.path;
     if (Array.isArray(file)) {
@@ -31,7 +30,6 @@ export default async function handler(req, res) {
       return res.status(500).json({ error: 'File path not found in upload', file });
     }
     try {
-      console.log('Uploading file to Pinata:', file.originalFilename || file[0]?.originalFilename, file.mimetype || file[0]?.mimetype, file.size || file[0]?.size);
       const data = fs.readFileSync(filePath);
       const formData = new FormData();
       formData.append('file', data, file.originalFilename || file[0]?.originalFilename);
@@ -59,10 +57,9 @@ export default async function handler(req, res) {
         console.error('Pinata upload failed:', pinataData);
         throw new Error('Pinata upload failed: ' + JSON.stringify(pinataData));
       }
-      console.log('Pinata upload success:', pinataData.IpfsHash);
+      // Return only the CID (IpfsHash) for use as https://gateway.pinata.cloud/ipfs/<CID>
       res.status(200).json({ ipfsHash: pinataData.IpfsHash });
     } catch (e) {
-      console.error('Upload error:', e);
       res.status(500).json({ error: e.message });
     }
   });

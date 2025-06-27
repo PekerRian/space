@@ -52,14 +52,10 @@ export default async function handler(req, res) {
       try {
         const result = await pinata.pinFromFS(tmpDir, { pinataOptions: { wrapWithDirectory: true } });
         await fs.rm(tmpDir, { recursive: true, force: true });
-        if (!result.IpfsHash) {
-          console.error('Pinata SDK upload failed. Response:', result);
-          return res.status(500).json({ error: 'Pinata upload failed', pinata: result });
-        }
-        res.status(200).json({ ipfsHash: result.IpfsHash });
+        // Return only the CID (IpfsHash) for use as https://gateway.pinata.cloud/ipfs/<CID>
+        return res.status(200).json({ ipfsHash: result.IpfsHash });
       } catch (sdkErr) {
         await fs.rm(tmpDir, { recursive: true, force: true });
-        console.error('Pinata SDK upload failed. Error:', sdkErr);
         return res.status(500).json({ error: 'Pinata upload failed', pinata: sdkErr.message || sdkErr });
       }
     });
