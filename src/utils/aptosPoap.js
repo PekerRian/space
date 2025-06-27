@@ -16,11 +16,6 @@ export function createCollection({ name, description, uri, max_supply = 10, limi
   const now = Math.floor(Date.now() / 1000);
   const start = now - 10;
   const end = now + 365 * 24 * 60 * 60;
-  // Defensive: log and check max_supply type
-  console.log('createCollection: max_supply type:', typeof max_supply, 'value:', max_supply);
-  if (typeof max_supply !== 'number' && typeof max_supply !== 'bigint' && typeof max_supply !== 'string') {
-    throw new Error('max_supply must be a number, bigint, or string');
-  }
   const data = {
     function: `${MODULE_ADDR}::${MODULE_NAME}::create_collection`,
     typeArguments: [],
@@ -35,7 +30,6 @@ export function createCollection({ name, description, uri, max_supply = 10, limi
       fee
     ]
   };
-  console.log('About to return createCollection data', data);
   return {
     sender: typeof account.address === 'string' ? account.address : account.address.toString(),
     data

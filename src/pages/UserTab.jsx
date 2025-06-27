@@ -427,7 +427,7 @@ export default function UserTab() {
         const txRequest = createCollection({
           name: poap.name,
           description: poap.description,
-          uri: poapIpfsHash ? `https://gateway.pinata.cloud/ipfs/${poapIpfsHash}` : '', // Use public gateway for on-chain metadata
+          uri: poapImageGatewayUrl, // Set collection URI to the image gateway URL
           max_supply: parseInt(poap.maxSupply, 10) || 10,
           limit: 1,
           fee: 0,
