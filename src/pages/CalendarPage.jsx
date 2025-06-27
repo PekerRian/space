@@ -186,7 +186,7 @@ function CalendarPage() {
             name: poapForm.name,
             space: poapForm.space,
             description: poapForm.description,
-            image: data.ipfsHash ? `https://peach-left-chimpanzee-996.mypinata.cloud/ipfs/${data.ipfsHash}` : '' // Use gateway URL
+            image: data.ipfsHash ? `https://gateway.pinata.cloud/ipfs/${data.ipfsHash}` : '' // Use public Pinata gateway URL
           })
         });
         const metaData = await metaRes.json();

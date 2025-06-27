@@ -136,7 +136,7 @@ function SpaceModal({ open, onClose, space, onMint, minting, mintError, mintSucc
             <div style={{ color: '#ffe066', fontWeight: 600, marginBottom: 6 }}>POAP NFT Available</div>
             <div style={{ color: '#fff', fontSize: 13, marginBottom: 6 }}>{space.poap.name}</div>
             <div style={{ color: '#fff', fontSize: 12, marginBottom: 6 }}>{space.poap.description}</div>
-            {space.poap.image && <img src={space.poap.image.replace('ipfs://', 'https://peach-left-chimpanzee-996.mypinata.cloud/ipfs/')} alt="POAP" style={{ maxWidth: 120, borderRadius: 8, marginBottom: 8 }} />}
+            {space.poap.image && <img src={space.poap.image.replace('ipfs://', 'https://gateway.pinata.cloud/ipfs/')} alt="POAP" style={{ maxWidth: 120, borderRadius: 8, marginBottom: 8 }} />}
             <button onClick={handleMint} className="calendar-btn" style={{ width: '100%', marginTop: 8 }} disabled={minting}>
               {minting ? 'Minting...' : 'Mint POAP'}
             </button>
