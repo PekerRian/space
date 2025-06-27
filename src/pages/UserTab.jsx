@@ -428,7 +428,7 @@ export default function UserTab() {
         const txRequest = createCollection({
           name: poap.name,
           description: poap.description,
-          uri: poapIpfsHash ? `ipfs://${poapIpfsHash}` : '',
+          uri: poapIpfsHash ? `https://peach-left-chimpanzee-996.mypinata.cloud/ipfs/${poapIpfsHash}` : '', // Use gateway URL for on-chain metadata
           max_supply: parseInt(poap.maxSupply, 10) || 10,
           limit: 1,
           fee: 0,
