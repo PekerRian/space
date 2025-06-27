@@ -27,7 +27,8 @@ export default async function handler(req, res) {
     const formData = new FormData();
     const files = await fs.readdir(tmpDir);
     for (const file of files) {
-      formData.append('file', await fs.readFile(path.join(tmpDir, file)), file);
+      const fileContent = await fs.readFile(path.join(tmpDir, file));
+      formData.append('file', fileContent, file); // Use Buffer for Node.js serverless
     }
     const pinataRes = await fetch('https://api.pinata.cloud/pinning/pinFileToIPFS', {
       method: 'POST',
