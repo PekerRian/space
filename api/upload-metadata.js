@@ -79,18 +79,34 @@ export default async function handler(req, res) {
           metadataUris.push(`https://gateway.pinata.cloud/ipfs/${result.IpfsHash}/${subfolder}/${i}.json`);
         }
         // Extract spaceId from fields
-        const spaceId = Array.isArray(fields.spaceId) ? fields.spaceId[0] : fields.spaceId;
+        let spaceId = Array.isArray(fields.spaceId) ? fields.spaceId[0] : fields.spaceId;
+        // Fallback: try to use 'space' as spaceId if spaceId is missing (legacy support)
+        if (!spaceId && space) {
+          spaceId = space;
+          console.warn('[POAP] No spaceId provided, falling back to space name as spaceId:', spaceId);
+        }
         // Save to Firestore if spaceId is provided
         if (spaceId) {
           try {
             console.log('[POAP] Writing to Firestore:', { spaceId, nftMetadataUris: metadataUris, nftMetadataFolder: `${result.IpfsHash}/${subfolder}` });
-            const { getFirestore, doc, updateDoc } = await import('firebase-admin/firestore');
+            const { getFirestore, doc, setDoc, updateDoc, getDoc } = await import('firebase-admin/firestore');
             const db = getFirestore();
-            await updateDoc(doc(db, 'spaces', spaceId), {
-              nftMetadataUris: metadataUris,
-              nftMetadataFolder: `${result.IpfsHash}/${subfolder}`
-            });
-            console.log('[POAP] Firestore update successful for spaceId:', spaceId);
+            // If the document does not exist, create it (setDoc), else update it
+            const spaceDocRef = doc(db, 'spaces', spaceId);
+            const spaceDocSnap = await getDoc(spaceDocRef);
+            if (!spaceDocSnap.exists) {
+              await setDoc(spaceDocRef, {
+                nftMetadataUris: metadataUris,
+                nftMetadataFolder: `${result.IpfsHash}/${subfolder}`
+              }, { merge: true });
+              console.log('[POAP] Firestore document created for spaceId:', spaceId);
+            } else {
+              await updateDoc(spaceDocRef, {
+                nftMetadataUris: metadataUris,
+                nftMetadataFolder: `${result.IpfsHash}/${subfolder}`
+              });
+              console.log('[POAP] Firestore update successful for spaceId:', spaceId);
+            }
           } catch (firestoreErr) {
             console.error('Failed to update Firestore with metadataUris:', firestoreErr);
           }
