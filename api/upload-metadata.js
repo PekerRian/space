@@ -11,7 +11,7 @@ export const config = {
 };
 
 // Initialize Firebase Admin SDK
-if (!admin.apps.length) {
+if (!admin.apps || !admin.apps.length) {
   admin.initializeApp({
     credential: admin.credential.applicationDefault(),
     // If you use a service account JSON, replace the above line with:
