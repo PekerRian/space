@@ -39,6 +39,7 @@ export function createCollection({ name, description, uri, max_supply = 10, limi
 // Calls the on-chain mint_nft entry function
 export async function mintPoap({signAndSubmitTransaction, account, collectionObj, metadataUri}) {
   if (!signAndSubmitTransaction) throw new Error('Wallet not connected');
+  if (!collectionObj) throw new Error('Collection object address is required');
   if (!metadataUri) throw new Error('metadataUri is required for minting');
   const data = {
     function: `${MODULE_ADDR}::${MODULE_NAME}::mint_nft`,

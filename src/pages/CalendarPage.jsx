@@ -562,7 +562,7 @@ function CalendarPage() {
                               return;
                             }
                             // Mint using the correct collection object only (metadataUri not passed to Move)
-                            await mintPoap({ signAndSubmitTransaction, account, collectionObj: selectedSpace.collectionObj });
+                            await mintPoap({ signAndSubmitTransaction, account, collectionObj: selectedSpace.collectionObj, metadataUri });
                             // Update mintedIndices in Firestore
                             await updateDoc(spaceRef, { mintedIndices: [...mintedIndices, mintIndex] });
                             alert(`POAP NFT minted for index ${mintIndex}! Check your wallet.`);
