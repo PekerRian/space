@@ -519,8 +519,8 @@ function CalendarPage() {
                             if ((!nftMetadataUris || nftMetadataUris.length === 0) && nftMetadataFolder && maxSupply) {
                               // Fallback: reconstruct URIs if array missing
                               const [ipfsHash, subfolder] = nftMetadataFolder.split('/');
-                              nftMetadataUris = Array.from({ length: maxSupply }, (_, i) => `https://gateway.pinata.cloud/ipfs/${ipfsHash}/${subfolder}/${i+1}.json`);
-                              console.warn('[POAP][Calendar] nftMetadataUris missing from Firestore, reconstructing URIs on the fly.');
+                              nftMetadataUris = Array.from({ length: maxSupply }, (_, i) => `https://peach-left-chimpanzee-996.mypinata.cloud/ipfs/${ipfsHash}/${subfolder}/${i+1}.json`);
+                              console.warn('[POAP][Calendar] nftMetadataUris missing from Firestore, reconstructing URIs on the fly with custom gateway.');
                             }
                             if (!nftMetadataUris || nftMetadataUris.length === 0) {
                               setPasswordError('No NFT metadata URIs found for this space');
