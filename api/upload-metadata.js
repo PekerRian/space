@@ -73,6 +73,11 @@ export default async function handler(req, res) {
           console.error('Pinata upload did not return a valid IpfsHash:', result);
           return res.status(500).json({ error: 'Pinata upload failed: No IpfsHash returned', pinata: result });
         }
+        // Build array of metadata URIs
+        const metadataUris = [];
+        for (let i = 1; i <= limit; i++) {
+          metadataUris.push(`https://gateway.pinata.cloud/ipfs/${result.IpfsHash}/${subfolder}/${i}.json`);
+        }
         // Extract spaceId from fields
         let spaceId = Array.isArray(fields.spaceId) ? fields.spaceId[0] : fields.spaceId;
         // Fallback: try to use 'space' as spaceId if spaceId is missing (legacy support)
