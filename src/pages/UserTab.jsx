@@ -786,8 +786,8 @@ export default function UserTab() {
   if (loading) return <LoadingBuffer />;
 
   return (
-    <div className="user-tab-container animated-panel" style={{ fontSize: 13 }}>
-      <div className="calendar-bg" style={{ minHeight: "80vh", padding: 0 }}>
+    <div className="user-tab-container animated-panel" style={{ fontSize: 13, minHeight: '100vh', height: '100%', overflowY: 'auto', WebkitOverflowScrolling: 'touch' }}>
+      <div className="calendar-bg" style={{ minHeight: '100vh', height: '100%', padding: 0, overflowY: 'auto', WebkitOverflowScrolling: 'touch' }}>
         <div className="calendar-main-container" style={{ fontSize: 13 }}>
           <div className="calendar-left-panel" style={{ fontSize: 12 }}>
             <div className="calendar-card" style={{ fontSize: 12 }}>
@@ -1053,7 +1053,8 @@ export default function UserTab() {
                   </button>
                 )}
                 <button
-                  onClick={async () => {
+                  onClick={async (e) => {
+                    e.stopPropagation(); // Prevent parent onClick
                     // Toggle mintEnabled in Firestore
                     const ref = doc(db, 'spaces', space.id);
                     await updateDoc(ref, { mintEnabled: !space.mintEnabled });

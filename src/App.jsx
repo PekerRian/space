@@ -138,6 +138,15 @@ function AppRoutes() {
   const [hasProfile, setHasProfile] = useState(false);
   const [userData, setUserData] = useState(null);
   const [showRegister, setShowRegister] = useState(false);
+  const [isMobile, setIsMobile] = useState(window.innerWidth <= 600);
+
+  useEffect(() => {
+    function handleResize() {
+      setIsMobile(window.innerWidth <= 600);
+    }
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
 
   // Fetch user data after wallet connect or registration
   useEffect(() => {
@@ -193,7 +202,8 @@ function AppRoutes() {
         <WalletAuth walletAddress={walletAddress} onProfileCreated={handleProfileCreated} />
       </Modal>
       <FooterTicker />
-      <SupportCorner />
+      {/* Hide SupportCorner on mobile when wallet connect/registration is open */}
+      {!(isMobile && showRegister) && <SupportCorner />}
     </>
   );
 }

@@ -101,6 +101,13 @@ li {
   margin: 0 !important;
 }
 
+.user-tab-container, .calendar-bg {
+  min-height: 100vh !important;
+  height: 100% !important;
+  overflow-y: auto !important;
+  -webkit-overflow-scrolling: touch !important;
+}
+
 @media (max-width: 700px) {
   .container {
     max-width: 98vw !important;
