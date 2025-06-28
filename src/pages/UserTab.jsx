@@ -711,23 +711,26 @@ export default function UserTab() {
       const spaceRef = doc(db, "spaces", space.id);
       const spaceSnap = await getDoc(spaceRef);
       let nftMetadataFolder = space.nftMetadataFolder || null;
-      let maxSupply = space.maxSupply || 0;
+      let maxSupply = space.poap?.maxSupply ? parseInt(space.poap.maxSupply, 10) : 0;
       let mintedIndices = [];
-      let nftMetadataUris = [];
       if (spaceSnap.exists()) {
         const data = spaceSnap.data();
-        if (Array.isArray(data.nftMetadataUris)) nftMetadataUris = data.nftMetadataUris;
+        if (typeof data.nftMetadataFolder === 'string') nftMetadataFolder = data.nftMetadataFolder;
+        if (data.poap && data.poap.maxSupply) maxSupply = parseInt(data.poap.maxSupply, 10);
+        if (Array.isArray(data.mintedIndices)) mintedIndices = data.mintedIndices;
       }
-      if (!nftMetadataUris || nftMetadataUris.length === 0) {
-        throw new Error('No NFT metadata URIs found for this space');
+      if (!nftMetadataFolder || !maxSupply) {
+        throw new Error('NFT metadata folder or maxSupply missing for this space');
       }
-      if (nftIndex < 1 || nftIndex > nftMetadataUris.length) {
+      // Mint by index: json.1, json.2, ...
+      if (nftIndex < 1 || nftIndex > maxSupply) {
         throw new Error(`Invalid NFT index: ${nftIndex}`);
       }
-      const metadataUri = nftMetadataUris[nftIndex - 1];
-      if (!metadataUri) throw new Error('NFT metadataUri is required');
+      const metadataUri = `https://gateway.pinata.cloud/ipfs/${nftMetadataFolder}/json.${nftIndex}`;
       await mintPoap({ signAndSubmitTransaction, account, collectionObj: space.collectionObj, metadataUri });
-      setMintSuccess('POAP NFT minted! Check your wallet.');
+      // Update mintedIndices in Firestore
+      await updateDoc(spaceRef, { mintedIndices: [...mintedIndices, nftIndex] });
+      setMintSuccess(`POAP NFT minted for index ${nftIndex}! Check your wallet.`);
     } catch (e) {
       setMintError(e.message || String(e));
     } finally {
@@ -748,27 +751,27 @@ export default function UserTab() {
       const spaceRef = doc(db, "spaces", space.id);
       const spaceSnap = await getDoc(spaceRef);
       let nftMetadataFolder = space.nftMetadataFolder || null;
-      let maxSupply = space.maxSupply || 0;
+      let maxSupply = space.poap?.maxSupply ? parseInt(space.poap.maxSupply, 10) : 0;
       let mintedIndices = [];
-      let nftMetadataUris = [];
       if (spaceSnap.exists()) {
         const data = spaceSnap.data();
-        if (Array.isArray(data.nftMetadataUris)) nftMetadataUris = data.nftMetadataUris;
+        if (typeof data.nftMetadataFolder === 'string') nftMetadataFolder = data.nftMetadataFolder;
+        if (data.poap && data.poap.maxSupply) maxSupply = parseInt(data.poap.maxSupply, 10);
+        if (Array.isArray(data.mintedIndices)) mintedIndices = data.mintedIndices;
       }
-      if (!nftMetadataUris || nftMetadataUris.length === 0) {
-        throw new Error('No NFT metadata URIs found for this space');
+      if (!nftMetadataFolder || !maxSupply) {
+        throw new Error('NFT metadata folder or maxSupply missing for this space');
       }
       // Find the first available index
       let mintIndex = -1;
-      for (let i = 1; i <= nftMetadataUris.length; i++) {
+      for (let i = 1; i <= maxSupply; i++) {
         if (!mintedIndices.includes(i)) {
           mintIndex = i;
           break;
         }
       }
       if (mintIndex === -1) throw new Error('All NFTs have been minted for this space');
-      const metadataUri = nftMetadataUris[mintIndex - 1];
-      if (!metadataUri) throw new Error('NFT metadataUri is required');
+      const metadataUri = `https://gateway.pinata.cloud/ipfs/${nftMetadataFolder}/json.${mintIndex}`;
       await mintPoap({ signAndSubmitTransaction, account, collectionObj: space.collectionObj, metadataUri });
       // Update mintedIndices in Firestore
       await updateDoc(spaceRef, { mintedIndices: [...mintedIndices, mintIndex] });
