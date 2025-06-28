@@ -128,7 +128,11 @@ export default async function handler(req, res) {
             }
           } catch (firestoreErr) {
             console.error('Failed to update Firestore with metadataUris:', firestoreErr);
-            return res.status(500).json({ error: 'Failed to update Firestore with metadataUris', details: firestoreErr.message || firestoreErr });
+            // Log full error details for debugging
+            if (firestoreErr && typeof firestoreErr === 'object') {
+              console.error('Firestore error details:', JSON.stringify(firestoreErr, Object.getOwnPropertyNames(firestoreErr)));
+            }
+            return res.status(500).json({ error: 'Failed to update Firestore with metadataUris', details: firestoreErr, stack: firestoreErr?.stack });
           }
         } else {
           console.error('[POAP] No spaceId provided, cannot write nftMetadataUris to Firestore.');
