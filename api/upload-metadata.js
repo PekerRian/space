@@ -87,6 +87,7 @@ const exportedHandler = async (req, res) => {
             const jsonFiles = Array.from(folderHtml.matchAll(/href=["']([^"']+\.json)["']/g)).map(m => m[1]);
             // Build full URIs
             metadataUris = jsonFiles.map(f => `${folderUrl}${f}`);
+            console.log(`[POAP] Successfully fetched ${metadataUris.length} JSON files from IPFS folder:`, metadataUris);
           } catch (listErr) {
             console.error('Failed to list files in IPFS folder:', listErr);
             return res.status(500).json({ error: 'Failed to list files in IPFS folder', details: listErr.message || listErr });
