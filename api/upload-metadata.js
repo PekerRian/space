@@ -84,10 +84,21 @@ export default async function handler(req, res) {
           console.error('Pinata upload did not return a valid IpfsHash:', result);
           return res.status(500).json({ error: 'Pinata upload failed: No IpfsHash returned', pinata: result });
         }
-        // Build array of metadata URIs
+        // Build array of metadata URIs and JSON objects
         const metadataUris = [];
+        const metadataJsons = [];
         for (let i = 1; i <= limit; i++) {
-          metadataUris.push(`https://gateway.pinata.cloud/ipfs/${result.IpfsHash}/${subfolder}/${i}.json`);
+          const uri = `https://gateway.pinata.cloud/ipfs/${result.IpfsHash}/${subfolder}/${i}.json`;
+          metadataUris.push(uri);
+          // Find the file content for this index
+          const fileObj = filesToUpload.find(f => f.filename === `${i}.json`);
+          if (fileObj) {
+            try {
+              metadataJsons.push(JSON.parse(fileObj.content.toString()));
+            } catch (err) {
+              metadataJsons.push({ error: 'Failed to parse JSON', filename: fileObj.filename });
+            }
+          }
         }
         if (!Array.isArray(metadataUris) || metadataUris.length === 0) {
           console.error('[POAP] metadataUris array is empty or invalid:', metadataUris);
@@ -112,6 +123,7 @@ export default async function handler(req, res) {
             if (!spaceDocSnap.exists) {
               await setDoc(spaceDocRef, {
                 nftMetadataUris: metadataUris,
+                nftMetadataJsons: metadataJsons,
                 nftMetadataFolder: `${result.IpfsHash}/${subfolder}`,
                 maxSupply: limit
               }, { merge: true });
@@ -119,6 +131,7 @@ export default async function handler(req, res) {
             } else {
               await updateDoc(spaceDocRef, {
                 nftMetadataUris: metadataUris,
+                nftMetadataJsons: metadataJsons,
                 nftMetadataFolder: `${result.IpfsHash}/${subfolder}`,
                 maxSupply: limit
               }, { merge: true });
