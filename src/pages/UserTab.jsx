@@ -786,12 +786,12 @@ export default function UserTab() {
   if (loading) return <LoadingBuffer />;
 
   return (
-    <div className="user-tab-container animated-panel">
+    <div className="user-tab-container animated-panel" style={{ fontSize: 13 }}>
       <div className="calendar-bg" style={{ minHeight: "80vh", padding: 0 }}>
-        <div className="calendar-main-container">
-          <div className="calendar-left-panel">
-            <div className="calendar-card">
-              <h2 className="calendar-panel-title">Pick a Date</h2>
+        <div className="calendar-main-container" style={{ fontSize: 13 }}>
+          <div className="calendar-left-panel" style={{ fontSize: 12 }}>
+            <div className="calendar-card" style={{ fontSize: 12 }}>
+              <h2 className="calendar-panel-title" style={{ fontSize: 16 }}>Pick a Date</h2>
               <Calendar
                 value={selectedDate}
                 onChange={setSelectedDate}
@@ -803,8 +803,8 @@ export default function UserTab() {
               />
             </div>
           </div>
-          <div className="calendar-right-panel" style={{ maxWidth: 384, width: '100%' }}>
-            <h2 className="calendar-panel-title">Schedule a Space</h2>
+          <div className="calendar-right-panel" style={{ maxWidth: 340, width: '100%', fontSize: 13 }}>
+            <h2 className="calendar-panel-title" style={{ fontSize: 16 }}>Schedule a Space</h2>
             {user ? (
               <form onSubmit={handleSubmit} className="calendar-form-card" style={{ width: '100%' }}>
                 <label className="calendar-label" style={{ width: '100%' }}>
