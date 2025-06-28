@@ -132,7 +132,7 @@ function SpaceModal({ open, onClose, space, onMint, minting, mintError, mintSucc
         >×</button>
         <h3 style={{ color: '#ffe066', fontFamily: '"Press Start 2P", monospace', marginBottom: 12 }}>{space.title}</h3>
         <div style={{ color: '#fff', marginBottom: 8 }}>{space.description}</div>
-        {space.poap && (
+        {space.poap && space.mintEnabled === true && (
           <div style={{ margin: '16px 0', border: '1px solid #ffe066', borderRadius: 8, padding: 12 }}>
             <div style={{ color: '#ffe066', fontWeight: 600, marginBottom: 6 }}>POAP NFT Available</div>
             <div style={{ color: '#fff', fontSize: 13, marginBottom: 6 }}>{space.poap.name}</div>

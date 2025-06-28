@@ -475,7 +475,7 @@ function CalendarPage() {
                         value={mintPassword}
                         onChange={e => setMintPassword(e.target.value)}
                         placeholder="Space Password"
-                        style={{ margin: '12px 0', padding: 8, borderRadius: 4, border: '1px solid #ffe066', width: '80%' }}
+                        style={{ margin: '12px 0', padding: 8, borderRadius: 4, border: '1px solid #ffe066', width: '80%', color: '#181a2b' }}
                       />
                       <div style={{ color: 'red', minHeight: 18 }}>{passwordError}</div>
                       <button
