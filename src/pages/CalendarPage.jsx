@@ -458,7 +458,7 @@ function CalendarPage() {
                 </div>
               )}
               {/* POAP Mint Button in Modal for all users */}
-              {selectedSpace.poap && typeof selectedSpace.poap === 'object' && selectedSpace.poap.ipfsHash && (
+              {selectedSpace.poap && typeof selectedSpace.poap === 'object' && selectedSpace.poap.ipfsHash && selectedSpace.mintEnabled !== false && (
                 <>
                   <button
                     style={{marginTop:12, background:'#ffe066', color:'#181a2b', fontWeight:'bold', border:'none', borderRadius:6, padding:'8px 18px', fontSize:16, cursor:'pointer'}}
