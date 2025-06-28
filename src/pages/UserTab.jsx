@@ -127,22 +127,22 @@ function SpaceModal({ open, onClose, space, onMint, minting, mintError, mintSucc
         <button
           onClick={onClose}
           className="calendar-modal-close"
-          style={{ position: "absolute", top: 11.2, right: 16, border: 0, background: "none", fontSize: 20, cursor: "pointer", color: "#ffe066", fontFamily: '"Press Start 2P", monospace', textShadow: '0 0 6px #ffe066, 0 0 2px #fff' }}
+          style={{ position: "absolute", top: 7, right: 10, border: 0, background: "none", fontSize: 15, cursor: "pointer", color: "#ffe066", fontFamily: '"Press Start 2P", monospace', textShadow: '0 0 4px #ffe066, 0 0 1px #fff' }}
           aria-label="Close"
         >×</button>
-        <h3 style={{ color: '#ffe066', fontFamily: '"Press Start 2P", monospace', marginBottom: 12 }}>{space.title}</h3>
-        <div style={{ color: '#fff', marginBottom: 8 }}>{space.description}</div>
+        <h3 style={{ color: '#ffe066', fontFamily: '"Press Start 2P", monospace', marginBottom: 7, fontSize: 15 }}>{space.title}</h3>
+        <div style={{ color: '#fff', marginBottom: 5, fontSize: 12 }}>{space.description}</div>
         {space.poap && space.mintEnabled === true && (
-          <div style={{ margin: '16px 0', border: '1px solid #ffe066', borderRadius: 8, padding: 12 }}>
-            <div style={{ color: '#ffe066', fontWeight: 600, marginBottom: 6 }}>POAP NFT Available</div>
-            <div style={{ color: '#fff', fontSize: 13, marginBottom: 6 }}>{space.poap.name}</div>
-            <div style={{ color: '#fff', fontSize: 12, marginBottom: 6 }}>{space.poap.description}</div>
-            {space.poap.image && <img src={space.poap.image.replace('ipfs://', 'https://gateway.pinata.cloud/ipfs/')} alt="POAP" style={{ maxWidth: 120, borderRadius: 8, marginBottom: 8 }} />}
-            <button onClick={handleMint} className="calendar-btn" style={{ width: '100%', marginTop: 8 }} disabled={minting}>
+          <div style={{ margin: '10px 0', border: '1px solid #ffe066', borderRadius: 6, padding: 7 }}>
+            <div style={{ color: '#ffe066', fontWeight: 600, marginBottom: 4, fontSize: 12 }}>POAP NFT Available</div>
+            <div style={{ color: '#fff', fontSize: 11, marginBottom: 4 }}>{space.poap.name}</div>
+            <div style={{ color: '#fff', fontSize: 10, marginBottom: 4 }}>{space.poap.description}</div>
+            {space.poap.image && <img src={space.poap.image.replace('ipfs://', 'https://gateway.pinata.cloud/ipfs/')} alt="POAP" style={{ maxWidth: 80, borderRadius: 6, marginBottom: 5 }} />}
+            <button onClick={handleMint} className="calendar-btn" style={{ width: '100%', marginTop: 5, fontSize: 13, padding: '6px 0' }} disabled={minting}>
               {minting ? 'Minting...' : 'Mint POAP'}
             </button>
-            {mintError && <div style={{ color: 'red', fontSize: 12, marginTop: 6 }}>{mintError}</div>}
-            {mintSuccess && <div style={{ color: 'green', fontSize: 12, marginTop: 6 }}>{mintSuccess}</div>}
+            {mintError && <div style={{ color: 'red', fontSize: 10, marginTop: 4 }}>{mintError}</div>}
+            {mintSuccess && <div style={{ color: 'green', fontSize: 10, marginTop: 4 }}>{mintSuccess}</div>}
           </div>
         )}
       </div>
@@ -1059,7 +1059,7 @@ export default function UserTab() {
                     await updateDoc(ref, { mintEnabled: !space.mintEnabled });
                     setSpaces(spaces => spaces.map(s => s.id === space.id ? { ...s, mintEnabled: !space.mintEnabled } : s));
                   }}
-                  style={{ marginTop: 8, background: space.mintEnabled ? '#ffe066' : '#888', color: '#181a2b', cursor: 'pointer', border: 'none', borderRadius: 4, padding: '6px 12px' }}
+                  style={{ marginTop: 5, background: space.mintEnabled ? '#ffe066' : '#888', color: '#181a2b', cursor: 'pointer', border: 'none', borderRadius: 4, padding: '4px 8px', fontSize: 12 }}
                 >
                   {space.mintEnabled ? 'Disable Mint on Calendar' : 'Enable Mint on Calendar'}
                 </button>
