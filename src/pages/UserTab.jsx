@@ -428,6 +428,12 @@ export default function UserTab() {
         poapMetadataIpfsHash = metadata.ipfsHash;
         // Store the folder info for Firestore
         nftMetadataFolder = metadata.nftMetadataFolder || '';
+        // --- Write metadataUris array to Firestore if present ---
+        if (metadata.metadataUris && Array.isArray(metadata.metadataUris)) {
+          await updateDoc(doc(db, "spaces", spaceId), {
+            nftMetadataUris: metadata.metadataUris
+          });
+        }
       }
 
       // --- POAP Collection creation (Aptos) ---
