@@ -2,7 +2,7 @@
 import { AptosClient, Types } from 'aptos';
 
 const NODE_URL = 'https://fullnode.testnet.aptoslabs.com';
-const MODULE_ADDR = '0x19619ad8c1ff22b0d9a34d605546c1cb42d7a627da27ff10c86e7c6a8da2f09';
+const MODULE_ADDR = '0x19619ad8c1ff22b0d9a34d605546c1cb42d7a627da27ff10c86e7c6a8da2f09f';
 const MODULE_NAME = 'poap_launchpad';
 
 const client = new AptosClient(NODE_URL);
