@@ -14,6 +14,9 @@ body, html, * {
   min-width: 0 !important;
   max-width: 100vw;
   height: 54px !important;
+  position: sticky;
+  top: 0;
+  z-index: 1000;
   /* Remove margin-top and margin-bottom for no gap above/below */
 }
 .navbar-btn-group {
