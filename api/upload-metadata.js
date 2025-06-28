@@ -10,14 +10,42 @@ export const config = {
   },
 };
 
-// Initialize Firebase Admin SDK
+// Initialize Firebase Admin SDK robustly for serverless
+let firebaseInitError = null;
 if (!admin.apps || !admin.apps.length) {
-  admin.initializeApp({
-    credential: admin.credential.applicationDefault(),
-    // If you use a service account JSON, replace the above line with:
-    // credential: admin.credential.cert(require('path/to/serviceAccountKey.json')),
-    // databaseURL: 'https://<your-project-id>.firebaseio.com' // optional
-  });
+  let credential;
+  let credentialSource = null;
+  try {
+    if (process.env.GOOGLE_SERVICE_ACCOUNT) {
+      // Prefer service account JSON in env var
+      credential = admin.credential.cert(JSON.parse(process.env.GOOGLE_SERVICE_ACCOUNT));
+      credentialSource = 'env';
+    } else if (process.env.GOOGLE_APPLICATION_CREDENTIALS) {
+      // Or a file path in env var
+      const fs = require('fs');
+      const credPath = process.env.GOOGLE_APPLICATION_CREDENTIALS;
+      if (fs.existsSync(credPath)) {
+        credential = admin.credential.cert(require(credPath));
+        credentialSource = 'file';
+      }
+    }
+    if (!credential) {
+      throw new Error('No Firebase service account credentials found. Set GOOGLE_SERVICE_ACCOUNT (JSON) or GOOGLE_APPLICATION_CREDENTIALS (file path) in environment.');
+    }
+    admin.initializeApp({ credential });
+    console.log('[POAP] Firebase Admin initialized from', credentialSource);
+  } catch (err) {
+    console.error('[POAP] Firebase Admin SDK initialization failed:', err);
+    firebaseInitError = err;
+  }
+}
+
+// If Firebase failed to initialize, always return JSON error
+if (firebaseInitError) {
+  module.exports = function handler(req, res) {
+    res.status(500).json({ error: 'Firebase Admin SDK initialization failed', details: firebaseInitError.message || firebaseInitError });
+  };
+  return;
 }
 
 const handler = async (req, res) => {
