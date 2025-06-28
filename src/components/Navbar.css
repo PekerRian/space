@@ -18,11 +18,12 @@ body, html, * {
 .navbar-btn-group {
   display: flex;
   align-items: center;
-  gap: 2.5em !important;
-  min-width: 1200px !important;
+  gap: 1em !important;
+  min-width: 0 !important;
   max-width: 100vw;
   width: 100%;
   height: 100%;
+  justify-content: flex-end;
 }
 .navbar-tab-btn {
   background: #3b61e1;
@@ -113,4 +114,15 @@ body, html, * {
     font-size: 0.88em !important;
     max-width: 70px;
   }
+}
+
+/* Ensure the connect button (WalletSelector) is always visible and not pushed out of view */
+.navbar-btn-group > div[style*="margin-left: auto"] {
+  margin-left: 0 !important;
+  margin-right: 2em !important;
+}
+
+/* If WalletSelector is not the last child, add margin to the right of the last button */
+.navbar-btn-group > .navbar-tab-btn:last-child {
+  margin-right: 2em !important;
 }
