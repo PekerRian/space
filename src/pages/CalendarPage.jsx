@@ -518,12 +518,26 @@ function CalendarPage() {
                             }
                             if ((!nftMetadataUris || nftMetadataUris.length === 0) && nftMetadataFolder && maxSupply) {
                               // Fallback: reconstruct URIs if array missing
-                              const [ipfsHash, subfolder] = nftMetadataFolder.split('/');
-                              nftMetadataUris = Array.from({ length: maxSupply }, (_, i) => `https://peach-left-chimpanzee-996.mypinata.cloud/ipfs/${ipfsHash}/${subfolder}/${i+1}.json`);
-                              console.warn('[POAP][Calendar] nftMetadataUris missing from Firestore, reconstructing URIs on the fly with custom gateway.');
+                              let nftUris = [];
+                              if (nftMetadataFolder.includes('/')) {
+                                const [ipfsHash, subfolder] = nftMetadataFolder.split('/');
+                                nftUris = Array.from({ length: maxSupply }, (_, i) => `https://peach-left-chimpanzee-996.mypinata.cloud/ipfs/${ipfsHash}/${subfolder}/${i+1}.json`);
+                                console.warn('[POAP][Calendar] nftMetadataUris missing from Firestore, reconstructing URIs with custom gateway and subfolder.');
+                              } else {
+                                // No subfolder, just hash
+                                nftUris = Array.from({ length: maxSupply }, (_, i) => `https://peach-left-chimpanzee-996.mypinata.cloud/ipfs/${nftMetadataFolder}/${i+1}.json`);
+                                console.warn('[POAP][Calendar] nftMetadataUris missing from Firestore, reconstructing URIs with custom gateway and no subfolder.');
+                              }
+                              nftMetadataUris = nftUris;
+                            }
+                            if ((!nftMetadataUris || nftMetadataUris.length === 0) && selectedSpace.poap && selectedSpace.poap.ipfsHash) {
+                              // Fallback: single metadata file from poap.ipfsHash
+                              nftMetadataUris = [`https://peach-left-chimpanzee-996.mypinata.cloud/ipfs/${selectedSpace.poap.ipfsHash}`];
+                              maxSupply = 1;
+                              console.warn('[POAP][Calendar] Using poap.ipfsHash as single NFT metadata URI.');
                             }
                             if (!nftMetadataUris || nftMetadataUris.length === 0) {
-                              setPasswordError('No NFT metadata URIs found for this space');
+                              setPasswordError('No NFT metadata URIs found for this space. Debug info: nftMetadataFolder=' + nftMetadataFolder + ', poap.ipfsHash=' + (selectedSpace.poap && selectedSpace.poap.ipfsHash));
                               setMinting(false);
                               return;
                             }
