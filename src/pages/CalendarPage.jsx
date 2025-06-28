@@ -212,7 +212,7 @@ function CalendarPage() {
     }
 
     // Only pass the collection object address as required by the Move module
-    async function handlePoapMint(collectionObj) {
+    async function handlePoapMint(collectionObj, metadataUri) {
       setMinting(true);
       setPoapStatus("");
       // Show the collection address to the user before minting
@@ -222,7 +222,8 @@ function CalendarPage() {
         return;
       }
       try {
-        await mintPoap({ signAndSubmitTransaction, account, collectionObj });
+        if (!metadataUri) throw new Error('metadataUri is required for minting');
+        await mintPoap({ signAndSubmitTransaction, account, collectionObj, metadataUri });
         setPoapStatus("Minted successfully!");
         if (onMinted) onMinted();
       } catch (e) {
