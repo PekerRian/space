@@ -15,6 +15,7 @@ body, html, * {
   min-width: 0 !important;
   max-width: 100vw;
   height: 38px !important;
+  margin-top: 0.7em;
   margin-bottom: 0.7em;
 }
 .navbar-btn-group {
@@ -26,8 +27,8 @@ body, html, * {
   max-width: 100vw;
   width: 100%;
   height: 100%;
-  /* Add subtle glow to the button group area */
-  box-shadow: 0 0 16px 3px #ffe06699, 0 0 0 2px #ffe06644;
+  /* Remove yellow outline glow from button group area */
+  box-shadow: none;
 }
 .navbar-tab-btn {
   background: #111 !important;
