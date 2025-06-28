@@ -1,10 +1,10 @@
 [package]
 name = "aptos_poap"
 version = "0.0.1"
-authors = ["0x170518deafae63b378f1deb898d69e2e22b1d5e40b50a45f85ceaf1175de2e2d"]
+authors = ["0x19619ad8c1ff22b0d9a34d605546c1cb42d7a627da27ff10c86e7c6a8da2f09f"]
 
 [addresses]
-aptos_poap = "170518deafae63b378f1deb898d69e2e22b1d5e40b50a45f85ceaf1175de2e2d"
+aptos_poap = "19619ad8c1ff22b0d9a34d605546c1cb42d7a627da27ff10c86e7c6a8da2f09f"
 aptos_framework = "0x1"
 aptos_token_objects = "0x4"
 minter = "0x3c41ff6b5845e0094e19888cba63773591be9de59cafa9e582386f6af15dd490"

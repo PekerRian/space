@@ -2,7 +2,7 @@
 import { AptosClient, Types } from 'aptos';
 
 const NODE_URL = 'https://fullnode.testnet.aptoslabs.com';
-const MODULE_ADDR = '0x170518deafae63b378f1deb898d69e2e22b1d5e40b50a45f85ceaf1175de2e2d';
+const MODULE_ADDR = '0x19619ad8c1ff22b0d9a34d605546c1cb42d7a627da27ff10c86e7c6a8da2f09';
 const MODULE_NAME = 'poap_launchpad';
 
 const client = new AptosClient(NODE_URL);
@@ -37,12 +37,13 @@ export function createCollection({ name, description, uri, max_supply = 10, limi
 }
 
 // Calls the on-chain mint_nft entry function
-export async function mintPoap({signAndSubmitTransaction, account, collectionObj}) {
+export async function mintPoap({signAndSubmitTransaction, account, collectionObj, metadataUri}) {
   if (!signAndSubmitTransaction) throw new Error('Wallet not connected');
+  if (!metadataUri) throw new Error('metadataUri is required for minting');
   const data = {
     function: `${MODULE_ADDR}::${MODULE_NAME}::mint_nft`,
     typeArguments: [],
-    functionArguments: [collectionObj],
+    functionArguments: [collectionObj, metadataUri],
   };
   return signAndSubmitTransaction({ sender: account.address, data });
 }

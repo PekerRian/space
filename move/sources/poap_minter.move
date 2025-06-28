@@ -1,4 +1,4 @@
-module aptos_poap::poap_launchpad {
+module 0x19619ad8c1ff22b0d9a34d605546c1cb42d7a627da27ff10c86e7c6a8da2f09f::poap_launchpad {
     use std::option::{Self, Option};
     use std::signer;
     use std::string::{Self, String};
@@ -56,7 +56,7 @@ module aptos_poap::poap_launchpad {
         public_mint_limit_per_addr: Option<u64>,
         public_mint_fee_per_nft: Option<u64>,
     ) acquires Registry, CollectionConfig {
-        let collection_owner_obj_constructor_ref = &object::create_object(@aptos_poap);
+        let collection_owner_obj_constructor_ref = &object::create_object(@0x19619ad8c1ff22b0d9a34d605546c1cb42d7a627da27ff10c86e7c6a8da2f09f);
         let collection_owner_obj_signer = &object::generate_signer(collection_owner_obj_constructor_ref);
         let collection_obj_constructor_ref =
             &collection::create_fixed_collection(
@@ -93,7 +93,7 @@ module aptos_poap::poap_launchpad {
                 public_mint_fee_per_nft,
             );
         };
-        let registry = borrow_global_mut<Registry>(@aptos_poap);
+        let registry = borrow_global_mut<Registry>(@0x19619ad8c1ff22b0d9a34d605546c1cb42d7a627da27ff10c86e7c6a8da2f09f);
         vector::push_back(&mut registry.collection_objects, collection_obj);
         // Emit event for frontend extraction
         event::emit(CollectionCreatedEvent {
@@ -101,10 +101,11 @@ module aptos_poap::poap_launchpad {
         });
     }
 
-    // Entry: public mint, 1-per-wallet
+    // Entry: public mint, 1-per-wallet, now with custom metadata URI
     public entry fun mint_nft(
         sender: &signer,
         collection_obj: Object<Collection>,
+        metadata_uri: String,
     ) acquires CollectionConfig, CollectionOwnerObjConfig {
         let sender_addr = signer::address_of(sender);
         let amount = 1;
@@ -114,13 +115,40 @@ module aptos_poap::poap_launchpad {
         let stage_name = mint_stage::mint_stage_name(stage_obj);
         let total_mint_fee = get_mint_fee(collection_obj, stage_name, amount);
         pay_for_mint(sender, total_mint_fee);
-        let _nft_obj = mint_nft_internal(sender_addr, collection_obj);
+        let _nft_obj = mint_nft_internal_with_uri(sender_addr, collection_obj, metadata_uri);
+    }
+
+    // Internal mint with custom metadata URI
+    fun mint_nft_internal_with_uri(
+        sender_addr: address,
+        collection_obj: Object<Collection>,
+        metadata_uri: String,
+    ): Object<Token> acquires CollectionConfig, CollectionOwnerObjConfig {
+        let collection_config = borrow_global<CollectionConfig>(object::object_address(&collection_obj));
+        let collection_owner_obj = collection_config.collection_owner_obj;
+        let collection_owner_config = borrow_global<CollectionOwnerObjConfig>(
+            object::object_address(&collection_owner_obj)
+        );
+        let collection_owner_obj_signer = &object::generate_signer_for_extending(&collection_owner_config.extend_ref);
+        let next_nft_id = *option::borrow(&collection::count(collection_obj)) + 1;
+        let nft_obj_constructor_ref = &token::create(
+            collection_owner_obj_signer,
+            collection::name(collection_obj),
+            string_utils::to_string(&next_nft_id),
+            string_utils::to_string(&next_nft_id),
+            option::none(), // no royalty
+            metadata_uri,
+        );
+        token_components::create_refs(nft_obj_constructor_ref);
+        let nft_obj = object::object_from_constructor_ref(nft_obj_constructor_ref);
+        object::transfer(collection_owner_obj_signer, nft_obj, sender_addr);
+        nft_obj
     }
 
     // Views
     #[view]
     public fun get_registry(): vector<Object<Collection>> acquires Registry {
-        let registry = borrow_global<Registry>(@aptos_poap);
+        let registry = borrow_global<Registry>(@0x19619ad8c1ff22b0d9a34d605546c1cb42d7a627da27ff10c86e7c6a8da2f09f);
         registry.collection_objects
     }
     #[view]
@@ -251,7 +279,7 @@ module aptos_poap::poap_launchpad {
     #[test_only]
     use aptos_framework::aptos_coin::{Self, AptosCoin};
 
-    #[test(aptos_framework = @0x1, user1 = @0x2, user2 = @0x3, minter = @0x94f6da03f45fde2d18fd17d88671fc3d82fa4978329deee5012a41d1ad19a093)]
+    #[test(aptos_framework = @0x1, user1 = @0x2, user2 = @0x3, minter = @0x19619ad8c1ff22b0d9a34d605546c1cb42d7a627da27ff10c86e7c6a8da2f09f)]
     fun test_create_and_mint(
         aptos_framework: &signer,
         user1: &signer,
@@ -296,7 +324,7 @@ module aptos_poap::poap_launchpad {
         coin::destroy_mint_cap(mint_cap);
     }
 
-    #[test(aptos_framework = @0x1, user1 = @0x2, minter = @0x94f6da03f45fde2d18fd17d88671fc3d82fa4978329deee5012a41d1ad19a093)]
+    #[test(aptos_framework = @0x1, user1 = @0x2, minter = @0x19619ad8c1ff22b0d9a34d605546c1cb42d7a627da27ff10c86e7c6a8da2f09f)]
     #[expected_failure]
     fun test_double_mint_should_fail(
         aptos_framework: &signer,
