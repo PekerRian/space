@@ -399,6 +399,7 @@ export default function UserTab() {
       // --- POAP metadata upload ---
       let poapMetadataIpfsHash = '';
       let poapImageGatewayUrl = '';
+      let nftMetadataFolder = '';
       if (poapFieldsFilled) {
         // Use the default Pinata gateway for maximum compatibility
         poapImageGatewayUrl = poapIpfsHash ? `https://gateway.pinata.cloud/ipfs/${poapIpfsHash}` : '';
@@ -425,6 +426,8 @@ export default function UserTab() {
           throw new Error('Metadata upload failed');
         }
         poapMetadataIpfsHash = metadata.ipfsHash;
+        // Store the folder info for Firestore
+        nftMetadataFolder = metadata.nftMetadataFolder || '';
       }
 
       // --- POAP Collection creation (Aptos) ---
@@ -530,6 +533,7 @@ export default function UserTab() {
         collectionObj: collectionObj || null, // top-level for easy access
         enablePoap,
         spacePassword, // include password in space data
+        nftMetadataFolder, // Store the subfolder info for later use
       };
 
       // Final check: ensure poap.image is never a .json or folder path

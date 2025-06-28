@@ -79,6 +79,7 @@ const exportedHandler = async (req, res) => {
           const ipfsHash = result.IpfsHash;
           const folderUrl = `https://gateway.pinata.cloud/ipfs/${ipfsHash}/${subfolder}/`;
           let metadataUris = [];
+          let usedFallback = false;
           try {
             // Fetch the folder listing (Pinata gateway returns HTML, so we must parse it)
             const folderRes = await fetch(folderUrl);
@@ -89,14 +90,20 @@ const exportedHandler = async (req, res) => {
             const filteredFiles = jsonFiles.filter(f => /^[0-9]+\.json$/.test(f) && !f.includes('?') && f !== 'collection.json' && f !== 'uris.json' && !f.includes('/ipfs/'));
             // Build full URIs
             metadataUris = filteredFiles.map(f => `${folderUrl}${f}`);
+            if (metadataUris.length === 0) throw new Error('No NFT JSONs found in folder listing');
             console.log(`[POAP] Successfully fetched ${metadataUris.length} NFT JSON files from IPFS folder:`, metadataUris);
           } catch (listErr) {
-            console.error('Failed to list files in IPFS folder:', listErr);
-            return res.status(500).json({ error: 'Failed to list files in IPFS folder', details: listErr.message || listErr });
+            // Fallback: construct URIs based on what we uploaded
+            usedFallback = true;
+            metadataUris = [];
+            for (let i = 1; i <= limit; i++) {
+              metadataUris.push(`${folderUrl}${i}.json`);
+            }
+            console.warn('[POAP] Fallback: constructed metadataUris array based on upload:', metadataUris);
           }
           if (!Array.isArray(metadataUris) || metadataUris.length === 0) {
-            console.error('[POAP] metadataUris array is empty or invalid after folder listing:', metadataUris);
-            return res.status(500).json({ error: 'metadataUris array is empty or invalid after folder listing' });
+            console.error('[POAP] metadataUris array is empty or invalid after folder listing and fallback:', metadataUris);
+            return res.status(500).json({ error: 'metadataUris array is empty or invalid after folder listing and fallback' });
           }
           // Extract spaceId from fields (for frontend convenience)
           let spaceId = Array.isArray(fields.spaceId) ? fields.spaceId[0] : fields.spaceId;
