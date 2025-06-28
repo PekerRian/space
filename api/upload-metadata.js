@@ -20,7 +20,7 @@ if (!admin.apps.length) {
   });
 }
 
-export default async function handler(req, res) {
+const handler = async (req, res) => {
   if (req.method !== 'POST') {
     return res.status(405).json({ error: 'Method not allowed' });
   }
@@ -117,13 +117,11 @@ export default async function handler(req, res) {
             console.log('[POAP] Writing to Firestore:', { spaceId, nftMetadataUris: metadataUris, nftMetadataFolder: `${result.IpfsHash}/${subfolder}`, maxSupply: limit });
             const { getFirestore, doc, setDoc, updateDoc, getDoc } = await import('firebase-admin/firestore');
             const db = getFirestore();
-            // If the document does not exist, create it (setDoc), else update it
             const spaceDocRef = doc(db, 'spaces', spaceId);
             const spaceDocSnap = await getDoc(spaceDocRef);
             if (!spaceDocSnap.exists) {
               await setDoc(spaceDocRef, {
                 nftMetadataUris: metadataUris,
-                nftMetadataJsons: metadataJsons,
                 nftMetadataFolder: `${result.IpfsHash}/${subfolder}`,
                 maxSupply: limit
               }, { merge: true });
@@ -131,7 +129,6 @@ export default async function handler(req, res) {
             } else {
               await updateDoc(spaceDocRef, {
                 nftMetadataUris: metadataUris,
-                nftMetadataJsons: metadataJsons,
                 nftMetadataFolder: `${result.IpfsHash}/${subfolder}`,
                 maxSupply: limit
               }, { merge: true });
@@ -175,6 +172,9 @@ export default async function handler(req, res) {
       }
     });
   } catch (e) {
-    res.status(500).json({ error: e.message });
+    console.error('Top-level error:', e);
+    res.status(500).json({ error: 'Server error', details: e.message || e });
   }
-}
+};
+
+export default handler;
