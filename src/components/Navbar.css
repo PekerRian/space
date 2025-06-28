@@ -6,11 +6,12 @@ body, html, * {
 }
 
 .navbar {
-  background: #21264b;
+  background: linear-gradient(90deg, #21264b 60%, #2a2e5a 100%) !important; /* match footer background */
   padding: 0.3em 0.2em !important;
   display: flex;
   justify-content: center;
-  box-shadow: 0 2px 6px rgba(0,0,0,0.07);
+  box-shadow: 0 0 16px 2px #ffe066, 0 2px 16px 0 #506aff, 0 0 32px 0 #ffe06644;
+  border-bottom: 2px solid #ffe066;
   min-width: 0 !important;
   max-width: 100vw;
   height: 38px !important;
@@ -24,12 +25,15 @@ body, html, * {
   width: 100%;
   height: 100%;
   justify-content: flex-end;
+  /* Add subtle glow to the button group area */
+  box-shadow: 0 0 12px 2px #ffe06633, 0 0 0 2px #ffe06622;
 }
 .navbar-tab-btn {
-  background: #3b61e1;
-  border: none;
-  color: #fff;
-  border-radius: 999px;
+  background: transparent !important;
+  border: 2.5px solid #ffe066 !important;
+  color: #ffe066 !important;
+  box-shadow: 0 0 12px 2px #ffe066, 0 0 8px 0 #506aff;
+  text-shadow: 0 0 8px #ffe066, 0 0 2px #fff;
   font-weight: 600;
   padding: 0.18em 0.7em !important;
   font-size: 0.92em !important;
@@ -41,18 +45,22 @@ body, html, * {
   cursor: pointer;
   transition: background 0.16s, transform 0.14s;
   margin: 0 0.05em;
-  box-shadow: 0 2px 8px rgba(80,106,255,0.10);
   white-space: nowrap;
 }
 .navbar-tab-btn:hover,
 .navbar-tab-btn:focus {
-  background: #1a3fbd;
-  transform: translateY(-2px) scale(1.045);
+  background: rgba(255, 224, 102, 0.08) !important;
+  border-color: #fff700 !important;
+  color: #fff700 !important;
+  box-shadow: 0 0 18px 4px #fff700, 0 0 12px 0 #506aff;
+  text-shadow: 0 0 12px #fff700, 0 0 2px #fff;
 }
 .navbar-tab-btn.active {
-  background: linear-gradient(90deg, #506aff 30%, #7f8fff 100%);
-  color: #fff;
-  transform: scale(1.04);
+  background: rgba(255, 224, 102, 0.16) !important;
+  border-color: #fff700 !important;
+  color: #fff700 !important;
+  box-shadow: 0 0 24px 6px #fff700, 0 0 16px 0 #506aff;
+  text-shadow: 0 0 16px #fff700, 0 0 2px #fff;
 }
 .button-danger {
   background: linear-gradient(90deg, #e63946 0%, #c1121f 100%) !important;
@@ -75,6 +83,8 @@ body, html, * {
 
 @media (max-width: 700px) {
   .navbar {
+    background: linear-gradient(90deg, #181c36 0%, #23285a 100%) !important;
+    box-shadow: 0 0 12px 2px #ffe066, 0 2px 8px #506aff80, 0 0 0 2px #ffe06633;
     flex-direction: column;
     align-items: center;
     justify-content: flex-start;
@@ -100,8 +110,14 @@ body, html, * {
     scrollbar-color: #506aff #21264b;
     -webkit-overflow-scrolling: touch;
     height: 100%;
+    box-shadow: 0 0 8px 1px #ffe06633, 0 0 0 1px #ffe06622;
   }
   .navbar-tab-btn {
+    background: transparent !important;
+    border: 2px solid #ffe066 !important;
+    color: #ffe066 !important;
+    box-shadow: 0 0 8px 1px #ffe066, 0 0 0 1px #ffe06655, 0 2px 4px rgba(80,106,255,0.10);
+    text-shadow: 0 0 6px #ffe066, 0 0 1px #fff;
     font-size: 0.88em !important;
     padding: 0.13em 0.5em !important;
     min-width: 54px !important;
@@ -113,6 +129,21 @@ body, html, * {
     margin-right: 0.05em !important;
     font-size: 0.88em !important;
     max-width: 70px;
+  }
+  .navbar-tab-btn:hover,
+  .navbar-tab-btn:focus {
+    background: rgba(255, 224, 102, 0.10) !important;
+    color: #fffbe6 !important;
+    border-color: #fffbe6 !important;
+    box-shadow: 0 0 12px 2px #ffe066, 0 0 0 1px #ffe06699, 0 2px 4px rgba(80,106,255,0.10);
+    text-shadow: 0 0 10px #ffe066, 0 0 1px #fff;
+  }
+  .navbar-tab-btn.active {
+    background: rgba(255, 224, 102, 0.18) !important;
+    color: #fffbe6 !important;
+    border-color: #fffbe6 !important;
+    box-shadow: 0 0 16px 3px #ffe066, 0 0 0 1px #ffe066cc, 0 2px 4px rgba(80,106,255,0.10);
+    text-shadow: 0 0 12px #ffe066, 0 0 1px #fff;
   }
 }
 
