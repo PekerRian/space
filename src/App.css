@@ -121,7 +121,7 @@ li {
 .navbar-btn-group {
   display: flex;
   align-items: center;
-  gap: 1.5em;
+  gap: 2.5em;
   min-width: 420px;
   max-width: 90vw;
   height: 100%;
@@ -209,7 +209,7 @@ li {
     flex-direction: row;
     flex-wrap: nowrap;
     overflow-x: auto;
-    gap: 0.08em !important;
+    gap: 0.5em !important;
     min-width: 0 !important;
     max-width: 100vw !important;
     width: 100vw !important;
