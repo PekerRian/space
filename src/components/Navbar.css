@@ -13,9 +13,8 @@ body, html, * {
   align-items: center;
   min-width: 0 !important;
   max-width: 100vw;
-  height: 38px !important;
-  margin-top: 0.7em;
-  margin-bottom: 0.7em;
+  height: 54px !important;
+  /* Remove margin-top and margin-bottom for no gap above/below */
 }
 .navbar-btn-group {
   display: flex;
