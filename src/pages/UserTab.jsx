@@ -430,8 +430,9 @@ export default function UserTab() {
         nftMetadataFolder = metadata.nftMetadataFolder || '';
         // --- Write metadataUris array and folder to Firestore if present ---
         if (metadata.metadataUris && Array.isArray(metadata.metadataUris)) {
+          // Write the full IPFS links of the individual JSONs to Firestore
           await updateDoc(doc(db, "spaces", spaceId), {
-            nftMetadataUris: metadata.metadataUris,
+            nftMetadataUris: metadata.metadataUris.map(uri => uri), // full gateway URLs
             nftMetadataFolder: metadata.nftMetadataFolder || ''
           });
         }
