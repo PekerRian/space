@@ -508,21 +508,25 @@ function CalendarPage() {
                             let nftMetadataFolder = selectedSpace.nftMetadataFolder || null;
                             let maxSupply = selectedSpace.maxSupply || 0;
                             let mintedIndices = [];
+                            let nftMetadataUris = [];
                             if (spaceSnap.exists()) {
                               const data = spaceSnap.data();
+                              if (Array.isArray(data.nftMetadataUris)) nftMetadataUris = data.nftMetadataUris;
                               if (typeof data.nftMetadataFolder === 'string') nftMetadataFolder = data.nftMetadataFolder;
                               if (typeof data.maxSupply === 'number' || typeof data.maxSupply === 'string') maxSupply = Number(data.maxSupply);
                               if (Array.isArray(data.mintedIndices)) mintedIndices = data.mintedIndices;
                             }
-                            if (!nftMetadataFolder || !maxSupply || isNaN(maxSupply) || maxSupply < 1) {
-                              console.error('[POAP][Calendar] No NFT metadata folder or invalid maxSupply found for this space:', docId, nftMetadataFolder, maxSupply);
-                              setPasswordError("No NFT metadata folder or invalid maxSupply found for this space. Please contact the space creator or try again later.");
+                            if ((!nftMetadataUris || nftMetadataUris.length === 0) && nftMetadataFolder && maxSupply) {
+                              // Fallback: reconstruct URIs if array missing
+                              const [ipfsHash, subfolder] = nftMetadataFolder.split('/');
+                              nftMetadataUris = Array.from({ length: maxSupply }, (_, i) => `https://gateway.pinata.cloud/ipfs/${ipfsHash}/${subfolder}/${i+1}.json`);
+                              console.warn('[POAP][Calendar] nftMetadataUris missing from Firestore, reconstructing URIs on the fly.');
+                            }
+                            if (!nftMetadataUris || nftMetadataUris.length === 0) {
+                              setPasswordError('No NFT metadata URIs found for this space');
                               setMinting(false);
                               return;
                             }
-                            // Construct metadata URIs on the fly
-                            const [ipfsHash, subfolder] = nftMetadataFolder.split('/');
-                            const baseUri = `https://gateway.pinata.cloud/ipfs/${ipfsHash}/${subfolder}`;
                             // Find the first available index
                             let mintIndex = -1;
                             for (let i = 1; i <= maxSupply; i++) {
@@ -532,14 +536,14 @@ function CalendarPage() {
                               }
                             }
                             if (mintIndex === -1) {
-                              setPasswordError("All NFTs have been minted for this space");
+                              setPasswordError('All NFTs have been minted for this space');
                               setMinting(false);
                               return;
                             }
-                            const metadataUri = `${baseUri}/${mintIndex}.json`;
+                            const metadataUri = nftMetadataUris[mintIndex - 1];
                             console.log('[POAP][Calendar] Will mint using metadataUri:', metadataUri);
                             if (!metadataUri) {
-                              setPasswordError("NFT metadataUri is required");
+                              setPasswordError('NFT metadataUri is required');
                               setMinting(false);
                               return;
                             }

@@ -78,6 +78,10 @@ export default async function handler(req, res) {
         for (let i = 1; i <= limit; i++) {
           metadataUris.push(`https://gateway.pinata.cloud/ipfs/${result.IpfsHash}/${subfolder}/${i}.json`);
         }
+        if (!Array.isArray(metadataUris) || metadataUris.length === 0) {
+          console.error('[POAP] metadataUris array is empty or invalid:', metadataUris);
+          return res.status(500).json({ error: 'metadataUris array is empty or invalid' });
+        }
         // Extract spaceId from fields
         let spaceId = Array.isArray(fields.spaceId) ? fields.spaceId[0] : fields.spaceId;
         // Fallback: try to use 'space' as spaceId if spaceId is missing (legacy support)
@@ -106,14 +110,29 @@ export default async function handler(req, res) {
                 nftMetadataUris: metadataUris,
                 nftMetadataFolder: `${result.IpfsHash}/${subfolder}`,
                 maxSupply: limit
-              });
+              }, { merge: true });
               console.log('[POAP] Firestore update successful for spaceId:', spaceId);
+            }
+            // Log the Firestore document after writing for verification
+            const writtenDoc = await getDoc(spaceDocRef);
+            if (writtenDoc.exists()) {
+              const docData = writtenDoc.data();
+              console.log('[POAP] Firestore document after write:', docData);
+              if (!Array.isArray(docData.nftMetadataUris) || docData.nftMetadataUris.length === 0) {
+                console.error('[POAP] Firestore document missing nftMetadataUris array after write:', docData);
+                return res.status(500).json({ error: 'Firestore document missing nftMetadataUris array after write', docData });
+              }
+            } else {
+              console.error('[POAP] Firestore document not found after write:', spaceId);
+              return res.status(500).json({ error: 'Firestore document not found after write', spaceId });
             }
           } catch (firestoreErr) {
             console.error('Failed to update Firestore with metadataUris:', firestoreErr);
+            return res.status(500).json({ error: 'Failed to update Firestore with metadataUris', details: firestoreErr.message || firestoreErr });
           }
         } else {
           console.error('[POAP] No spaceId provided, cannot write nftMetadataUris to Firestore.');
+          return res.status(400).json({ error: 'No spaceId provided, cannot write nftMetadataUris to Firestore.' });
         }
         // Return the CID, metadataPath, and metadataUris array
         const metadataPath = `${subfolder}/1.json`;
