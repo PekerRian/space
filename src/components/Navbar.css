@@ -32,7 +32,7 @@ body, html, * {
 .navbar-tab-btn {
   background: transparent !important;
   border: 2.5px solid #ffe066 !important;
-  color: #ffe066 !important;
+  color: #506aff !important;
   box-shadow: 0 0 12px 2px #ffe066, 0 0 8px 0 #506aff;
   text-shadow: 0 0 8px #506aff, 0 0 2px #fff; /* blue glow for font */
   font-weight: 600;
