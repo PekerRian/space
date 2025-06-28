@@ -2,12 +2,23 @@
 import fetch from 'node-fetch';
 import formidable from 'formidable';
 import pinataSDK from '@pinata/sdk';
+import * as admin from 'firebase-admin';
 
 export const config = {
   api: {
     bodyParser: false,
   },
 };
+
+// Initialize Firebase Admin SDK
+if (!admin.apps.length) {
+  admin.initializeApp({
+    credential: admin.credential.applicationDefault(),
+    // If you use a service account JSON, replace the above line with:
+    // credential: admin.credential.cert(require('path/to/serviceAccountKey.json')),
+    // databaseURL: 'https://<your-project-id>.firebaseio.com' // optional
+  });
+}
 
 export default async function handler(req, res) {
   if (req.method !== 'POST') {
