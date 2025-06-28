@@ -705,20 +705,11 @@ export default function UserTab() {
       if (spaceSnap.exists()) {
         const data = spaceSnap.data();
         if (Array.isArray(data.nftMetadataUris)) nftMetadataUris = data.nftMetadataUris;
-        if (typeof data.nftMetadataFolder === 'string') nftMetadataFolder = data.nftMetadataFolder;
-        if (typeof data.maxSupply === 'number' || typeof data.maxSupply === 'string') maxSupply = Number(data.maxSupply);
-        if (Array.isArray(data.mintedIndices)) mintedIndices = data.mintedIndices;
-      }
-      if ((!nftMetadataUris || nftMetadataUris.length === 0) && nftMetadataFolder && maxSupply) {
-        // Fallback: reconstruct URIs if array missing
-        const [ipfsHash, subfolder] = nftMetadataFolder.split('/');
-        nftMetadataUris = Array.from({ length: maxSupply }, (_, i) => `https://gateway.pinata.cloud/ipfs/${ipfsHash}/${subfolder}/${i+1}.json`);
-        console.warn('[POAP][UserTab] nftMetadataUris missing from Firestore, reconstructing URIs on the fly.');
       }
       if (!nftMetadataUris || nftMetadataUris.length === 0) {
         throw new Error('No NFT metadata URIs found for this space');
       }
-      if (nftIndex < 1 || nftIndex > maxSupply) {
+      if (nftIndex < 1 || nftIndex > nftMetadataUris.length) {
         throw new Error(`Invalid NFT index: ${nftIndex}`);
       }
       const metadataUri = nftMetadataUris[nftIndex - 1];
@@ -751,22 +742,13 @@ export default function UserTab() {
       if (spaceSnap.exists()) {
         const data = spaceSnap.data();
         if (Array.isArray(data.nftMetadataUris)) nftMetadataUris = data.nftMetadataUris;
-        if (typeof data.nftMetadataFolder === 'string') nftMetadataFolder = data.nftMetadataFolder;
-        if (typeof data.maxSupply === 'number' || typeof data.maxSupply === 'string') maxSupply = Number(data.maxSupply);
-        if (Array.isArray(data.mintedIndices)) mintedIndices = data.mintedIndices;
-      }
-      if ((!nftMetadataUris || nftMetadataUris.length === 0) && nftMetadataFolder && maxSupply) {
-        // Fallback: reconstruct URIs if array missing
-        const [ipfsHash, subfolder] = nftMetadataFolder.split('/');
-        nftMetadataUris = Array.from({ length: maxSupply }, (_, i) => `https://gateway.pinata.cloud/ipfs/${ipfsHash}/${subfolder}/${i+1}.json`);
-        console.warn('[POAP][UserTab] nftMetadataUris missing from Firestore, reconstructing URIs on the fly.');
       }
       if (!nftMetadataUris || nftMetadataUris.length === 0) {
         throw new Error('No NFT metadata URIs found for this space');
       }
       // Find the first available index
       let mintIndex = -1;
-      for (let i = 1; i <= maxSupply; i++) {
+      for (let i = 1; i <= nftMetadataUris.length; i++) {
         if (!mintedIndices.includes(i)) {
           mintIndex = i;
           break;
