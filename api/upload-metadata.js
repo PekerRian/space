@@ -85,9 +85,11 @@ const exportedHandler = async (req, res) => {
             const folderHtml = await folderRes.text();
             // Parse HTML to extract .json file links
             const jsonFiles = Array.from(folderHtml.matchAll(/href=["']([^"']+\.json)["']/g)).map(m => m[1]);
+            // Filter: only include files that are direct children of the subfolder, match /^[0-9]+.json$/ and exclude any with '?' or 'collection.json' or 'uris.json' or '/ipfs/'
+            const filteredFiles = jsonFiles.filter(f => /^[0-9]+\.json$/.test(f) && !f.includes('?') && f !== 'collection.json' && f !== 'uris.json' && !f.includes('/ipfs/'));
             // Build full URIs
-            metadataUris = jsonFiles.map(f => `${folderUrl}${f}`);
-            console.log(`[POAP] Successfully fetched ${metadataUris.length} JSON files from IPFS folder:`, metadataUris);
+            metadataUris = filteredFiles.map(f => `${folderUrl}${f}`);
+            console.log(`[POAP] Successfully fetched ${metadataUris.length} NFT JSON files from IPFS folder:`, metadataUris);
           } catch (listErr) {
             console.error('Failed to list files in IPFS folder:', listErr);
             return res.status(500).json({ error: 'Failed to list files in IPFS folder', details: listErr.message || listErr });
