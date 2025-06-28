@@ -75,15 +75,25 @@ const exportedHandler = async (req, res) => {
             console.error('Pinata upload did not return a valid IpfsHash:', result);
             return res.status(500).json({ error: 'Pinata upload failed: No IpfsHash returned', pinata: result });
           }
-          // Build array of metadata URIs and JSON objects
-          const metadataUris = [];
-          for (let i = 1; i <= limit; i++) {
-            const uri = `https://gateway.pinata.cloud/ipfs/${result.IpfsHash}/${subfolder}/${i}.json`;
-            metadataUris.push(uri);
+          // List all JSON files in the uploaded IPFS folder using the Pinata gateway
+          const ipfsHash = result.IpfsHash;
+          const folderUrl = `https://gateway.pinata.cloud/ipfs/${ipfsHash}/${subfolder}/`;
+          let metadataUris = [];
+          try {
+            // Fetch the folder listing (Pinata gateway returns HTML, so we must parse it)
+            const folderRes = await fetch(folderUrl);
+            const folderHtml = await folderRes.text();
+            // Parse HTML to extract .json file links
+            const jsonFiles = Array.from(folderHtml.matchAll(/href=["']([^"']+\.json)["']/g)).map(m => m[1]);
+            // Build full URIs
+            metadataUris = jsonFiles.map(f => `${folderUrl}${f}`);
+          } catch (listErr) {
+            console.error('Failed to list files in IPFS folder:', listErr);
+            return res.status(500).json({ error: 'Failed to list files in IPFS folder', details: listErr.message || listErr });
           }
           if (!Array.isArray(metadataUris) || metadataUris.length === 0) {
-            console.error('[POAP] metadataUris array is empty or invalid:', metadataUris);
-            return res.status(500).json({ error: 'metadataUris array is empty or invalid' });
+            console.error('[POAP] metadataUris array is empty or invalid after folder listing:', metadataUris);
+            return res.status(500).json({ error: 'metadataUris array is empty or invalid after folder listing' });
           }
           // Extract spaceId from fields (for frontend convenience)
           let spaceId = Array.isArray(fields.spaceId) ? fields.spaceId[0] : fields.spaceId;
@@ -92,7 +102,7 @@ const exportedHandler = async (req, res) => {
           }
           // Return the CID, metadataPath, and metadataUris array (frontend will write to Firestore)
           const metadataPath = `${subfolder}/1.json`;
-          return res.status(200).json({ ipfsHash: result.IpfsHash, metadataPath, metadataUris, nftMetadataFolder: `${result.IpfsHash}/${subfolder}`, maxSupply: limit, spaceId });
+          return res.status(200).json({ ipfsHash, metadataPath, metadataUris, nftMetadataFolder: `${ipfsHash}/${subfolder}`, maxSupply: limit, spaceId });
         } catch (sdkErr) {
           if (tmpDir) {
             await fs.rm(tmpDir, { recursive: true, force: true });
