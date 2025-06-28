@@ -121,7 +121,7 @@ li {
 .navbar-btn-group {
   display: flex;
   align-items: center;
-  gap: 7em !important;
+  gap: 10em !important;
   min-width: 420px;
   max-width: 90vw;
   height: 100%;
