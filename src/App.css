@@ -236,6 +236,16 @@ li {
     text-shadow: 0 0 6px #ffe066, 0 0 1.5px #fff !important;
     color: #fff700 !important;
   }
+
+  /* Add margin to main page containers for mobile */
+  .user-tab-container,
+  .calendar-bg,
+  .page-container,
+  .flowers-leaderboard-container,
+  .animated-panel {
+    margin-top: 12px !important;
+    margin-bottom: 62px !important;
+  }
 }
 
 /* SupportCorner mobile styles */
