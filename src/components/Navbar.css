@@ -91,6 +91,10 @@ body, html, * {
 
 @media (max-width: 700px) {
   .navbar {
+    border-top-left-radius: 18px !important;
+    border-top-right-radius: 18px !important;
+    border-bottom-left-radius: 0 !important;
+    border-bottom-right-radius: 0 !important;
     position: fixed !important;
     left: 0 !important;
     right: 0 !important;
