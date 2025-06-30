@@ -168,9 +168,10 @@ body, html, * {
     align-items: center;
     justify-content: center;
   }
-  .navbar-btn-group .wallet-selector-btn,
-  .navbar-btn-group .wallet-selector-btn .ant-btn,
-  .navbar-btn-group .wallet-selector-btn .ant-btn span {
+  /* --- INCREASED SELECTOR SPECIFICITY FOR WALLETSELECTOR AND NAVBAR BUTTONS --- */
+  .navbar .navbar-btn-group .wallet-selector-btn,
+  .navbar .navbar-btn-group .wallet-selector-btn .ant-btn,
+  .navbar .navbar-btn-group .wallet-selector-btn .ant-btn span {
     min-width: 0 !important;
     max-width: 44px !important;
     width: 32px !important;
@@ -179,7 +180,46 @@ body, html, * {
     display: inline-flex !important;
     align-items: center;
     justify-content: center;
+    height: 22px !important;
+    box-shadow: 0 0 6px 1px #00ffea;
+    text-shadow: 0 0 6px #00ffea;
+    margin: 0.2em 0.1em !important;
+    border-width: 2px !important;
   }
+
+  .navbar .navbar-btn-group > div[style*="margin-left: auto"] {
+    margin-left: 0 !important;
+    margin-right: 2em !important;
+  }
+
+  .navbar .navbar-btn-group > .navbar-tab-btn:last-child {
+    margin-right: 2em !important;
+  }
+
+  .navbar .navbar-btn-group .wallet-selector-btn {
+    background: #111 !important;
+    color: #00ffea !important;
+    border: 2.5px solid #00ffea !important;
+    text-shadow:
+      0 0 12px #00ffea,
+      0 0 24px #00ffea,
+      0 0 36px #00ffea,
+      0 0 48px #00ffea;
+    box-shadow: 0 0 32px 8px #00ffea, 0 0 16px 0 #00ffea;
+    font-weight: 700;
+    animation: footerGlowPulse 2.2s ease-in-out infinite alternate;
+    transition: background 0.16s, color 0.16s, border 0.16s, box-shadow 0.16s;
+  }
+
+  .navbar .navbar-btn-group .wallet-selector-btn:hover,
+  .navbar .navbar-btn-group .wallet-selector-btn:focus {
+    background: #fff !important;
+    color: #111 !important;
+    border-color: #00ffea !important;
+    text-shadow: 0 0 24px #00ffea, 0 0 48px #00ffea, 0 0 72px #00ffea, 0 0 96px #00ffea;
+    box-shadow: 0 0 48px 12px #00ffea, 0 0 24px 0 #00ffea;
+  }
+  /* --- END INCREASED SELECTOR SPECIFICITY --- */
 }
 
 /* Ensure the connect button (WalletSelector) is always visible and not pushed out of view */
