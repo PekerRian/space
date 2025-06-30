@@ -227,23 +227,23 @@ li {
     flex-direction: row;
     align-items: center;
     justify-content: flex-start;
-    padding: 0.05em 0.02em !important;
+    padding: 0.01em 0.01em !important;
     min-width: 0 !important;
     max-width: 100vw !important;
     width: 100vw !important;
     box-sizing: border-box;
-    height: 28px !important;
+    height: 26px !important;
     overflow-x: auto;
   }
   .navbar-btn-group {
     flex-direction: row;
     flex-wrap: nowrap;
     overflow-x: auto;
-    gap: 0.5em !important;
+    gap: 0.2em !important;
     min-width: 0 !important;
     max-width: 100vw !important;
     width: 100vw !important;
-    padding: 0.03em 0.01em !important;
+    padding: 0.01em 0.01em !important;
     box-sizing: border-box;
     justify-content: flex-start;
     align-items: center;
@@ -253,21 +253,34 @@ li {
     height: 100%;
   }
   .navbar-tab-btn {
-    font-size: 0.75em !important;
-    padding: 0.08em 0.28em !important;
-    min-width: 38px !important;
-    max-width: 60px !important;
-    height: 18px !important;
+    font-size: 0.68em !important;
+    padding: 0.04em 0.16em !important;
+    min-width: 28px !important;
+    max-width: 44px !important;
+    width: 38px !important;
+    height: 16px !important;
     line-height: 1.1;
     border-radius: 999px !important;
+    margin: 0 0.04em !important;
   }
   .navbar-username {
-    margin-left: 0.1em !important;
-    margin-right: 0.02em !important;
-    font-size: 0.75em !important;
-    max-width: 48px;
+    margin-left: 0.04em !important;
+    margin-right: 0.01em !important;
+    font-size: 0.68em !important;
+    max-width: 32px;
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
+  }
+  .wallet-button {
+    min-width: 0 !important;
+    max-width: 32px !important;
+    width: 24px !important;
+    height: 16px !important;
+    font-size: 0.68em !important;
+    padding: 0 !important;
+    display: inline-flex !important;
+    align-items: center;
+    justify-content: center;
   }
 }
