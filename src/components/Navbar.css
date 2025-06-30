@@ -168,6 +168,18 @@ body, html, * {
     align-items: center;
     justify-content: center;
   }
+  .navbar-btn-group .wallet-selector-btn,
+  .navbar-btn-group .wallet-selector-btn .ant-btn,
+  .navbar-btn-group .wallet-selector-btn .ant-btn span {
+    min-width: 0 !important;
+    max-width: 44px !important;
+    width: 32px !important;
+    padding: 0 !important;
+    font-size: 0.82em !important;
+    display: inline-flex !important;
+    align-items: center;
+    justify-content: center;
+  }
 }
 
 /* Ensure the connect button (WalletSelector) is always visible and not pushed out of view */
