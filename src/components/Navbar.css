@@ -96,7 +96,7 @@ body, html, * {
     right: 0 !important;
     bottom: 0 !important;
     top: unset !important;
-    z-index: 1001 !important;
+    z-index: 2147483640 !important; /* ensure navbar is above almost all content except modals/popups */
     width: 100vw !important;
     height: 54px !important;
     background: linear-gradient(90deg, #181c36 0%, #23285a 100%) !important;
