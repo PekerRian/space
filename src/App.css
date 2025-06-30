@@ -256,7 +256,7 @@ li {
     bottom: 0 !important;
     background: #181c36 !important;
     box-shadow: 0 -2px 16px #00ffea44 !important;
-    z-index: 99999 !important;
+    z-index: 9998 !important;
     min-height: 54px;
     height: 54px;
     margin-top: 3.2em; /* push below the footer ticker */

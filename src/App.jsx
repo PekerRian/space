@@ -205,7 +205,7 @@ function AppRoutes() {
       {!isMobile && !(isMobile && showRegister) && <SupportCorner />}
       <FooterTicker />
       {isMobile && !(isMobile && showRegister) && (
-        <div style={{ width: '100%', display: 'flex', justifyContent: 'center', alignItems: 'center', position: 'fixed', left: 0, bottom: 0, zIndex: 99999, background: 'transparent' }}>
+        <div style={{ width: '100%', display: 'flex', justifyContent: 'center', alignItems: 'center', position: 'absolute', left: 0, bottom: 0, zIndex: 9998, background: 'transparent', pointerEvents: 'auto' }}>
           <SupportCorner mobile />
         </div>
       )}
