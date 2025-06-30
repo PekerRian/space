@@ -70,14 +70,14 @@ export function LoadingBuffer() {
   );
 }
 
-function SupportCorner() {
+function SupportCorner({ mobile }) {
   const [open, setOpen] = React.useState(false);
   const text = "support this app";
   return (
     <>
       <div
-        className="support-corner"
-        style={{ cursor: 'pointer', pointerEvents: 'auto' }}
+        className={mobile ? "support-corner support-corner-mobile" : "support-corner"}
+        style={mobile ? { width: '100%', borderRadius: 0, margin: 0, position: 'static', bottom: 0, left: 0, background: '#181c36', boxShadow: '0 -2px 16px #00ffea44' } : { cursor: 'pointer', pointerEvents: 'auto' }}
         onClick={() => setOpen(true)}
         title="Support this app"
       >
@@ -202,8 +202,13 @@ function AppRoutes() {
         <WalletAuth walletAddress={walletAddress} onProfileCreated={handleProfileCreated} />
       </Modal>
       <FooterTicker />
-      {/* Hide SupportCorner on mobile when wallet connect/registration is open */}
-      {!(isMobile && showRegister) && <SupportCorner />}
+      {/* Desktop: persistent floating, Mobile: below footer */}
+      {!isMobile && !(isMobile && showRegister) && <SupportCorner />}
+      {isMobile && !(isMobile && showRegister) && (
+        <div style={{ width: '100%', position: 'fixed', left: 0, bottom: 0, zIndex: 99999 }}>
+          <SupportCorner mobile />
+        </div>
+      )}
     </>
   );
 }

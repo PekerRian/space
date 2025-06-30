@@ -237,4 +237,32 @@ li {
     color: #fff700 !important;
   }
 }
-/* --- End button unification --- */
+
+/* SupportCorner mobile styles */
+@media (max-width: 700px) {
+  .support-corner {
+    display: none !important;
+  }
+  .support-corner-mobile {
+    display: flex !important;
+    justify-content: center;
+    align-items: center;
+    width: 100vw !important;
+    max-width: 100vw !important;
+    border-radius: 0 !important;
+    margin: 0 !important;
+    position: static !important;
+    left: 0 !important;
+    bottom: 0 !important;
+    background: #181c36 !important;
+    box-shadow: 0 -2px 16px #00ffea44 !important;
+    z-index: 99999 !important;
+    min-height: 54px;
+    height: 54px;
+  }
+  .support-corner-mobile .support-corner-text-glow {
+    font-size: 1.1em !important;
+    width: 100%;
+    text-align: center;
+  }
+}
