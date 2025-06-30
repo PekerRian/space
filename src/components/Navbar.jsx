@@ -3,6 +3,7 @@ import React, { useState } from "react";
 import "./Navbar.css";
 import { WalletSelector } from "@aptos-labs/wallet-adapter-ant-design";
 import { useWallet } from "@aptos-labs/wallet-adapter-react";
+import { CalendarIcon, UserIcon, CoinIcon, FistIcon } from "./NavIcons";
 
 /**
  * Props:
@@ -51,28 +52,32 @@ export default function Navbar({ username }) {
           onClick={() => navigate("/calendar")}
           type="button"
         >
-          Calendar
+          <span className="navbar-icon-glow mobile-only"><CalendarIcon /></span>
+          <span className="desktop-only">Calendar</span>
         </button>
         <button
           className={`navbar-tab-btn${isActive("/user") ? " active" : ""}`}
           onClick={() => navigate("/user")}
           type="button"
         >
-          User Tab
+          <span className="navbar-icon-glow mobile-only"><UserIcon /></span>
+          <span className="desktop-only">User Tab</span>
         </button>
         <button
           className={`navbar-tab-btn${isActive("/flowers") ? " active" : ""}`}
           onClick={() => navigate("/flowers")}
           type="button"
         >
-          Flowers
+          <span className="navbar-icon-glow mobile-only"><CoinIcon /></span>
+          <span className="desktop-only">Flowers</span>
         </button>
         <button
           className={`navbar-tab-btn${isActive("/upvotes") ? " active" : ""}`}
           onClick={() => navigate("/upvotes")}
           type="button"
         >
-          Upvotes
+          <span className="navbar-icon-glow mobile-only"><FistIcon /></span>
+          <span className="desktop-only">Upvotes</span>
         </button>
         <div style={{ marginLeft: "auto" }}>
           <WalletSelector className="wallet-selector-btn" />
