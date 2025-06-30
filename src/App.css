@@ -240,8 +240,16 @@ li {
 
 /* SupportCorner mobile styles */
 @media (max-width: 700px) {
-  .support-corner {
-    display: none !important;
+  #root, .App {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+  }
+  .main-content {
+    flex: 1 0 auto;
+  }
+  .footer-ticker {
+    flex-shrink: 0;
   }
   .support-corner-mobile {
     display: flex !important;
@@ -260,6 +268,12 @@ li {
     min-height: 54px;
     height: 54px;
     margin-top: 3.2em; /* push below the footer ticker */
+    flex-shrink: 0;
+    margin-bottom: 0.8em;
+    margin-top: 0.2em;
+    display: flex;
+    justify-content: center;
+    width: 100%;
   }
   .support-corner-mobile .support-corner-text-glow {
     font-size: 1.1em !important;
