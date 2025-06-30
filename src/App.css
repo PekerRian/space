@@ -254,6 +254,14 @@ li {
   }
   .navbar-tab-btn,
   .wallet-button {
+    background: #3b61e1 !important;
+    border: none !important;
+    color: #fff !important;
+    border-radius: 999px !important;
+    font-weight: 600 !important;
+    box-shadow: 0 2px 8px rgba(80,106,255,0.10) !important;
+    transition: background 0.16s, transform 0.14s !important;
+    margin: 0 0.02em !important;
     font-size: 0.60em !important;
     padding: 0.02em 0.08em !important;
     min-width: 22px !important;
@@ -261,17 +269,27 @@ li {
     width: 28px !important;
     height: 14px !important;
     line-height: 1.1;
-    border-radius: 999px !important;
-    margin: 0 0.02em !important;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
     text-align: center;
-    /* Ensure same box model and alignment */
     display: inline-flex !important;
     align-items: center;
     justify-content: center;
     box-sizing: border-box;
+  }
+  .navbar-tab-btn.active,
+  .wallet-button.active {
+    background: linear-gradient(90deg, #506aff 30%, #7f8fff 100%) !important;
+    color: #fff !important;
+    transform: scale(1.09);
+  }
+  .navbar-tab-btn:hover,
+  .wallet-button:hover,
+  .navbar-tab-btn:focus,
+  .wallet-button:focus {
+    background: #0056b3 !important;
+    color: #fff !important;
   }
   .navbar-username {
     font-size: 0.60em !important;
@@ -283,3 +301,45 @@ li {
     white-space: nowrap;
   }
 }
+
+/* --- Make .wallet-button visually identical to .navbar-tab-btn for desktop as well --- */
+.navbar-tab-btn,
+.wallet-button {
+  background: #3b61e1 !important;
+  border: none !important;
+  color: #fff !important;
+  border-radius: 999px !important;
+  font-weight: 600 !important;
+  box-shadow: 0 2px 8px rgba(80,106,255,0.10) !important;
+  transition: background 0.16s, transform 0.14s !important;
+  margin: 0 0.1em !important;
+  font-size: 1.1em !important;
+  padding: 0.6em 1.5em !important;
+  min-width: 100px !important;
+  max-width: 180px !important;
+  width: 120px !important;
+  height: 38px !important;
+  line-height: 1.2;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  text-align: center;
+  display: inline-flex !important;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+}
+.navbar-tab-btn.active,
+.wallet-button.active {
+  background: linear-gradient(90deg, #506aff 30%, #7f8fff 100%) !important;
+  color: #fff !important;
+  transform: scale(1.09);
+}
+.navbar-tab-btn:hover,
+.wallet-button:hover,
+.navbar-tab-btn:focus,
+.wallet-button:focus {
+  background: #0056b3 !important;
+  color: #fff !important;
+}
+/* --- End desktop button unification --- */
