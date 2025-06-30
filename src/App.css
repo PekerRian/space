@@ -241,24 +241,29 @@ li {
 /* SupportCorner mobile styles */
 @media (max-width: 700px) {
   #root, .App {
-    min-height: 100vh;
-    display: flex;
-    flex-direction: column;
+    min-height: 100vh !important;
+    display: flex !important;
+    flex-direction: column !important;
   }
   .main-content {
-    flex: 1 0 auto;
-    display: flex;
-    flex-direction: column;
+    flex: 1 0 auto !important;
+    display: flex !important;
+    flex-direction: column !important;
   }
   .footer-ticker {
-    flex-shrink: 0;
+    flex-shrink: 0 !important;
   }
   .support-corner-mobile {
-    flex-shrink: 0;
-    margin-bottom: 0.8em;
-    margin-top: 0.2em;
-    display: flex;
-    justify-content: center;
-    width: 100%;
+    flex-shrink: 0 !important;
+    margin-bottom: 0.8em !important;
+    margin-top: 0.2em !important;
+    display: flex !important;
+    justify-content: center !important;
+    width: 100% !important;
+    position: static !important;
+    left: unset !important;
+    right: unset !important;
+    bottom: unset !important;
+    top: unset !important;
   }
 }
