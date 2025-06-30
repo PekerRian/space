@@ -240,7 +240,7 @@ li {
 
 /* SupportCorner mobile styles */
 @media (max-width: 700px) {
-  #root, .App, .main-content {
+  #root, .App, .main-content, .app-zoom-wrapper {
     min-height: 100vh !important;
     display: flex !important;
     flex-direction: column !important;
