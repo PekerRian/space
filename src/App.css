@@ -169,13 +169,15 @@ li {
 /* --- Unify .wallet-button and .navbar-tab-btn size and style for all views --- */
 .navbar-tab-btn,
 .wallet-button {
-  background: #3b61e1 !important;
+  background: transparent !important;
   border: none !important;
   color: #fff !important;
   border-radius: 999px !important;
   font-weight: 600 !important;
-  box-shadow: 0 2px 8px rgba(80,106,255,0.10) !important;
-  transition: background 0.16s, transform 0.14s !important;
+  /* Blue glow (footer color) */
+  box-shadow: 0 0 8px 2px #3b61e1, 0 2px 8px rgba(80,106,255,0.10) !important;
+  text-shadow: 0 0 6px #3b61e1, 0 0 2px #fff !important;
+  transition: background 0.16s, transform 0.14s, box-shadow 0.18s, text-shadow 0.18s !important;
   margin: 0 0.1em !important;
   font-size: 1.1em !important;
   padding: 0.6em 1.5em !important;
@@ -194,6 +196,20 @@ li {
   box-sizing: border-box;
 }
 
+.navbar-tab-btn.active,
+.wallet-button.active,
+.navbar-tab-btn:active,
+.wallet-button:active,
+.navbar-tab-btn:focus,
+.wallet-button:focus,
+.navbar-tab-btn:hover,
+.wallet-button:hover {
+  /* Yellow glow when selected/active/hover */
+  box-shadow: 0 0 10px 3px #ffe066, 0 0 8px 2px #3b61e1, 0 2px 8px rgba(80,106,255,0.10) !important;
+  text-shadow: 0 0 8px #ffe066, 0 0 2px #fff !important;
+  color: #fff700 !important;
+}
+
 @media (max-width: 700px) {
   .navbar-tab-btn,
   .wallet-button {
@@ -204,6 +220,21 @@ li {
     width: 48px !important;
     height: 18px !important;
     margin: 0 0.02em !important;
+    /* Maintain blue glow and font glow for mobile */
+    box-shadow: 0 0 6px 1.5px #3b61e1, 0 1px 4px rgba(80,106,255,0.10) !important;
+    text-shadow: 0 0 4px #3b61e1, 0 0 1.5px #fff !important;
+  }
+  .navbar-tab-btn.active,
+  .wallet-button.active,
+  .navbar-tab-btn:active,
+  .wallet-button:active,
+  .navbar-tab-btn:focus,
+  .wallet-button:focus,
+  .navbar-tab-btn:hover,
+  .wallet-button:hover {
+    box-shadow: 0 0 8px 2.5px #ffe066, 0 0 6px 1.5px #3b61e1, 0 1px 4px rgba(80,106,255,0.10) !important;
+    text-shadow: 0 0 6px #ffe066, 0 0 1.5px #fff !important;
+    color: #fff700 !important;
   }
 }
 /* --- End button unification --- */

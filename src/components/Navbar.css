@@ -287,22 +287,26 @@ body, html, * {
 }
 /* --- End WalletSelector Ant Design Button Customization --- */
 
-/* --- Unify .wallet-button and .navbar-tab-btn size and style for all views --- */
+/* --- Transparent, glowing navbar buttons with blue/yellow glow and glowing font --- */
 .navbar-tab-btn,
 .wallet-button {
-  background: #3b61e1 !important;
-  border: none !important;
-  color: #fff !important;
+  background: transparent !important;
+  border: 2.5px solid #00ffea !important;
+  color: #00ffea !important;
   border-radius: 999px !important;
   font-weight: 600 !important;
-  box-shadow: 0 2px 8px rgba(80,106,255,0.10) !important;
-  transition: background 0.16s, transform 0.14s !important;
+  box-shadow: 0 0 24px 4px #00ffea, 0 0 8px 0 #00ffea !important;
+  text-shadow:
+    0 0 8px #00ffea,
+    0 0 16px #00ffea,
+    0 0 24px #00ffea;
+  transition: background 0.16s, color 0.16s, border 0.16s, box-shadow 0.16s, text-shadow 0.16s !important;
   margin: 0 0.1em !important;
   font-size: 1.1em !important;
   padding: 0.6em 1.5em !important;
-  min-width: 120px !important;
+  min-width: 100px !important;
   max-width: 180px !important;
-  width: 140px !important;
+  width: 120px !important;
   height: 38px !important;
   line-height: 1.2;
   white-space: nowrap;
@@ -314,7 +318,29 @@ body, html, * {
   justify-content: center;
   box-sizing: border-box;
 }
-
+.navbar-tab-btn.active,
+.wallet-button.active {
+  background: rgba(255, 224, 102, 0.16) !important;
+  border-color: #fff700 !important;
+  color: #fff700 !important;
+  box-shadow: 0 0 32px 8px #fff700, 0 0 16px 0 #fff700 !important;
+  text-shadow:
+    0 0 12px #fff700,
+    0 0 24px #fff700,
+    0 0 36px #fff700;
+}
+.navbar-tab-btn:hover,
+.wallet-button:hover,
+.navbar-tab-btn:focus,
+.wallet-button:focus {
+  background: rgba(0,255,234,0.10) !important;
+  color: #fff !important;
+  border-color: #00ffea !important;
+  box-shadow: 0 0 32px 8px #00ffea, 0 0 16px 0 #00ffea !important;
+  text-shadow:
+    0 0 16px #00ffea,
+    0 0 32px #00ffea;
+}
 @media (max-width: 700px) {
   .navbar-tab-btn,
   .wallet-button {
@@ -326,5 +352,13 @@ body, html, * {
     height: 18px !important;
     margin: 0 0.02em !important;
   }
+  .navbar-tab-btn.active,
+  .wallet-button.active {
+    background: rgba(255, 224, 102, 0.18) !important;
+    color: #fffbe6 !important;
+    border-color: #fffbe6 !important;
+    box-shadow: 0 0 24px 6px #fff700, 0 0 16px 0 #fff700 !important;
+    text-shadow: 0 0 16px #fff700, 0 0 2px #fff;
+  }
 }
-/* --- End button unification --- */
+/* --- End glowing transparent navbar buttons --- */
