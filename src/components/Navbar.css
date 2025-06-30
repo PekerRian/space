@@ -304,9 +304,9 @@ body, html, * {
   margin: 0 0.1em !important;
   font-size: 1.1em !important;
   padding: 0.6em 1.5em !important;
-  min-width: 100px !important;
-  max-width: 180px !important;
-  width: 120px !important;
+  min-width: 140px !important;
+  max-width: 240px !important;
+  width: 170px !important;
   height: 38px !important;
   line-height: 1.2;
   white-space: nowrap;
@@ -346,10 +346,10 @@ body, html, * {
   .wallet-button {
     font-size: 0.60em !important;
     padding: 0.02em 0.08em !important;
-    min-width: 38px !important;
-    max-width: 60px !important;
-    width: 48px !important;
-    height: 18px !important;
+    min-width: 64px !important;
+    max-width: 110px !important;
+    width: 80px !important;
+    height: 22px !important;
     margin: 0 0.02em !important;
   }
   .navbar-tab-btn.active,
