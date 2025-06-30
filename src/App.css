@@ -161,148 +161,12 @@ li {
   white-space: nowrap;
 }
 
-/* --- WalletSelector Ant Design Button Customization --- */
+/* --- Remove old wallet-button overrides to prevent conflicts --- */
 .wallet-button {
-  min-width: 0 !important;
-  max-width: 44px !important;
-  width: 32px !important;
-  height: 22px !important;
-  font-size: 0.82em !important;
-  padding: 0 !important;
-  display: inline-flex !important;
-  align-items: center;
-  justify-content: center;
-  background: #111 !important;
-  color: #00ffea !important;
-  border: 2.5px solid #00ffea !important;
-  box-shadow: 0 0 32px 8px #00ffea, 0 0 16px 0 #00ffea;
-  text-shadow: 0 0 12px #00ffea, 0 0 24px #00ffea;
-  font-weight: 700;
-  animation: footerGlowPulse 2.2s ease-in-out infinite alternate;
-  transition: background 0.16s, color 0.16s, border 0.16s, box-shadow 0.16s;
-}
-.wallet-button:hover,
-.wallet-button:focus {
-  background: #fff !important;
-  color: #111 !important;
-  border-color: #00ffea !important;
-  text-shadow: 0 0 24px #00ffea, 0 0 48px #00ffea;
-  box-shadow: 0 0 48px 12px #00ffea, 0 0 24px 0 #00ffea;
-}
-/* --- End WalletSelector Ant Design Button Customization --- */
-
-@media (max-width: 700px) {
-  .container {
-    max-width: 98vw !important;
-    margin: 0.7em auto !important;
-    padding: 1em 0.5em !important;
-    border-radius: 8px !important;
-    box-shadow: 0 1px 6px rgba(0,0,0,0.08) !important;
-  }
-  form.card {
-    padding: 1em 0.5em !important;
-    border-radius: 6px !important;
-    gap: 0.7em !important;
-  }
-  input, textarea {
-    font-size: 1em !important;
-    padding: 0.7em 0.7em !important;
-    border-radius: 6px !important;
-  }
-  button:not(.button):not(.navbar-tab-btn):not(.navbar-brand):not(.navbar-toggle) {
-    font-size: 1em !important;
-    padding: 0.8em 0 !important;
-    border-radius: 6px !important;
-  }
-  h1, h2, h3 {
-    font-size: 1.1em !important;
-    margin: 0.7em 0 0.5em 0 !important;
-  }
-  ul, li {
-    font-size: 0.98em !important;
-    padding: 0.7em !important;
-    margin-bottom: 0.7em !important;
-  }
-  .navbar {
-    flex-direction: row;
-    align-items: center;
-    justify-content: flex-start;
-    padding: 0.01em 0.01em !important;
-    min-width: 0 !important;
-    max-width: 100vw !important;
-    width: 100vw !important;
-    box-sizing: border-box;
-    height: 26px !important;
-    overflow-x: auto;
-  }
-  .navbar-btn-group {
-    flex-direction: row;
-    flex-wrap: nowrap;
-    overflow-x: auto;
-    gap: 0.2em !important;
-    min-width: 0 !important;
-    max-width: 100vw !important;
-    width: 100vw !important;
-    padding: 0.01em 0.01em !important;
-    box-sizing: border-box;
-    justify-content: flex-start;
-    align-items: center;
-    scrollbar-width: thin;
-    scrollbar-color: #506aff #21264b;
-    -webkit-overflow-scrolling: touch;
-    height: 100%;
-  }
-  .navbar-tab-btn,
-  .wallet-button {
-    background: #3b61e1 !important;
-    border: none !important;
-    color: #fff !important;
-    border-radius: 999px !important;
-    font-weight: 600 !important;
-    box-shadow: 0 2px 8px rgba(80,106,255,0.10) !important;
-    transition: background 0.16s, transform 0.14s !important;
-    margin: 0 0.02em !important;
-    font-size: 0.60em !important;
-    padding: 0.02em 0.08em !important;
-    min-width: 22px !important;
-    max-width: 32px !important;
-    width: 28px !important;
-    height: 14px !important;
-    line-height: 1.1;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    text-align: center;
-    display: inline-flex !important;
-    align-items: center;
-    justify-content: center;
-    box-sizing: border-box;
-  }
-  .navbar-tab-btn.active,
-  .wallet-button.active {
-    background: linear-gradient(90deg, #506aff 30%, #7f8fff 100%) !important;
-    color: #fff !important;
-    transform: scale(1.09);
-  }
-  .navbar-tab-btn:hover,
-  .wallet-button:hover,
-  .navbar-tab-btn:focus,
-  .wallet-button:focus {
-    background: #0056b3 !important;
-    color: #fff !important;
-  }
-  .navbar-username {
-    font-size: 0.60em !important;
-    max-width: 22px;
-    margin-left: 0.02em !important;
-    margin-right: 0.01em !important;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-  }
+  /* Remove all previous sizing and border overrides, let unified rules below take effect */
 }
 
-/* --- Make .wallet-button visually identical to .navbar-tab-btn for desktop as well --- */
+/* --- Unify .wallet-button and .navbar-tab-btn size and style for all views --- */
 .navbar-tab-btn,
 .wallet-button {
   background: #3b61e1 !important;
@@ -329,17 +193,17 @@ li {
   justify-content: center;
   box-sizing: border-box;
 }
-.navbar-tab-btn.active,
-.wallet-button.active {
-  background: linear-gradient(90deg, #506aff 30%, #7f8fff 100%) !important;
-  color: #fff !important;
-  transform: scale(1.09);
+
+@media (max-width: 700px) {
+  .navbar-tab-btn,
+  .wallet-button {
+    font-size: 0.60em !important;
+    padding: 0.02em 0.08em !important;
+    min-width: 38px !important;
+    max-width: 60px !important;
+    width: 48px !important;
+    height: 18px !important;
+    margin: 0 0.02em !important;
+  }
 }
-.navbar-tab-btn:hover,
-.wallet-button:hover,
-.navbar-tab-btn:focus,
-.wallet-button:focus {
-  background: #0056b3 !important;
-  color: #fff !important;
-}
-/* --- End desktop button unification --- */
+/* --- End button unification --- */

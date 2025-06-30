@@ -286,3 +286,45 @@ body, html, * {
   box-shadow: 0 0 48px 12px #00ffea, 0 0 24px 0 #00ffea;
 }
 /* --- End WalletSelector Ant Design Button Customization --- */
+
+/* --- Unify .wallet-button and .navbar-tab-btn size and style for all views --- */
+.navbar-tab-btn,
+.wallet-button {
+  background: #3b61e1 !important;
+  border: none !important;
+  color: #fff !important;
+  border-radius: 999px !important;
+  font-weight: 600 !important;
+  box-shadow: 0 2px 8px rgba(80,106,255,0.10) !important;
+  transition: background 0.16s, transform 0.14s !important;
+  margin: 0 0.1em !important;
+  font-size: 1.1em !important;
+  padding: 0.6em 1.5em !important;
+  min-width: 120px !important;
+  max-width: 180px !important;
+  width: 140px !important;
+  height: 38px !important;
+  line-height: 1.2;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  text-align: center;
+  display: inline-flex !important;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+}
+
+@media (max-width: 700px) {
+  .navbar-tab-btn,
+  .wallet-button {
+    font-size: 0.60em !important;
+    padding: 0.02em 0.08em !important;
+    min-width: 38px !important;
+    max-width: 60px !important;
+    width: 48px !important;
+    height: 18px !important;
+    margin: 0 0.02em !important;
+  }
+}
+/* --- End button unification --- */
