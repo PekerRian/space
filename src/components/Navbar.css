@@ -154,16 +154,19 @@ body, html, * {
     text-shadow: 0 0 12px #ffe066, 0 0 1px #fff;
   }
   .navbar-btn-group .wallet-selector-btn {
-    min-width: 54px !important;
-    max-width: 80px !important;
-    width: 70px !important;
+    min-width: 36px !important;
+    max-width: 54px !important;
+    width: 44px !important;
     height: 22px !important;
     font-size: 0.82em !important;
-    padding: 0.08em 0.3em !important;
+    padding: 0.08em 0.2em !important;
     border-width: 2px !important;
     box-shadow: 0 0 6px 1px #00ffea;
     text-shadow: 0 0 6px #00ffea;
     margin: 0.2em 0.1em !important;
+    display: inline-flex !important;
+    align-items: center;
+    justify-content: center;
   }
 }
 
