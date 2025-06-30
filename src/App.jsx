@@ -201,11 +201,11 @@ function AppRoutes() {
       <Modal open={showRegister} onClose={() => {}}>
         <WalletAuth walletAddress={walletAddress} onProfileCreated={handleProfileCreated} />
       </Modal>
-      <FooterTicker />
       {/* Desktop: persistent floating, Mobile: below footer */}
       {!isMobile && !(isMobile && showRegister) && <SupportCorner />}
+      <FooterTicker />
       {isMobile && !(isMobile && showRegister) && (
-        <div style={{ width: '100%', position: 'fixed', left: 0, bottom: 0, zIndex: 99999 }}>
+        <div style={{ width: '100%', display: 'flex', justifyContent: 'center', alignItems: 'center', position: 'fixed', left: 0, bottom: 0, zIndex: 99999, background: 'transparent' }}>
           <SupportCorner mobile />
         </div>
       )}

@@ -250,7 +250,7 @@ li {
     width: 100vw !important;
     max-width: 100vw !important;
     border-radius: 0 !important;
-    margin: 0 !important;
+    margin: 0 auto !important;
     position: static !important;
     left: 0 !important;
     bottom: 0 !important;
@@ -259,6 +259,7 @@ li {
     z-index: 99999 !important;
     min-height: 54px;
     height: 54px;
+    margin-top: 3.2em; /* push below the footer ticker */
   }
   .support-corner-mobile .support-corner-text-glow {
     font-size: 1.1em !important;
