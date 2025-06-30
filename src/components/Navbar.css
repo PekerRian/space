@@ -366,14 +366,18 @@ body, html, * {
     align-items: center !important;
     justify-content: center !important;
     text-align: center !important;
+    /* Remove box-shadow and text-shadow for better mobile performance */
+    box-shadow: none !important;
+    text-shadow: none !important;
   }
   .navbar-tab-btn.active,
   .wallet-button.active {
     background: rgba(255, 224, 102, 0.18) !important;
     color: #fffbe6 !important;
     border-color: #fffbe6 !important;
-    box-shadow: 0 0 24px 6px #fff700, 0 0 16px 0 #fff700 !important;
-    text-shadow: 0 0 16px #fff700, 0 0 2px #fff;
+    /* Remove heavy shadow for active state on mobile */
+    box-shadow: none !important;
+    text-shadow: none !important;
   }
 }
 /* --- End glowing transparent navbar buttons --- */
