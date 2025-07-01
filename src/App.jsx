@@ -187,32 +187,6 @@ function AppRoutes() {
 
   if (!profileChecked) return <LoadingBuffer />;
 
-  // Mobile: FooterTicker first, then Support, then Navbar at the very end
-  if (isMobile) {
-    return (
-      <>
-        <Routes>
-          <Route path="/calendar" element={<CalendarPage />} />
-          <Route path="/user" element={<UserTab />} />
-          <Route path="/spaces" element={<Spaces walletAddress={walletAddress} />} />
-          <Route path="/flowers" element={<Flowers />} />
-          <Route path="/upvotes" element={<Upvotes walletAddress={walletAddress} />} />
-          <Route path="*" element={<NotFoundPage />} />
-        </Routes>
-        <Modal open={showRegister} onClose={() => {}}>
-          <WalletAuth walletAddress={walletAddress} onProfileCreated={handleProfileCreated} />
-        </Modal>
-        {!(isMobile && showRegister) && (
-          <div style={{ width: '100%', display: 'flex', justifyContent: 'center', alignItems: 'center', position: 'static', left: 'unset', bottom: 'unset', zIndex: 'auto', background: 'transparent', pointerEvents: 'auto', margin: 0, padding: 0 }}>
-            <SupportCorner mobile />
-          </div>
-        )}
-        <Navbar username={userData?.username} />
-      </>
-    );
-  }
-
-  // Desktop: Navbar at top, Footer at bottom
   return (
     <>
       <Navbar username={userData?.username} />
@@ -227,8 +201,42 @@ function AppRoutes() {
       <Modal open={showRegister} onClose={() => {}}>
         <WalletAuth walletAddress={walletAddress} onProfileCreated={handleProfileCreated} />
       </Modal>
+      {/* Desktop: persistent floating, Mobile: below footer */}
       {!isMobile && !(isMobile && showRegister) && <SupportCorner />}
+      <FooterTicker />
+      {isMobile && !(isMobile && showRegister) && (
+        // Place as a normal block, not absolutely positioned
+        <div style={{ width: '100%', display: 'flex', justifyContent: 'center', alignItems: 'center', position: 'static', left: 'unset', bottom: 'unset', zIndex: 'auto', background: 'transparent', pointerEvents: 'auto', margin: 0, padding: 0 }}>
+          <SupportCorner mobile />
+        </div>
+      )}
     </>
+  );
+}
+
+function FooterTicker() {
+  return (
+    <div className="footer-ticker-bg">
+      <div className="footer-ticker-track">
+        <span className="footer-ticker-text">
+          POWERED BY APTOS
+          <span className="footer-ticker-gap">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+          AIP-119 is now live for community vote 🗳️
+          <span className="footer-ticker-gap">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+          HashPalette is now <span style={{color:'#ffe066'}}>@AptosJapan_Org</span>!
+          <span className="footer-ticker-gap">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+        </span>
+        {/* Duplicate for seamless loop */}
+        <span className="footer-ticker-text">
+          POWERED BY APTOS
+          <span className="footer-ticker-gap">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+          AIP-119 is now live for community vote 🗳️
+          <span className="footer-ticker-gap">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+          HashPalette is now <span style={{color:'#ffe066'}}>@AptosJapan_Org</span>!
+          <span className="footer-ticker-gap">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+        </span>
+      </div>
+    </div>
   );
 }
 
