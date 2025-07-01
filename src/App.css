@@ -22,9 +22,9 @@ input, textarea, select, button {
 }
 
 .container {
-  max-width: 600px;
-  margin: 2rem auto;
-  padding: 2rem;
+  max-width: 400px;
+  margin: 0.5rem auto;
+  padding: 0.5rem;
   background: #fff;
   border-radius: 12px;
   box-shadow: 0 2px 12px rgba(0,0,0,0.1);
@@ -120,6 +120,12 @@ li {
 
 @media (max-width: 600px) {
   .calendar-main-container, .calendar-left-panel, .calendar-right-panel, .user-tab-container, .calendar-bg, .flowers-leaderboard-container, .page-container, .animated-panel {
+    max-width: 98vw !important;
+    padding: 0.2rem !important;
+    margin: 0.2rem auto !important;
+  }
+
+  .container {
     max-width: 98vw !important;
     padding: 0.2rem !important;
     margin: 0.2rem auto !important;
