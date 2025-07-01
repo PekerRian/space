@@ -70,11 +70,12 @@ function WalletAuth({ walletAddress, onProfileCreated }) {
       <div
         className="calendar-modal-content"
         style={{
-          maxWidth: 400,
+          maxWidth: 320,
+          minWidth: 180,
           margin: "0 auto",
-          padding: 20,
+          padding: 12,
           boxSizing: "border-box",
-          width: "100%",
+          width: "96%",
           minHeight: "auto",
           display: "flex",
           flexDirection: "column",

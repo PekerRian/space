@@ -17,6 +17,7 @@ import NotFoundPage from "./pages/NotFoundPage";
 import "@aptos-labs/wallet-adapter-ant-design/dist/index.css";
 import "antd/dist/reset.css";
 import "./footer-glow.css";
+import "./calendar-modal-smaller.css";
 
 // Simple Modal for registration popup
 function Modal({ open, onClose, children }) {

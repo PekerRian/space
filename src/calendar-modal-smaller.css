@@ -1,0 +1,24 @@
+/* Smaller modal for wallet connection */
+.calendar-modal-content {
+  max-width: 340px !important;
+  min-width: 220px !important;
+  width: 90vw !important;
+  padding: 1.5em 1.2em !important;
+  border-radius: 18px !important;
+  background: #181c36 !important;
+  box-shadow: 0 8px 32px 0 #000a, 0 0 0 2px #3b61e1;
+  position: relative;
+  z-index: 2147483647 !important;
+  margin: 8vh auto !important;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+@media (max-width: 500px) {
+  .calendar-modal-content {
+    max-width: 98vw !important;
+    min-width: 0 !important;
+    padding: 1em 0.5em !important;
+  }
+}
