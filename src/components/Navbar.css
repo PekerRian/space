@@ -294,9 +294,6 @@ body, html, * {
 .wallet-adapter-modal-wrapper,
 .wallet-adapter-modal,
 .wallet-adapter-modal-overlay,
-.ant-modal-content,
-.ant-modal,
-.ant-modal-root,
 .ant-modal-mask {
   z-index: 999999999 !important;
   position: fixed !important;
@@ -307,9 +304,11 @@ body, html, * {
   pointer-events: all !important;
 }
 
-/* Also force all children of the modal to be above everything */
-.wallet-adapter-modal-wrapper *,
-.ant-modal-content * {
-  z-index: 999999999 !important;
+.ant-modal,
+.ant-modal-root,
+.ant-modal-content,
+.wallet-adapter-modal-wrapper * {
+  z-index: 1000000000 !important;
   position: relative !important;
+  pointer-events: auto !important;
 }
