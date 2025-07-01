@@ -270,6 +270,21 @@ body, html, * {
   }
   .wallet-selector-btn {
     margin-left: 1.5em !important;
+    width: 120px !important;
+    min-width: 100px !important;
+    max-width: 180px !important;
+    height: 38px !important;
+    border-radius: 999px !important;
+    padding: 0 1.2em !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    box-shadow: 0 0 8px 2px #00ffea44;
+    border: 2.5px solid #00ffea;
+    background: #181c36;
+    font-size: 1.1em !important;
+    color: #00ffea !important;
+    margin: 0 auto;
   }
   .navbar-icon-glow {
     display: none !important;
