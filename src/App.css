@@ -260,29 +260,28 @@ li {
     max-width: 80px;
   }
   .navbar-tab-btn, .wallet-selector-btn {
-    min-width: 48px !important;
-    max-width: 64px !important;
-    width: 56px !important;
-    height: 56px !important;
+    min-width: 0 !important;
+    max-width: none !important;
+    width: auto !important;
+    height: auto !important;
     font-size: 0.52em !important;
     padding: 0 !important;
-    margin: 0 !important;
-    display: flex !important;
-    align-items: center !important;
-    justify-content: center !important;
-    border-radius: 50% !important;
-    background: transparent !important;
+    margin: 0 0 24px 0 !important;
+    display: none !important;
+    background: none !important;
     border: none !important;
     box-shadow: none !important;
     text-shadow: none !important;
-    position: relative;
+    border-radius: 0 !important;
+    position: static !important;
   }
   .navbar-icon-glow {
     display: flex !important;
     align-items: center;
     justify-content: center;
-    width: 36px;
-    height: 36px;
+    width: 38px;
+    height: 38px;
+    margin: 0 auto;
     color: #00ffea !important;
     filter: drop-shadow(0 0 8px #00ffea) drop-shadow(0 0 16px #00ffea);
     transition: color 0.18s, filter 0.18s;
@@ -290,9 +289,9 @@ li {
     border-radius: 50%;
     border: 2.5px solid #00ffea;
     box-shadow: 0 0 8px 2px #00ffea44;
+    cursor: pointer;
   }
-  .navbar-tab-btn.active .navbar-icon-glow,
-  .wallet-selector-btn.active .navbar-icon-glow {
+  .navbar-icon-glow.active {
     color: #fff700 !important;
     filter: drop-shadow(0 0 8px #fff700) drop-shadow(0 0 16px #fff700);
     border-color: #fff700;
