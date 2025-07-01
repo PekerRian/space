@@ -58,7 +58,7 @@ export default function Navbar({ username }) {
     <nav className={`navbar${mobileOpen ? " open" : ""}`}>
       {/* Desktop nav: text buttons only, no icons */}
       <div className="navbar-btn-group">
-        {/* Desktop: text buttons, Mobile: icons (CSS controls visibility) */}
+        {/* Desktop: text buttons only */}
         <button
           className={`navbar-tab-btn desktop-only${isActive("/calendar") ? " active" : ""}`}
           onClick={() => navigate("/calendar")}
@@ -90,17 +90,19 @@ export default function Navbar({ username }) {
         <div className="desktop-only" style={{ marginLeft: 24 }}>
           <WalletSelector className="wallet-selector-btn" />
         </div>
-        {/* Mobile: icon-only nav buttons */}
-        {renderMobileNavBtn(isActive("/calendar"), () => navigate("/calendar"), CalendarIcon, "Calendar", "mobile-only")}
-        {renderMobileNavBtn(isActive("/user"), () => navigate("/user"), UserIcon, "Profile", "mobile-only")}
-        {renderMobileNavBtn(isActive("/flowers"), () => navigate("/flowers"), CoinIcon, "Tip", "mobile-only")}
-        {renderMobileNavBtn(isActive("/upvotes"), () => navigate("/upvotes"), FistIcon, "Upvote", "mobile-only")}
-        {renderMobileNavBtn(isActive("/connect"), () => navigate("/connect"), WalletIcon, "Connect", "mobile-only")}
         {(username || shortAddress) && (
           <span className="navbar-username desktop-only" style={{ marginLeft: 16 }}>
             {username ? username : shortAddress}
           </span>
         )}
+      </div>
+      {/* Mobile: icon-only nav buttons */}
+      <div className="navbar-btn-group mobile-only">
+        {renderMobileNavBtn(isActive("/calendar"), () => navigate("/calendar"), CalendarIcon, "Calendar")}
+        {renderMobileNavBtn(isActive("/user"), () => navigate("/user"), UserIcon, "Profile")}
+        {renderMobileNavBtn(isActive("/flowers"), () => navigate("/flowers"), CoinIcon, "Tip")}
+        {renderMobileNavBtn(isActive("/upvotes"), () => navigate("/upvotes"), FistIcon, "Upvote")}
+        {renderMobileNavBtn(isActive("/connect"), () => navigate("/connect"), WalletIcon, "Connect")}
       </div>
     </nav>
   );
