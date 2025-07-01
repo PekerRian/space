@@ -259,11 +259,15 @@ li {
     width: 100vw !important;
     gap: 0 !important;
     margin-bottom: 0.2em;
+    flex-wrap: nowrap !important;
+    overflow-x: auto;
+    height: 60px;
   }
   .navbar-icons-row > div {
     /* Remove all flex properties so icons are inline in the row */
     min-width: 0;
-    /* Remove display: flex, flex-direction, align-items, justify-content */
+    max-width: 80px;
+    flex: 1 1 0;
   }
   .navbar-tab-btn, .wallet-selector-btn {
     display: none !important;
