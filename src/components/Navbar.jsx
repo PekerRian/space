@@ -5,6 +5,7 @@ import { WalletSelector } from "@aptos-labs/wallet-adapter-ant-design";
 import { useWallet } from "@aptos-labs/wallet-adapter-react";
 import { CalendarIcon, UserIcon, CoinIcon, FistIcon } from "./NavIcons";
 import { WalletIcon } from "./WalletIcon";
+import { useMediaQuery } from "../hooks/useMediaQuery";
 
 /**
  * Props:
@@ -15,6 +16,7 @@ export default function Navbar({ username }) {
   const navigate = useNavigate();
   const { account } = useWallet();
   const [mobileOpen, setMobileOpen] = useState(false);
+  const isMobile = useMediaQuery(700);
 
   const isActive = (path) =>
     location.pathname === path ||
@@ -56,54 +58,54 @@ export default function Navbar({ username }) {
 
   return (
     <nav className={`navbar${mobileOpen ? " open" : ""}`}>
-      {/* Desktop nav: text buttons only, no icons */}
-      <div className="navbar-btn-group">
-        {/* Desktop: text buttons only */}
-        <button
-          className={`navbar-tab-btn desktop-only${isActive("/calendar") ? " active" : ""}`}
-          onClick={() => navigate("/calendar")}
-          type="button"
-        >
-          Calendar
-        </button>
-        <button
-          className={`navbar-tab-btn desktop-only${isActive("/user") ? " active" : ""}`}
-          onClick={() => navigate("/user")}
-          type="button"
-        >
-          Profile
-        </button>
-        <button
-          className={`navbar-tab-btn desktop-only${isActive("/flowers") ? " active" : ""}`}
-          onClick={() => navigate("/flowers")}
-          type="button"
-        >
-          Tip
-        </button>
-        <button
-          className={`navbar-tab-btn desktop-only${isActive("/upvotes") ? " active" : ""}`}
-          onClick={() => navigate("/upvotes")}
-          type="button"
-        >
-          Upvote
-        </button>
-        <div className="desktop-only" style={{ marginLeft: 24 }}>
-          <WalletSelector className="wallet-selector-btn" />
+      {isMobile ? (
+        <div className="navbar-btn-group">
+          {renderMobileNavBtn(isActive("/calendar"), () => navigate("/calendar"), CalendarIcon, "Calendar")}
+          {renderMobileNavBtn(isActive("/user"), () => navigate("/user"), UserIcon, "Profile")}
+          {renderMobileNavBtn(isActive("/flowers"), () => navigate("/flowers"), CoinIcon, "Tip")}
+          {renderMobileNavBtn(isActive("/upvotes"), () => navigate("/upvotes"), FistIcon, "Upvote")}
+          {renderMobileNavBtn(isActive("/connect"), () => navigate("/connect"), WalletIcon, "Connect")}
         </div>
-        {(username || shortAddress) && (
-          <span className="navbar-username desktop-only" style={{ marginLeft: 16 }}>
-            {username ? username : shortAddress}
-          </span>
-        )}
-      </div>
-      {/* Mobile: icon-only nav buttons */}
-      <div className="navbar-btn-group mobile-only">
-        {renderMobileNavBtn(isActive("/calendar"), () => navigate("/calendar"), CalendarIcon, "Calendar")}
-        {renderMobileNavBtn(isActive("/user"), () => navigate("/user"), UserIcon, "Profile")}
-        {renderMobileNavBtn(isActive("/flowers"), () => navigate("/flowers"), CoinIcon, "Tip")}
-        {renderMobileNavBtn(isActive("/upvotes"), () => navigate("/upvotes"), FistIcon, "Upvote")}
-        {renderMobileNavBtn(isActive("/connect"), () => navigate("/connect"), WalletIcon, "Connect")}
-      </div>
+      ) : (
+        <div className="navbar-btn-group">
+          <button
+            className={`navbar-tab-btn${isActive("/calendar") ? " active" : ""}`}
+            onClick={() => navigate("/calendar")}
+            type="button"
+          >
+            Calendar
+          </button>
+          <button
+            className={`navbar-tab-btn${isActive("/user") ? " active" : ""}`}
+            onClick={() => navigate("/user")}
+            type="button"
+          >
+            Profile
+          </button>
+          <button
+            className={`navbar-tab-btn${isActive("/flowers") ? " active" : ""}`}
+            onClick={() => navigate("/flowers")}
+            type="button"
+          >
+            Tip
+          </button>
+          <button
+            className={`navbar-tab-btn${isActive("/upvotes") ? " active" : ""}`}
+            onClick={() => navigate("/upvotes")}
+            type="button"
+          >
+            Upvote
+          </button>
+          <div style={{ marginLeft: 24 }}>
+            <WalletSelector className="wallet-selector-btn" />
+          </div>
+          {(username || shortAddress) && (
+            <span className="navbar-username" style={{ marginLeft: 16 }}>
+              {username ? username : shortAddress}
+            </span>
+          )}
+        </div>
+      )}
     </nav>
   );
 }
