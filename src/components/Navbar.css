@@ -5,92 +5,113 @@ body, html, * {
   font-family: 'Press Start 2P', 'VT323', 'Consolas', 'monospace', Arial, sans-serif !important;
 }
 
+/* --- Navbar and navigation styles moved from App.css --- */
+
 .navbar {
-  background: linear-gradient(90deg, #21264b 60%, #2a2e5a 100%) !important; /* match footer background */
-  padding: 0.3em 0.2em !important;
+  background: #21264b;
+  padding: 1em 0;
   display: flex;
   justify-content: center;
-  align-items: center;
-  min-width: 0 !important;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.07);
+  min-width: 420px;
   max-width: 100vw;
-  height: 54px !important;
-  position: sticky;
-  top: 0;
-  z-index: 1000;
-  /* Remove margin-top and margin-bottom for no gap above/below */
+  height: 56px;
 }
 .navbar-btn-group {
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 1em !important;
-  min-width: 0 !important;
-  max-width: 100vw;
+  gap: 1.5em !important;
   width: 100%;
   height: 100%;
-  /* Remove yellow outline glow from button group area */
-  box-shadow: none;
+  min-width: 0 !important;
+  max-width: 100vw;
 }
 .navbar-tab-btn {
-  background: #111 !important;
-  border: 2.5px solid #00ffea !important;
-  color: #00ffea !important;
-  box-shadow: 0 0 32px 8px #00ffea, 0 0 16px 0 #00ffea;
-  text-shadow:
-    0 0 12px #00ffea,
-    0 0 24px #00ffea,
-    0 0 36px #00ffea,
-    0 0 48px #00ffea;
+  background: #3b61e1;
+  border: none;
+  color: #fff;
+  border-radius: 999px;
   font-weight: 600;
-  padding: 0.18em 0.7em !important;
-  font-size: 0.92em !important;
-  min-width: 200px !important;
-  max-width: 320px !important;
-  width: 220px !important;
-  height: 38px !important;
-  line-height: 1.1;
+  padding: 0.6em 1.5em;
+  font-size: 1.1em;
+  min-width: 100px;
+  max-width: 180px;
+  height: 38px;
+  line-height: 1.2;
   cursor: pointer;
-  transition: background 0.16s, transform 0.14s, color 0.16s, border 0.16s, box-shadow 0.16s;
-  margin: 0 0.05em;
+  transition: background 0.16s, transform 0.14s;
+  margin: 0 0.1em;
+  box-shadow: 0 2px 8px rgba(80,106,255,0.10);
   white-space: nowrap;
-  animation: footerGlowPulse 2.2s ease-in-out infinite alternate;
-}
-.navbar-tab-btn:hover,
-.navbar-tab-btn:focus {
-  background: #fff !important;
-  border-color: #00ffea !important;
-  color: #111 !important;
-  box-shadow: 0 0 48px 12px #00ffea, 0 0 24px 0 #00ffea;
-  text-shadow: 0 0 24px #00ffea, 0 0 48px #00ffea, 0 0 72px #00ffea, 0 0 96px #00ffea;
 }
 .navbar-tab-btn.active {
-  background: rgba(255, 224, 102, 0.16) !important;
-  border-color: #fff700 !important;
-  color: #fff700 !important;
-  box-shadow: 0 0 24px 6px #fff700, 0 0 16px 0 #506aff;
-  text-shadow: 0 0 16px #fff700, 0 0 2px #fff;
-}
-.button-danger {
-  background: linear-gradient(90deg, #e63946 0%, #c1121f 100%) !important;
-  color: #fff !important;
-}
-.button-danger:hover, .button-danger:focus {
-  background: linear-gradient(90deg, #c1121f 0%, #e63946 100%) !important;
+  background: linear-gradient(90deg, #506aff 30%, #7f8fff 100%);
+  color: #fff;
+  transform: scale(1.09);
 }
 .navbar-username {
   color: #fff;
   font-weight: 600;
-  margin-left: 0.4em !important;
-  margin-right: 0.1em !important;
-  font-size: 0.92em !important;
-  max-width: 90px;
+  margin-left: 0.8em;
+  margin-right: 0.2em;
+  font-size: 1.1em;
+  max-width: 180px;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
 }
 
+/* --- Remove old wallet-button overrides to prevent conflicts --- */
+.wallet-button {
+  /* Remove all previous sizing and border overrides, let unified rules below take effect */
+}
+
+/* --- Unify .wallet-button and .navbar-tab-btn size and style for all views --- */
+.navbar-tab-btn,
+.wallet-button {
+  background: transparent !important;
+  border: none !important;
+  color: #fff !important;
+  border-radius: 999px !important;
+  font-weight: 600 !important;
+  /* Blue glow (footer color) */
+  box-shadow: 0 0 8px 2px #3b61e1, 0 2px 8px rgba(80,106,255,0.10) !important;
+  text-shadow: 0 0 6px #3b61e1, 0 0 2px #fff !important;
+  transition: background 0.16s, transform 0.14s, box-shadow 0.18s, text-shadow 0.18s !important;
+  margin: 0 0.1em !important;
+  font-size: 1.1em !important;
+  padding: 0.6em 1.5em !important;
+  min-width: 100px !important;
+  max-width: 180px !important;
+  width: 120px !important;
+  height: 38px !important;
+  line-height: 1.2;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  text-align: center;
+  display: inline-flex !important;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+}
+
+.navbar-tab-btn.active,
+.wallet-button.active,
+.navbar-tab-btn:active,
+.wallet-button:active,
+.navbar-tab-btn:focus,
+.wallet-button:focus,
+.navbar-tab-btn:hover,
+.wallet-button:hover {
+  /* Yellow glow when selected/active/hover */
+  box-shadow: 0 0 10px 3px #ffe066, 0 0 8px 2px #3b61e1, 0 2px 8px rgba(80,106,255,0.10) !important;
+  text-shadow: 0 0 8px #ffe066, 0 0 2px #fff !important;
+  color: #fff700 !important;
+}
+
 @media (max-width: 700px) {
-  /* --- NAVBAR MOBILE STYLES --- */
   .navbar {
     position: fixed !important;
     left: 0 !important;
@@ -107,11 +128,11 @@ body, html, * {
     border-bottom-left-radius: 0 !important;
     border-bottom-right-radius: 0 !important;
     display: flex !important;
-    align-items: center !important;
+    align-items: flex-end !important;
     justify-content: center !important;
     background: linear-gradient(90deg, #181c36 0%, #23285a 100%) !important;
     box-shadow: 0 -2px 12px 2px #ffe066, 0 -2px 8px #506aff80, 0 0 0 2px #ffe06633;
-    padding: 0.15em 0.1em !important;
+    padding: 0 !important;
     min-width: 0 !important;
     max-width: 100vw !important;
     box-sizing: border-box;
@@ -119,37 +140,36 @@ body, html, * {
     opacity: 1 !important;
   }
   .navbar-btn-group {
-    height: 100% !important;
-    min-height: 88px !important;
-    max-height: 88px !important;
     width: 100vw !important;
+    height: 100% !important;
     display: flex !important;
-    align-items: flex-end !important;
-    justify-content: center !important;
-    gap: 0.2em !important;
+    align-items: center !important;
+    justify-content: flex-end !important;
+    gap: 0 !important;
     box-shadow: none !important;
     padding: 0 !important;
     position: relative;
   }
-  .navbar-tab-btn, .wallet-selector-btn {
-    min-width: 54px !important;
-    max-width: 80px !important;
-    width: 64px !important;
-    height: 64px !important;
-    font-size: 0.52em !important;
-    padding: 0 !important;
-    margin: 0 0.01em 24px 0.01em !important;
+  .navbar-icons-row {
     display: flex !important;
-    flex-direction: column !important;
-    align-items: center !important;
-    justify-content: flex-end !important;
-    text-align: center !important;
-    box-shadow: none !important;
-    text-shadow: none !important;
-    border-radius: 50% !important;
-    background: transparent !important;
-    position: relative;
-    border: none !important;
+    flex-direction: row !important;
+    align-items: flex-end !important;
+    justify-content: space-evenly !important;
+    width: 100vw !important;
+    gap: 0 !important;
+    margin-bottom: 0.2em;
+    flex-wrap: nowrap !important;
+    overflow-x: auto;
+    height: 60px;
+  }
+  .navbar-icons-row > div {
+    /* Remove all flex properties so icons are inline in the row */
+    min-width: 0;
+    max-width: 80px;
+    flex: 1 1 0;
+  }
+  .navbar-tab-btn, .wallet-selector-btn {
+    display: none !important;
   }
   .navbar-icon-glow {
     display: flex !important;
@@ -165,9 +185,9 @@ body, html, * {
     border-radius: 50%;
     border: 2.5px solid #00ffea;
     box-shadow: 0 0 8px 2px #00ffea44;
+    cursor: pointer;
   }
-  .navbar-tab-btn.active .navbar-icon-glow,
-  .wallet-selector-btn.active .navbar-icon-glow {
+  .navbar-icon-glow.active {
     color: #fff700 !important;
     filter: drop-shadow(0 0 8px #fff700) drop-shadow(0 0 16px #fff700);
     border-color: #fff700;
@@ -178,35 +198,22 @@ body, html, * {
     font-size: 0.92em !important;
     color: #fff !important;
     text-shadow: none !important;
-    margin-top: 6px !important;
+    margin-top: 4px !important;
     font-family: inherit !important;
     font-weight: 600 !important;
     letter-spacing: 0.01em;
     text-align: center;
     line-height: 1.1;
     transition: color 0.18s, text-shadow 0.18s;
-    position: absolute;
-    left: 50%;
-    transform: translateX(-50%);
-    bottom: -22px;
-    width: max-content;
     pointer-events: none;
   }
-  .navbar-tab-btn.active ~ .navbar-label,
-  .wallet-selector-btn.active ~ .navbar-label {
-    color: #fff700 !important;
-    text-shadow: 0 0 8px #ffe066, 0 0 2px #fff !important;
-  }
-  .navbar-tab-btn .desktop-only,
-  .wallet-selector-btn .desktop-only {
-    display: none !important;
-  }
-  .navbar-tab-btn .mobile-only,
-  .wallet-selector-btn .mobile-only {
-    display: flex !important;
-    flex-direction: column;
-    align-items: center;
+  .navbar-wallet-row {
+    width: 100vw;
+    display: flex;
     justify-content: center;
+    align-items: flex-end;
+    margin-top: 0.2em;
+    margin-bottom: 0.2em;
   }
   .navbar-username {
     display: none !important;
@@ -223,132 +230,58 @@ body, html, * {
 }
 
 @media (min-width: 701px) {
-  .navbar-tab-btn .desktop-only,
-  .wallet-selector-btn .desktop-only {
-    display: inline !important;
-  }
-  .navbar-tab-btn .mobile-only,
-  .wallet-selector-btn .mobile-only {
+  .mobile-only {
     display: none !important;
   }
-}
-
-/* Ensure the connect button (WalletSelector) is always visible and not pushed out of view */
-.navbar-btn-group > div[style*="margin-left: auto"] {
-  margin-left: 0 !important;
-  margin-right: 2em !important;
-}
-
-/* If WalletSelector is not the last child, add margin to the right of the last button */
-.navbar-btn-group > .navbar-tab-btn:last-child {
-  margin-right: 2em !important;
-}
-
-/* WalletSelector button: use exact footer-glow color and text-shadow */
-.navbar-btn-group .wallet-selector-btn {
-  background: #111 !important;
-  color: #00ffea !important;
-  border: 2.5px solid #00ffea !important;
-  text-shadow:
-    0 0 12px #00ffea,
-    0 0 24px #00ffea,
-    0 0 36px #00ffea,
-    0 0 48px #00ffea;
-  box-shadow: 0 0 32px 8px #00ffea, 0 0 16px 0 #00ffea;
-  font-weight: 700;
-  animation: footerGlowPulse 2.2s ease-in-out infinite alternate;
-  transition: background 0.16s, color 0.16s, border 0.16s, box-shadow 0.16s;
-}
-.navbar-btn-group .wallet-selector-btn:hover,
-.navbar-btn-group .wallet-selector-btn:focus {
-  background: #fff !important;
-  color: #111 !important;
-  border-color: #00ffea !important;
-  text-shadow: 0 0 24px #00ffea, 0 0 48px #00ffea, 0 0 72px #00ffea, 0 0 96px #00ffea;
-  box-shadow: 0 0 48px 12px #00ffea, 0 0 24px 0 #00ffea;
-}
-
-/* --- WalletSelector Ant Design Button Customization --- */
-.wallet-button {
-  min-width: 0 !important;
-  max-width: 44px !important;
-  width: 32px !important;
-  height: 22px !important;
-  font-size: 0.82em !important;
-  padding: 0 !important;
-  display: inline-flex !important;
-  align-items: center;
-  justify-content: center;
-  background: #111 !important;
-  color: #00ffea !important;
-  border: 2.5px solid #00ffea !important;
-  box-shadow: 0 0 32px 8px #00ffea, 0 0 16px 0 #00ffea;
-  text-shadow: 0 0 12px #00ffea, 0 0 24px #00ffea;
-  font-weight: 700;
-  animation: footerGlowPulse 2.2s ease-in-out infinite alternate;
-  transition: background 0.16s, color 0.16s, border 0.16s, box-shadow 0.16s;
-}
-.wallet-button:hover,
-.wallet-button:focus {
-  background: #fff !important;
-  color: #111 !important;
-  border-color: #00ffea !important;
-  text-shadow: 0 0 24px #00ffea, 0 0 48px #00ffea;
-  box-shadow: 0 0 48px 12px #00ffea, 0 0 24px 0 #00ffea;
-}
-/* --- End WalletSelector Ant Design Button Customization --- */
-
-/* --- Transparent, glowing navbar buttons with blue/yellow glow and glowing font --- */
-.navbar-tab-btn,
-.wallet-button {
-  background: transparent !important;
-  border: 2.5px solid #00ffea !important;
-  color: #00ffea !important;
-  border-radius: 999px !important;
-  font-weight: 600 !important;
-  box-shadow: 0 0 24px 4px #00ffea, 0 0 8px 0 #00ffea !important;
-  text-shadow:
-    0 0 8px #00ffea,
-    0 0 16px #00ffea,
-    0 0 24px #00ffea;
-  transition: background 0.16s, color 0.16s, border 0.16s, box-shadow 0.16s, text-shadow 0.16s !important;
-  margin: 0 0.1em !important;
-  font-size: 1.1em !important;
-  padding: 0.6em 1.5em !important;
-  min-width: 140px !important;
-  max-width: 240px !important;
-  width: 170px !important;
-  height: 38px !important;
-  line-height: 1.2;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  text-align: center;
-  display: inline-flex !important;
-  align-items: center;
-  justify-content: center;
-  box-sizing: border-box;
-}
-.navbar-tab-btn.active,
-.wallet-button.active {
-  background: rgba(255, 224, 102, 0.16) !important;
-  border-color: #fff700 !important;
-  color: #fff700 !important;
-  box-shadow: 0 0 32px 8px #fff700, 0 0 16px 0 #fff700 !important;
-  text-shadow:
-    0 0 12px #fff700,
-    0 0 24px #fff700,
-    0 0 36px #fff700;
-}
-.navbar-tab-btn:hover,
-.wallet-button:hover,
-.navbar-tab-btn:focus,
-.wallet-button:focus {
-  background: rgba(0,255,234,0.10) !important;
-  color: #fff !important;
-  border-color: #00ffea !important;
-  box-shadow: 0 0 32px 8px #00ffea, 0 0 16px 0 #00ffea !important;
-  text-shadow:
-    0 0 16px #00ffea,
-    0 0 32px #00ffea;
+  
+  .navbar-btn-group {
+    display: flex !important;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    gap: 1.5em;
+    width: 100%;
+    height: 100%;
+  }
+  .navbar-tab-btn {
+    background: #111 !important;
+    border: 2.5px solid #00ffea !important;
+    color: #00ffea !important;
+    box-shadow: 0 0 32px 8px #00ffea, 0 0 16px 0 #00ffea;
+    text-shadow:
+      0 0 12px #00ffea,
+      0 0 24px #00ffea,
+      0 0 36px #00ffea,
+      0 0 48px #00ffea;
+    font-weight: 600;
+    padding: 0.18em 1.7em !important;
+    font-size: 1.1em !important;
+    min-width: 120px !important;
+    max-width: 220px !important;
+    width: auto !important;
+    height: 38px !important;
+    line-height: 1.1;
+    cursor: pointer;
+    transition: background 0.16s, transform 0.14s, color 0.16s, border 0.16s, box-shadow 0.16s;
+    margin: 0 0.2em;
+    white-space: nowrap;
+    border-radius: 999px;
+    animation: footerGlowPulse 2.2s ease-in-out infinite alternate;
+    display: inline-flex !important;
+    align-items: center;
+    justify-content: center;
+  }
+  .navbar-tab-btn.active {
+    background: rgba(255, 224, 102, 0.16) !important;
+    border-color: #fff700 !important;
+    color: #fff700 !important;
+    box-shadow: 0 0 24px 6px #fff700, 0 0 16px 0 #506aff;
+    text-shadow: 0 0 16px #fff700, 0 0 2px #fff;
+  }
+  .wallet-selector-btn {
+    margin-left: 1.5em !important;
+  }
+  .navbar-icon-glow {
+    display: none !important;
+  }
 }
