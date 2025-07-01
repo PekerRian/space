@@ -37,6 +37,21 @@ export default function Navbar({ username }) {
   // Close dropdown on navigation (mobile)
   React.useEffect(() => { setMobileOpen(false); }, [location.pathname]);
 
+  // Helper for mobile: render icon button and label outside
+  const renderMobileNavBtn = (isActive, onClick, Icon, label, extraClass = "") => (
+    <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', position: 'relative' }}>
+      <button
+        className={`navbar-tab-btn mobile-only${isActive ? " active" : ""} ${extraClass}`}
+        onClick={onClick}
+        type="button"
+        aria-label={label}
+      >
+        <span className="navbar-icon-glow"><Icon /></span>
+      </button>
+      <span className={`navbar-label mobile-only${isActive ? " active" : ""}`}>{label}</span>
+    </div>
+  );
+
   return (
     <nav className={`navbar${mobileOpen ? " open" : ""}`}>
       <button
@@ -48,51 +63,58 @@ export default function Navbar({ username }) {
         &#9776;
       </button>
       <div className="navbar-btn-group">
+        {/* Mobile: icon + label below, Desktop: text only */}
+        {renderMobileNavBtn(isActive("/calendar"), () => navigate("/calendar"), CalendarIcon, "Calendar")}
+        {renderMobileNavBtn(isActive("/user"), () => navigate("/user"), UserIcon, "Profile")}
+        {renderMobileNavBtn(isActive("/flowers"), () => navigate("/flowers"), CoinIcon, "Tip")}
+        {renderMobileNavBtn(isActive("/upvotes"), () => navigate("/upvotes"), FistIcon, "Upvote")}
+        <div style={{ marginLeft: "auto", display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+          <button
+            className={`wallet-selector-btn mobile-only${isActive("/connect") ? " active" : ""}`}
+            type="button"
+            aria-label="Connect"
+            tabIndex={0}
+            style={{ background: 'none', border: 'none', outline: 'none', padding: 0, margin: 0 }}
+          >
+            <span className="navbar-icon-glow"><WalletIcon /></span>
+          </button>
+          <span className={`navbar-label mobile-only${isActive("/connect") ? " active" : ""}`}>Connect</span>
+        </div>
+        {/* Desktop: show text buttons and wallet selector as before */}
         <button
-          className={`navbar-tab-btn${isActive("/calendar") ? " active" : ""}`}
+          className={`navbar-tab-btn desktop-only${isActive("/calendar") ? " active" : ""}`}
           onClick={() => navigate("/calendar")}
           type="button"
         >
-          <span className="navbar-icon-glow mobile-only"><CalendarIcon /></span>
-          <span className="navbar-label mobile-only">Calendar</span>
-          <span className="desktop-only">Calendar</span>
+          Calendar
         </button>
         <button
-          className={`navbar-tab-btn${isActive("/user") ? " active" : ""}`}
+          className={`navbar-tab-btn desktop-only${isActive("/user") ? " active" : ""}`}
           onClick={() => navigate("/user")}
           type="button"
         >
-          <span className="navbar-icon-glow mobile-only"><UserIcon /></span>
-          <span className="navbar-label mobile-only">Profile</span>
-          <span className="desktop-only">User Tab</span>
+          User Tab
         </button>
         <button
-          className={`navbar-tab-btn${isActive("/flowers") ? " active" : ""}`}
+          className={`navbar-tab-btn desktop-only${isActive("/flowers") ? " active" : ""}`}
           onClick={() => navigate("/flowers")}
           type="button"
         >
-          <span className="navbar-icon-glow mobile-only"><CoinIcon /></span>
-          <span className="navbar-label mobile-only">Tip</span>
-          <span className="desktop-only">Flowers</span>
+          Flowers
         </button>
         <button
-          className={`navbar-tab-btn${isActive("/upvotes") ? " active" : ""}`}
+          className={`navbar-tab-btn desktop-only${isActive("/upvotes") ? " active" : ""}`}
           onClick={() => navigate("/upvotes")}
           type="button"
         >
-          <span className="navbar-icon-glow mobile-only"><FistIcon /></span>
-          <span className="navbar-label mobile-only">Upvote</span>
-          <span className="desktop-only">Upvotes</span>
+          Upvotes
         </button>
-        <div style={{ marginLeft: "auto", display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-          <WalletSelector className="wallet-selector-btn">
-            <span className="navbar-icon-glow mobile-only"><WalletIcon /></span>
-            <span className="navbar-label mobile-only">Connect</span>
-          </WalletSelector>
-          <span className="navbar-label desktop-only">Connect</span>
+        <div style={{ marginLeft: "auto" }} className="desktop-only">
+          <WalletSelector className="wallet-selector-btn" />
+          <span className="navbar-label">Connect</span>
         </div>
         {(username || shortAddress) && (
-          <span className="navbar-username" style={{ marginLeft: 16 }}>
+          <span className="navbar-username desktop-only" style={{ marginLeft: 16 }}>
             {username ? username : shortAddress}
           </span>
         )}

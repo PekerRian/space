@@ -108,7 +108,7 @@ body, html, * {
     max-height: 88px !important;
     width: 100vw !important;
     display: flex !important;
-    align-items: center !important;
+    align-items: flex-end !important;
     justify-content: center !important;
     gap: 0.2em !important;
   }
@@ -119,44 +119,57 @@ body, html, * {
     height: 64px !important;
     font-size: 0.52em !important;
     padding: 0 !important;
-    margin: 0 0.01em !important;
+    margin: 0 0.01em 0 0.01em !important;
     display: flex !important;
     flex-direction: column !important;
     align-items: center !important;
-    justify-content: center !important;
+    justify-content: flex-end !important;
     text-align: center !important;
     box-shadow: none !important;
     text-shadow: none !important;
-    border-radius: 22px !important;
+    border-radius: 50% !important;
     background: transparent !important;
+    position: relative;
   }
   .navbar-icon-glow {
     display: flex !important;
     align-items: center;
     justify-content: center;
-    width: 32px;
-    height: 32px;
-    margin: 0 auto 2px auto;
+    width: 38px;
+    height: 38px;
+    margin: 0 auto;
     color: #00ffea !important;
     filter: drop-shadow(0 0 8px #00ffea) drop-shadow(0 0 16px #00ffea);
     transition: color 0.18s, filter 0.18s;
+    background: #181c36;
+    border-radius: 50%;
+    border: 2.5px solid #00ffea;
+    box-shadow: 0 0 8px 2px #00ffea44;
   }
   .navbar-tab-btn.active .navbar-icon-glow,
   .wallet-selector-btn.active .navbar-icon-glow {
     color: #fff700 !important;
     filter: drop-shadow(0 0 8px #fff700) drop-shadow(0 0 16px #fff700);
+    border-color: #fff700;
+    box-shadow: 0 0 12px 3px #fff70088;
   }
   .navbar-label {
     display: block !important;
-    font-size: 0.82em !important;
+    font-size: 0.92em !important;
     color: #fff !important;
-    text-shadow: 0 0 6px #00ffea, 0 0 2px #fff !important;
-    margin-top: 2px !important;
+    text-shadow: none !important;
+    margin-top: 6px !important;
     font-family: inherit !important;
     font-weight: 600 !important;
     letter-spacing: 0.01em;
     text-align: center;
     line-height: 1.1;
+    transition: color 0.18s, text-shadow 0.18s;
+  }
+  .navbar-tab-btn.active ~ .navbar-label,
+  .wallet-selector-btn.active ~ .navbar-label {
+    color: #fff700 !important;
+    text-shadow: 0 0 8px #ffe066, 0 0 2px #fff !important;
   }
   .navbar-tab-btn .desktop-only,
   .wallet-selector-btn .desktop-only {
@@ -171,6 +184,21 @@ body, html, * {
   }
   .navbar-username {
     display: none !important;
+  }
+  /* Place labels outside the button, below the icon */
+  .navbar-btn-group {
+    position: relative;
+  }
+  .navbar-btn-group .navbar-label {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    bottom: -22px;
+    width: max-content;
+    pointer-events: none;
+  }
+  .navbar-tab-btn, .wallet-selector-btn {
+    margin-bottom: 24px !important;
   }
 }
 
@@ -323,7 +351,7 @@ body, html, * {
     max-height: 88px !important;
     width: 100vw !important;
     display: flex !important;
-    align-items: center !important;
+    align-items: flex-end !important;
     justify-content: center !important;
     gap: 0.2em !important;
   }
@@ -334,44 +362,57 @@ body, html, * {
     height: 64px !important;
     font-size: 0.52em !important;
     padding: 0 !important;
-    margin: 0 0.01em !important;
+    margin: 0 0.01em 0 0.01em !important;
     display: flex !important;
     flex-direction: column !important;
     align-items: center !important;
-    justify-content: center !important;
+    justify-content: flex-end !important;
     text-align: center !important;
     box-shadow: none !important;
     text-shadow: none !important;
-    border-radius: 22px !important;
+    border-radius: 50% !important;
     background: transparent !important;
+    position: relative;
   }
   .navbar-icon-glow {
     display: flex !important;
     align-items: center;
     justify-content: center;
-    width: 32px;
-    height: 32px;
-    margin: 0 auto 2px auto;
+    width: 38px;
+    height: 38px;
+    margin: 0 auto;
     color: #00ffea !important;
     filter: drop-shadow(0 0 8px #00ffea) drop-shadow(0 0 16px #00ffea);
     transition: color 0.18s, filter 0.18s;
+    background: #181c36;
+    border-radius: 50%;
+    border: 2.5px solid #00ffea;
+    box-shadow: 0 0 8px 2px #00ffea44;
   }
   .navbar-tab-btn.active .navbar-icon-glow,
   .wallet-selector-btn.active .navbar-icon-glow {
     color: #fff700 !important;
     filter: drop-shadow(0 0 8px #fff700) drop-shadow(0 0 16px #fff700);
+    border-color: #fff700;
+    box-shadow: 0 0 12px 3px #fff70088;
   }
   .navbar-label {
     display: block !important;
-    font-size: 0.82em !important;
+    font-size: 0.92em !important;
     color: #fff !important;
-    text-shadow: 0 0 6px #00ffea, 0 0 2px #fff !important;
-    margin-top: 2px !important;
+    text-shadow: none !important;
+    margin-top: 6px !important;
     font-family: inherit !important;
     font-weight: 600 !important;
     letter-spacing: 0.01em;
     text-align: center;
     line-height: 1.1;
+    transition: color 0.18s, text-shadow 0.18s;
+  }
+  .navbar-tab-btn.active ~ .navbar-label,
+  .wallet-selector-btn.active ~ .navbar-label {
+    color: #fff700 !important;
+    text-shadow: 0 0 8px #ffe066, 0 0 2px #fff !important;
   }
   .navbar-tab-btn .desktop-only,
   .wallet-selector-btn .desktop-only {
@@ -386,6 +427,264 @@ body, html, * {
   }
   .navbar-username {
     display: none !important;
+  }
+  /* Place labels outside the button, below the icon */
+  .navbar-btn-group {
+    position: relative;
+  }
+  .navbar-btn-group .navbar-label {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    bottom: -22px;
+    width: max-content;
+    pointer-events: none;
+  }
+  .navbar-tab-btn, .wallet-selector-btn {
+    margin-bottom: 24px !important;
+  }
+}
+
+@media (min-width: 701px) {
+  .navbar-tab-btn .desktop-only,
+  .wallet-selector-btn .desktop-only {
+    display: inline !important;
+  }
+  .navbar-tab-btn .mobile-only,
+  .wallet-selector-btn .mobile-only {
+    display: none !important;
+  }
+}
+
+/* Ensure the connect button (WalletSelector) is always visible and not pushed out of view */
+.navbar-btn-group > div[style*="margin-left: auto"] {
+  margin-left: 0 !important;
+  margin-right: 2em !important;
+}
+
+/* If WalletSelector is not the last child, add margin to the right of the last button */
+.navbar-btn-group > .navbar-tab-btn:last-child {
+  margin-right: 2em !important;
+}
+
+/* WalletSelector button: use exact footer-glow color and text-shadow */
+.navbar-btn-group .wallet-selector-btn {
+  background: #111 !important;
+  color: #00ffea !important;
+  border: 2.5px solid #00ffea !important;
+  text-shadow:
+    0 0 12px #00ffea,
+    0 0 24px #00ffea,
+    0 0 36px #00ffea,
+    0 0 48px #00ffea;
+  box-shadow: 0 0 32px 8px #00ffea, 0 0 16px 0 #00ffea;
+  font-weight: 700;
+  animation: footerGlowPulse 2.2s ease-in-out infinite alternate;
+  transition: background 0.16s, color 0.16s, border 0.16s, box-shadow 0.16s;
+}
+.navbar-btn-group .wallet-selector-btn:hover,
+.navbar-btn-group .wallet-selector-btn:focus {
+  background: #fff !important;
+  color: #111 !important;
+  border-color: #00ffea !important;
+  text-shadow: 0 0 24px #00ffea, 0 0 48px #00ffea, 0 0 72px #00ffea, 0 0 96px #00ffea;
+  box-shadow: 0 0 48px 12px #00ffea, 0 0 24px 0 #00ffea;
+}
+
+/* --- WalletSelector Ant Design Button Customization --- */
+.wallet-button {
+  min-width: 0 !important;
+  max-width: 44px !important;
+  width: 32px !important;
+  height: 22px !important;
+  font-size: 0.82em !important;
+  padding: 0 !important;
+  display: inline-flex !important;
+  align-items: center;
+  justify-content: center;
+  background: #111 !important;
+  color: #00ffea !important;
+  border: 2.5px solid #00ffea !important;
+  box-shadow: 0 0 32px 8px #00ffea, 0 0 16px 0 #00ffea;
+  text-shadow: 0 0 12px #00ffea, 0 0 24px #00ffea;
+  font-weight: 700;
+  animation: footerGlowPulse 2.2s ease-in-out infinite alternate;
+  transition: background 0.16s, color 0.16s, border 0.16s, box-shadow 0.16s;
+}
+.wallet-button:hover,
+.wallet-button:focus {
+  background: #fff !important;
+  color: #111 !important;
+  border-color: #00ffea !important;
+  text-shadow: 0 0 24px #00ffea, 0 0 48px #00ffea;
+  box-shadow: 0 0 48px 12px #00ffea, 0 0 24px 0 #00ffea;
+}
+/* --- End WalletSelector Ant Design Button Customization --- */
+
+/* --- Transparent, glowing navbar buttons with blue/yellow glow and glowing font --- */
+.navbar-tab-btn,
+.wallet-button {
+  background: transparent !important;
+  border: 2.5px solid #00ffea !important;
+  color: #00ffea !important;
+  border-radius: 999px !important;
+  font-weight: 600 !important;
+  box-shadow: 0 0 24px 4px #00ffea, 0 0 8px 0 #00ffea !important;
+  text-shadow:
+    0 0 8px #00ffea,
+    0 0 16px #00ffea,
+    0 0 24px #00ffea;
+  transition: background 0.16s, color 0.16s, border 0.16s, box-shadow 0.16s, text-shadow 0.16s !important;
+  margin: 0 0.1em !important;
+  font-size: 1.1em !important;
+  padding: 0.6em 1.5em !important;
+  min-width: 140px !important;
+  max-width: 240px !important;
+  width: 170px !important;
+  height: 38px !important;
+  line-height: 1.2;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  text-align: center;
+  display: inline-flex !important;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+}
+.navbar-tab-btn.active,
+.wallet-button.active {
+  background: rgba(255, 224, 102, 0.16) !important;
+  border-color: #fff700 !important;
+  color: #fff700 !important;
+  box-shadow: 0 0 32px 8px #fff700, 0 0 16px 0 #fff700 !important;
+  text-shadow:
+    0 0 12px #fff700,
+    0 0 24px #fff700,
+    0 0 36px #fff700;
+}
+.navbar-tab-btn:hover,
+.wallet-button:hover,
+.navbar-tab-btn:focus,
+.wallet-button:focus {
+  background: rgba(0,255,234,0.10) !important;
+  color: #fff !important;
+  border-color: #00ffea !important;
+  box-shadow: 0 0 32px 8px #00ffea, 0 0 16px 0 #00ffea !important;
+  text-shadow:
+    0 0 16px #00ffea,
+    0 0 32px #00ffea;
+}
+@media (max-width: 700px) {
+  .navbar {
+    height: 88px !important;
+    min-height: 88px !important;
+    max-height: 88px !important;
+    border-top-left-radius: 18px !important;
+    border-top-right-radius: 18px !important;
+    border-bottom-left-radius: 0 !important;
+    border-bottom-right-radius: 0 !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+  }
+  .navbar-btn-group {
+    height: 100% !important;
+    min-height: 88px !important;
+    max-height: 88px !important;
+    width: 100vw !important;
+    display: flex !important;
+    align-items: flex-end !important;
+    justify-content: center !important;
+    gap: 0.2em !important;
+  }
+  .navbar-tab-btn, .wallet-button {
+    min-width: 54px !important;
+    max-width: 80px !important;
+    width: 64px !important;
+    height: 64px !important;
+    font-size: 0.52em !important;
+    padding: 0 !important;
+    margin: 0 0.01em 0 0.01em !important;
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    justify-content: flex-end !important;
+    text-align: center !important;
+    box-shadow: none !important;
+    text-shadow: none !important;
+    border-radius: 50% !important;
+    background: transparent !important;
+    position: relative;
+  }
+  .navbar-icon-glow {
+    display: flex !important;
+    align-items: center;
+    justify-content: center;
+    width: 38px;
+    height: 38px;
+    margin: 0 auto;
+    color: #00ffea !important;
+    filter: drop-shadow(0 0 8px #00ffea) drop-shadow(0 0 16px #00ffea);
+    transition: color 0.18s, filter 0.18s;
+    background: #181c36;
+    border-radius: 50%;
+    border: 2.5px solid #00ffea;
+    box-shadow: 0 0 8px 2px #00ffea44;
+  }
+  .navbar-tab-btn.active .navbar-icon-glow,
+  .wallet-selector-btn.active .navbar-icon-glow {
+    color: #fff700 !important;
+    filter: drop-shadow(0 0 8px #fff700) drop-shadow(0 0 16px #fff700);
+    border-color: #fff700;
+    box-shadow: 0 0 12px 3px #fff70088;
+  }
+  .navbar-label {
+    display: block !important;
+    font-size: 0.92em !important;
+    color: #fff !important;
+    text-shadow: none !important;
+    margin-top: 6px !important;
+    font-family: inherit !important;
+    font-weight: 600 !important;
+    letter-spacing: 0.01em;
+    text-align: center;
+    line-height: 1.1;
+    transition: color 0.18s, text-shadow 0.18s;
+  }
+  .navbar-tab-btn.active ~ .navbar-label,
+  .wallet-selector-btn.active ~ .navbar-label {
+    color: #fff700 !important;
+    text-shadow: 0 0 8px #ffe066, 0 0 2px #fff !important;
+  }
+  .navbar-tab-btn .desktop-only,
+  .wallet-selector-btn .desktop-only {
+    display: none !important;
+  }
+  .navbar-tab-btn .mobile-only,
+  .wallet-selector-btn .mobile-only {
+    display: flex !important;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+  .navbar-username {
+    display: none !important;
+  }
+  /* Place labels outside the button, below the icon */
+  .navbar-btn-group {
+    position: relative;
+  }
+  .navbar-btn-group .navbar-label {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    bottom: -22px;
+    width: max-content;
+    pointer-events: none;
+  }
+  .navbar-tab-btn, .wallet-selector-btn {
+    margin-bottom: 24px !important;
   }
 }
 
