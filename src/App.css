@@ -97,15 +97,33 @@ li {
 
 /* Reduce spacing for all major containers */
 .calendar-main-container, .calendar-left-panel, .calendar-right-panel {
-  padding: 0 !important;
-  margin: 0 !important;
+  padding: 0.5rem !important;
+  margin: 0.5rem auto !important;
+  max-width: 380px !important;
 }
 
-.user-tab-container, .calendar-bg {
-  min-height: 100vh !important;
-  height: 100% !important;
+.user-tab-container, .calendar-bg, .flowers-leaderboard-container, .page-container, .animated-panel {
+  min-height: 80vh !important;
+  height: auto !important;
+  max-width: 400px !important;
+  margin: 0.5rem auto !important;
+  padding: 0.5rem !important;
   overflow-y: auto !important;
   -webkit-overflow-scrolling: touch !important;
+}
+
+.flowers-leaderboard-flex, .flowers-leaderboard-box, .flowers-transfer-card {
+  max-width: 360px !important;
+  margin: 0.5rem auto !important;
+  padding: 0.5rem !important;
+}
+
+@media (max-width: 600px) {
+  .calendar-main-container, .calendar-left-panel, .calendar-right-panel, .user-tab-container, .calendar-bg, .flowers-leaderboard-container, .page-container, .animated-panel {
+    max-width: 98vw !important;
+    padding: 0.2rem !important;
+    margin: 0.2rem auto !important;
+  }
 }
 
 /* --- Navbar styles have been moved to Navbar.css --- */
