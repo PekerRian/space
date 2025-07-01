@@ -80,39 +80,7 @@ export default function Navbar({ username }) {
           </button>
           <span className={`navbar-label mobile-only${isActive("/connect") ? " active" : ""}`}>Connect</span>
         </div>
-        {/* Desktop: show text buttons and wallet selector as before */}
-        <button
-          className={`navbar-tab-btn desktop-only${isActive("/calendar") ? " active" : ""}`}
-          onClick={() => navigate("/calendar")}
-          type="button"
-        >
-          Calendar
-        </button>
-        <button
-          className={`navbar-tab-btn desktop-only${isActive("/user") ? " active" : ""}`}
-          onClick={() => navigate("/user")}
-          type="button"
-        >
-          User Tab
-        </button>
-        <button
-          className={`navbar-tab-btn desktop-only${isActive("/flowers") ? " active" : ""}`}
-          onClick={() => navigate("/flowers")}
-          type="button"
-        >
-          Flowers
-        </button>
-        <button
-          className={`navbar-tab-btn desktop-only${isActive("/upvotes") ? " active" : ""}`}
-          onClick={() => navigate("/upvotes")}
-          type="button"
-        >
-          Upvotes
-        </button>
-        <div style={{ marginLeft: "auto" }} className="desktop-only">
-          <WalletSelector className="wallet-selector-btn" />
-          <span className="navbar-label">Connect</span>
-        </div>
+        {/* Desktop: show username/address only if present */}
         {(username || shortAddress) && (
           <span className="navbar-username desktop-only" style={{ marginLeft: 16 }}>
             {username ? username : shortAddress}
