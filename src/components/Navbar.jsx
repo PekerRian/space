@@ -59,14 +59,14 @@ export default function Navbar({ username }) {
   return (
     <nav className={`navbar${mobileOpen ? " open" : ""}`}>
       {isMobile ? (
-        <div className="navbar-btn-group" style={{ justifyContent: 'center', alignItems: 'flex-end', width: '100vw', height: '100%' }}>
-          <div style={{ display: 'flex', flex: 1, justifyContent: 'center', alignItems: 'flex-end', gap: '0', minWidth: 0 }}>
+        <div className="navbar-btn-group">
+          <div className="navbar-icons-row">
             {renderMobileNavBtn(isActive("/calendar"), () => navigate("/calendar"), CalendarIcon, "Calendar")}
             {renderMobileNavBtn(isActive("/user"), () => navigate("/user"), UserIcon, "Profile")}
             {renderMobileNavBtn(isActive("/flowers"), () => navigate("/flowers"), CoinIcon, "Tip")}
             {renderMobileNavBtn(isActive("/upvotes"), () => navigate("/upvotes"), FistIcon, "Upvote")}
           </div>
-          <div style={{ width: '100%', display: 'flex', justifyContent: 'center', alignItems: 'flex-end', marginTop: 2 }}>
+          <div className="navbar-wallet-row">
             <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'flex-end', minWidth: 0, maxWidth: 80 }}>
               <WalletSelector className="wallet-selector-btn" style={{ width: 38, height: 38, borderRadius: '50%', padding: 0, margin: '0 auto', boxShadow: '0 0 8px 2px #00ffea44', border: '2.5px solid #00ffea', background: '#181c36', display: 'flex', alignItems: 'center', justifyContent: 'center' }} />
               <span className="navbar-label">Connect</span>
