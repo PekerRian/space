@@ -120,9 +120,9 @@ body, html, * {
     top: unset !important;
     z-index: 2147483640 !important;
     width: 100vw !important;
-    height: 88px !important;
-    min-height: 88px !important;
-    max-height: 88px !important;
+    height: 110px !important;
+    min-height: 110px !important;
+    max-height: 110px !important;
     border-top-left-radius: 18px !important;
     border-top-right-radius: 18px !important;
     border-bottom-left-radius: 0 !important;
@@ -161,7 +161,7 @@ body, html, * {
     margin-bottom: 0.2em;
     flex-wrap: nowrap !important;
     overflow-x: auto;
-    height: 60px;
+    height: 80px;
   }
   .navbar-icons-row > div {
     /* Remove all flex properties so icons are inline in the row */
@@ -195,18 +195,7 @@ body, html, * {
     box-shadow: 0 0 12px 3px #fff70088;
   }
   .navbar-label {
-    display: block !important;
-    font-size: 0.92em !important;
-    color: #fff !important;
-    text-shadow: none !important;
-    margin-top: 4px !important;
-    font-family: inherit !important;
-    font-weight: 600 !important;
-    letter-spacing: 0.01em;
-    text-align: center;
-    line-height: 1.1;
-    transition: color 0.18s, text-shadow 0.18s;
-    pointer-events: none;
+    display: none !important;
   }
   .navbar-wallet-row {
     width: 100vw;
@@ -285,4 +274,10 @@ body, html, * {
   .navbar-icon-glow {
     display: none !important;
   }
+}
+
+.wallet-adapter-modal-wrapper,
+.wallet-adapter-modal,
+.wallet-adapter-modal-overlay {
+  z-index: 999999 !important;
 }
