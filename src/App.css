@@ -263,10 +263,8 @@ li {
   }
   .navbar-icons-row > div {
     display: flex !important;
-    flex-direction: column !important;
     align-items: center !important;
     justify-content: flex-end !important;
-    /* Remove flex: 1 1 0; and max-width: 80px; so icons don't stretch or shrink */
     min-width: 0;
   }
   .navbar-tab-btn, .wallet-selector-btn {
