@@ -275,25 +275,3 @@ body, html, * {
     display: none !important;
   }
 }
-
-/* Modal styles */
-.wallet-adapter-modal-overlay,
-.ant-modal-mask {
-  z-index: 999999999 !important;
-  position: fixed !important;
-  top: 0 !important;
-  left: 0 !important;
-  right: 0 !important;
-  bottom: 0 !important;
-  pointer-events: all !important;
-}
-
-.wallet-adapter-modal,
-.wallet-adapter-modal-wrapper,
-.ant-modal,
-.ant-modal-root,
-.ant-modal-content {
-  z-index: 1000000000 !important;
-  position: relative !important;
-  pointer-events: auto !important;
-}
