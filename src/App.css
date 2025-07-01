@@ -244,13 +244,22 @@ li {
     width: 100vw !important;
     height: 100% !important;
     display: flex !important;
-    flex-direction: row !important;
-    align-items: flex-end !important;
-    justify-content: center !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    justify-content: flex-end !important;
     gap: 0 !important;
     box-shadow: none !important;
     padding: 0 !important;
     position: relative;
+  }
+  .navbar-icons-row {
+    display: flex !important;
+    flex-direction: row !important;
+    align-items: flex-end !important;
+    justify-content: center !important;
+    width: 100vw !important;
+    gap: 0 !important;
+    margin-bottom: 0.2em;
   }
   .navbar-btn-group > div {
     display: flex !important;
@@ -300,10 +309,13 @@ li {
     transition: color 0.18s, text-shadow 0.18s;
     pointer-events: none;
   }
-  .navbar-tab-btn.active + .navbar-label,
-  .wallet-selector-btn.active + .navbar-label {
-    color: #fff700 !important;
-    text-shadow: 0 0 8px #ffe066, 0 0 2px #fff !important;
+  .navbar-wallet-row {
+    width: 100vw;
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
+    margin-top: 0.2em;
+    margin-bottom: 0.2em;
   }
   .navbar-username {
     display: none !important;
