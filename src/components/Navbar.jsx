@@ -103,7 +103,7 @@ export default function Navbar({ username }) {
             Upvote
           </button>
           <div style={{ marginLeft: 24 }}>
-            <WalletSelector className="wallet-selector-btn" />
+            <WalletSelector className="wallet-selector-btn" connectButtonText="Connect" />
           </div>
           {(username || shortAddress) && (
             <span className="navbar-username" style={{ marginLeft: 16 }}>
