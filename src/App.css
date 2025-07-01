@@ -262,9 +262,7 @@ li {
     margin-bottom: 0.2em;
   }
   .navbar-icons-row > div {
-    display: flex !important;
-    align-items: center !important;
-    justify-content: flex-end !important;
+    /* Remove all flex properties so icons are inline in the row */
     min-width: 0;
   }
   .navbar-tab-btn, .wallet-selector-btn {
