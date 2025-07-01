@@ -264,6 +264,7 @@ li {
   .navbar-icons-row > div {
     /* Remove all flex properties so icons are inline in the row */
     min-width: 0;
+    /* Remove display: flex, flex-direction, align-items, justify-content */
   }
   .navbar-tab-btn, .wallet-selector-btn {
     display: none !important;
