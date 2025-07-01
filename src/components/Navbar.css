@@ -91,83 +91,43 @@ body, html, * {
 
 @media (max-width: 700px) {
   .navbar {
+    height: 88px !important;
+    min-height: 88px !important;
+    max-height: 88px !important;
     border-top-left-radius: 18px !important;
     border-top-right-radius: 18px !important;
     border-bottom-left-radius: 0 !important;
     border-bottom-right-radius: 0 !important;
-    position: fixed !important;
-    left: 0 !important;
-    right: 0 !important;
-    bottom: 0 !important;
-    top: unset !important;
-    z-index: 2147483640 !important; /* ensure navbar is above almost all content except modals/popups */
-    width: 100vw !important;
-    height: 68px !important;
-    min-height: 68px !important;
-    max-height: 68px !important;
-    background: linear-gradient(90deg, #181c36 0%, #23285a 100%) !important;
-    box-shadow: 0 -2px 12px 2px #ffe066, 0 -2px 8px #506aff80, 0 0 0 2px #ffe06633;
-    flex-direction: row !important;
+    display: flex !important;
     align-items: center !important;
     justify-content: center !important;
-    padding: 0.15em 0.1em !important;
-    min-width: 0 !important;
-    max-width: 100vw !important;
-    box-sizing: border-box;
-    display: flex !important;
-    visibility: visible !important;
-    opacity: 1 !important;
   }
   .navbar-btn-group {
-    width: 100vw !important;
-    justify-content: space-around !important;
-    align-items: center !important;
-    gap: 0.2em !important;
-    flex-direction: row !important;
-    flex-wrap: nowrap !important;
-    overflow-x: auto !important;
-    box-shadow: none !important;
-    padding: 0 !important;
     height: 100% !important;
-    min-height: 68px !important;
-    max-height: 68px !important;
-    display: flex !important;
-    visibility: visible !important;
-    opacity: 1 !important;
-  }
-  .main-content {
-    margin-bottom: 54px !important;
-  }
-  .footer-ticker {
-    position: static !important;
+    min-height: 88px !important;
+    max-height: 88px !important;
     width: 100vw !important;
-    box-shadow: none !important;
-    z-index: 1000 !important;
-  }
-  /* Remove any duplicate or conflicting navbar mobile rules */
-  .navbar {
-    flex-direction: row !important;
-    height: 54px !important;
-    box-shadow: 0 -2px 12px 2px #ffe066, 0 -2px 8px #506aff80, 0 0 0 2px #ffe06633;
     display: flex !important;
-    visibility: visible !important;
-    opacity: 1 !important;
+    align-items: center !important;
+    justify-content: center !important;
+    gap: 0.2em !important;
   }
   .navbar-tab-btn, .wallet-button {
-    min-width: 38px !important;
-    max-width: 64px !important;
-    width: 48px !important;
-    height: 48px !important;
+    min-width: 54px !important;
+    max-width: 80px !important;
+    width: 64px !important;
+    height: 64px !important;
     font-size: 0.52em !important;
     padding: 0 !important;
     margin: 0 0.01em !important;
     display: flex !important;
+    flex-direction: column !important;
     align-items: center !important;
     justify-content: center !important;
     text-align: center !important;
     box-shadow: none !important;
     text-shadow: none !important;
-    border-radius: 50% !important;
+    border-radius: 22px !important;
     background: transparent !important;
   }
   .navbar-icon-glow {
@@ -176,28 +136,51 @@ body, html, * {
     justify-content: center;
     width: 32px;
     height: 32px;
-    margin: 0 auto;
+    margin: 0 auto 2px auto;
     color: #00ffea !important;
     filter: drop-shadow(0 0 8px #00ffea) drop-shadow(0 0 16px #00ffea);
     transition: color 0.18s, filter 0.18s;
   }
-  .navbar-tab-btn.active .navbar-icon-glow {
+  .navbar-tab-btn.active .navbar-icon-glow,
+  .wallet-selector-btn.active .navbar-icon-glow {
     color: #fff700 !important;
     filter: drop-shadow(0 0 8px #fff700) drop-shadow(0 0 16px #fff700);
   }
-  .navbar-tab-btn .desktop-only {
+  .navbar-label {
+    display: block !important;
+    font-size: 0.82em !important;
+    color: #fff !important;
+    text-shadow: 0 0 6px #00ffea, 0 0 2px #fff !important;
+    margin-top: 2px !important;
+    font-family: inherit !important;
+    font-weight: 600 !important;
+    letter-spacing: 0.01em;
+    text-align: center;
+    line-height: 1.1;
+  }
+  .navbar-tab-btn .desktop-only,
+  .wallet-selector-btn .desktop-only {
     display: none !important;
   }
-  .navbar-tab-btn .mobile-only {
+  .navbar-tab-btn .mobile-only,
+  .wallet-selector-btn .mobile-only {
     display: flex !important;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+  .navbar-username {
+    display: none !important;
   }
 }
 
 @media (min-width: 701px) {
-  .navbar-tab-btn .desktop-only {
+  .navbar-tab-btn .desktop-only,
+  .wallet-selector-btn .desktop-only {
     display: inline !important;
   }
-  .navbar-tab-btn .mobile-only {
+  .navbar-tab-btn .mobile-only,
+  .wallet-selector-btn .mobile-only {
     display: none !important;
   }
 }
@@ -323,30 +306,43 @@ body, html, * {
 }
 @media (max-width: 700px) {
   .navbar {
-    height: 68px !important;
-    min-height: 68px !important;
-    max-height: 68px !important;
+    height: 88px !important;
+    min-height: 88px !important;
+    max-height: 88px !important;
+    border-top-left-radius: 18px !important;
+    border-top-right-radius: 18px !important;
+    border-bottom-left-radius: 0 !important;
+    border-bottom-right-radius: 0 !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
   }
   .navbar-btn-group {
     height: 100% !important;
-    min-height: 68px !important;
-    max-height: 68px !important;
+    min-height: 88px !important;
+    max-height: 88px !important;
+    width: 100vw !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    gap: 0.2em !important;
   }
   .navbar-tab-btn, .wallet-button {
-    min-width: 38px !important;
-    max-width: 64px !important;
-    width: 48px !important;
-    height: 48px !important;
+    min-width: 54px !important;
+    max-width: 80px !important;
+    width: 64px !important;
+    height: 64px !important;
     font-size: 0.52em !important;
     padding: 0 !important;
     margin: 0 0.01em !important;
     display: flex !important;
+    flex-direction: column !important;
     align-items: center !important;
     justify-content: center !important;
     text-align: center !important;
     box-shadow: none !important;
     text-shadow: none !important;
-    border-radius: 50% !important;
+    border-radius: 22px !important;
     background: transparent !important;
   }
   .navbar-icon-glow {
@@ -355,28 +351,51 @@ body, html, * {
     justify-content: center;
     width: 32px;
     height: 32px;
-    margin: 0 auto;
+    margin: 0 auto 2px auto;
     color: #00ffea !important;
     filter: drop-shadow(0 0 8px #00ffea) drop-shadow(0 0 16px #00ffea);
     transition: color 0.18s, filter 0.18s;
   }
-  .navbar-tab-btn.active .navbar-icon-glow {
+  .navbar-tab-btn.active .navbar-icon-glow,
+  .wallet-selector-btn.active .navbar-icon-glow {
     color: #fff700 !important;
     filter: drop-shadow(0 0 8px #fff700) drop-shadow(0 0 16px #fff700);
   }
-  .navbar-tab-btn .desktop-only {
+  .navbar-label {
+    display: block !important;
+    font-size: 0.82em !important;
+    color: #fff !important;
+    text-shadow: 0 0 6px #00ffea, 0 0 2px #fff !important;
+    margin-top: 2px !important;
+    font-family: inherit !important;
+    font-weight: 600 !important;
+    letter-spacing: 0.01em;
+    text-align: center;
+    line-height: 1.1;
+  }
+  .navbar-tab-btn .desktop-only,
+  .wallet-selector-btn .desktop-only {
     display: none !important;
   }
-  .navbar-tab-btn .mobile-only {
+  .navbar-tab-btn .mobile-only,
+  .wallet-selector-btn .mobile-only {
     display: flex !important;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+  .navbar-username {
+    display: none !important;
   }
 }
 
 @media (min-width: 701px) {
-  .navbar-tab-btn .desktop-only {
+  .navbar-tab-btn .desktop-only,
+  .wallet-selector-btn .desktop-only {
     display: inline !important;
   }
-  .navbar-tab-btn .mobile-only {
+  .navbar-tab-btn .mobile-only,
+  .wallet-selector-btn .mobile-only {
     display: none !important;
   }
 }

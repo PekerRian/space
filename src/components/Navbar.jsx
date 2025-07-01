@@ -4,6 +4,7 @@ import "./Navbar.css";
 import { WalletSelector } from "@aptos-labs/wallet-adapter-ant-design";
 import { useWallet } from "@aptos-labs/wallet-adapter-react";
 import { CalendarIcon, UserIcon, CoinIcon, FistIcon } from "./NavIcons";
+import { WalletIcon } from "./WalletIcon";
 
 /**
  * Props:
@@ -53,6 +54,7 @@ export default function Navbar({ username }) {
           type="button"
         >
           <span className="navbar-icon-glow mobile-only"><CalendarIcon /></span>
+          <span className="navbar-label mobile-only">Calendar</span>
           <span className="desktop-only">Calendar</span>
         </button>
         <button
@@ -61,6 +63,7 @@ export default function Navbar({ username }) {
           type="button"
         >
           <span className="navbar-icon-glow mobile-only"><UserIcon /></span>
+          <span className="navbar-label mobile-only">Profile</span>
           <span className="desktop-only">User Tab</span>
         </button>
         <button
@@ -69,6 +72,7 @@ export default function Navbar({ username }) {
           type="button"
         >
           <span className="navbar-icon-glow mobile-only"><CoinIcon /></span>
+          <span className="navbar-label mobile-only">Tip</span>
           <span className="desktop-only">Flowers</span>
         </button>
         <button
@@ -77,12 +81,16 @@ export default function Navbar({ username }) {
           type="button"
         >
           <span className="navbar-icon-glow mobile-only"><FistIcon /></span>
+          <span className="navbar-label mobile-only">Upvote</span>
           <span className="desktop-only">Upvotes</span>
         </button>
-        <div style={{ marginLeft: "auto" }}>
-          <WalletSelector className="wallet-selector-btn" />
+        <div style={{ marginLeft: "auto", display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+          <WalletSelector className="wallet-selector-btn">
+            <span className="navbar-icon-glow mobile-only"><WalletIcon /></span>
+            <span className="navbar-label mobile-only">Connect</span>
+          </WalletSelector>
+          <span className="navbar-label desktop-only">Connect</span>
         </div>
-        {/* Show username if present, else fallback to address */}
         {(username || shortAddress) && (
           <span className="navbar-username" style={{ marginLeft: 16 }}>
             {username ? username : shortAddress}
