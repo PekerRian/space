@@ -196,7 +196,7 @@ export default function Flowers() {
             <tbody>
               {topReceivers.length === 0 ? (
                 <tr>
-                  <td colSpan={4} style={{ textAlign: "center" }}>No data</td>
+                  <td colSpan={4} className="flowers-no-data">No data</td>
                 </tr>
               ) : topReceivers.map((user) => (
                 <tr key={user.username}>

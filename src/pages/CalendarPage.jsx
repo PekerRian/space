@@ -256,15 +256,15 @@ function CalendarPage() {
         {/* Left: Calendar and Filters */}
         <div className="calendar-left-panel">
           {/* Timezone Selector */}
-          <div className="calendar-filter-card" style={{ marginBottom: 9.6 }}>
-            <label htmlFor="timezone-select" style={{ fontFamily: '"Press Start 2P", monospace', color: '#0ff', fontSize: 10.4, marginRight: 6.4 }}>
+          <div className="calendar-filter-card">
+            <label htmlFor="timezone-select" className="calendar-timezone-label">
               Timezone:
             </label>
             <select
               id="timezone-select"
               value={timezone}
               onChange={e => setTimezone(e.target.value)}
-              style={{ fontFamily: '"Press Start 2P", monospace', background: '#111', color: '#0ff', border: '1.2px solid #0ff', borderRadius: 3.2, padding: '1.6px 6.4px', fontSize: 10.4 }}
+              className="calendar-timezone-select"
             >
               {TIMEZONES.map(tz => (
                 <option value={tz} key={tz}>{tz}</option>

@@ -786,12 +786,12 @@ export default function UserTab() {
   if (loading) return <LoadingBuffer />;
 
   return (
-    <div className="user-tab-container animated-panel" style={{ fontSize: 13, minHeight: '100vh', height: '100%', overflowY: 'auto', WebkitOverflowScrolling: 'touch' }}>
-      <div className="calendar-bg" style={{ minHeight: '100vh', height: '100%', padding: 0, overflowY: 'auto', WebkitOverflowScrolling: 'touch' }}>
-        <div className="calendar-main-container" style={{ fontSize: 13 }}>
-          <div className="calendar-left-panel" style={{ fontSize: 12 }}>
-            <div className="calendar-card" style={{ fontSize: 12 }}>
-              <h2 className="calendar-panel-title" style={{ fontSize: 16 }}>Pick a Date</h2>
+    <div className="user-tab-container animated-panel">
+      <div className="calendar-bg">
+        <div className="calendar-main-container">
+          <div className="calendar-left-panel">
+            <div className="calendar-card">
+              <h2 className="calendar-panel-title">Pick a Date</h2>
               <Calendar
                 value={selectedDate}
                 onChange={setSelectedDate}
@@ -803,11 +803,11 @@ export default function UserTab() {
               />
             </div>
           </div>
-          <div className="calendar-right-panel" style={{ maxWidth: 340, width: '100%', fontSize: 13 }}>
-            <h2 className="calendar-panel-title" style={{ fontSize: 16 }}>Schedule a Space</h2>
+          <div className="calendar-right-panel">
+            <h2 className="calendar-panel-title">Schedule a Space</h2>
             {user ? (
-              <form onSubmit={handleSubmit} className="calendar-form-card" style={{ width: '100%' }}>
-                <label className="calendar-label" style={{ width: '100%' }}>
+              <form onSubmit={handleSubmit} className="calendar-form-card">
+                <label className="calendar-label">
                   Title
                   <input
                     name="title"
@@ -816,10 +816,9 @@ export default function UserTab() {
                     onChange={handleChange}
                     placeholder="Space Title"
                     required
-                    style={{ width: '100%' }}
                   />
                 </label>
-                <label className="calendar-label" style={{ width: '100%' }}>
+                <label className="calendar-label">
                   Brief Description (max 300 characters)
                   <textarea
                     name="description"
@@ -828,7 +827,7 @@ export default function UserTab() {
                     onChange={handleChange}
                     placeholder="Describe your space"
                     rows={3}
-                    style={{ resize: "vertical", width: '100%' }}
+                    style={{ resize: "vertical" }}
                     maxLength={300}
                     required
                   />
@@ -837,9 +836,9 @@ export default function UserTab() {
                   </div>
                 </label>
 
-                <label className="calendar-label" style={{ width: '100%' }}>
+                <label className="calendar-label">
                   Categories
-                  <div className="user-tab-category-list" style={{ flexWrap: 'wrap', width: '100%' }}>
+                  <div className="user-tab-category-list" style={{ flexWrap: 'wrap' }}>
                     {categories.map(c => (
                       <label key={c} style={{ minWidth: 88, marginBottom: 4.8 }}>
                         <input
@@ -854,9 +853,9 @@ export default function UserTab() {
                   </div>
                 </label>
 
-                <label className="calendar-label" style={{ width: '100%' }}>
+                <label className="calendar-label">
                   Languages
-                  <div className="user-tab-language-list" style={{ flexWrap: 'wrap', width: '100%' }}>
+                  <div className="user-tab-language-list" style={{ flexWrap: 'wrap' }}>
                     {languages.map(l => (
                       <label key={l} style={{ minWidth: 88, marginBottom: 4.8 }}>
                         <input
@@ -871,7 +870,7 @@ export default function UserTab() {
                   </div>
                 </label>
 
-                <label className="calendar-label" style={{ width: '100%' }}>
+                <label className="calendar-label">
                   Twitter Space Link (optional)
                   <input
                     name="twitter_link"
@@ -880,7 +879,6 @@ export default function UserTab() {
                     onChange={handleChange}
                     placeholder="https://twitter.com/i/spaces/..."
                     type="url"
-                    style={{ width: '100%' }}
                   />
                 </label>
                 {/* POAP NFT Setup - REMOVE THIS DUPLICATE FORM BLOCK */}
