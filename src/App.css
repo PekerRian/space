@@ -264,27 +264,6 @@ li {
   .navbar-tab-btn, .wallet-selector-btn {
     display: none !important;
   }
-  .mobile-only {
-    display: flex !important;
-    flex-direction: row;
-    align-items: flex-end !important;
-    justify-content: center !important;
-    width: 100vw !important;
-    height: 100% !important;
-    gap: 0.5em !important;
-    box-shadow: none !important;
-    padding: 0 !important;
-    position: relative;
-  }
-  .mobile-only > div {
-    display: flex !important;
-    flex-direction: column !important;
-    align-items: center !important;
-    justify-content: flex-end !important;
-    flex: 1 1 0;
-    min-width: 0;
-    max-width: 80px;
-  }
   .desktop-only {
     display: none !important;
   }
@@ -329,13 +308,6 @@ li {
     color: #fff700 !important;
     text-shadow: 0 0 8px #ffe066, 0 0 2px #fff !important;
   }
-  .navbar-tab-btn .mobile-only,
-  .wallet-selector-btn .mobile-only {
-    display: flex !important;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-  }
   .navbar-username {
     display: none !important;
   }
@@ -354,14 +326,7 @@ li {
   .mobile-only {
     display: none !important;
   }
-  .desktop-only {
-    display: flex !important;
-    flex-direction: row;
-    align-items: center;
-    justify-content: center;
-    width: 100%;
-    gap: 1.5em;
-  }
+  
   .navbar-btn-group {
     display: flex !important;
     flex-direction: row;
