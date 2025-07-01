@@ -41,7 +41,7 @@ export default function Navbar({ username }) {
 
   // Helper for mobile: render icon button and label outside
   const renderMobileNavBtn = (isActive, onClick, Icon, label, extraClass = "") => (
-    <div className={extraClass} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', position: 'relative' }}>
+    <div className={extraClass} style={{ display: 'flex', alignItems: 'center', position: 'relative' }}>
       <span
         className={`navbar-icon-glow${isActive ? ' active' : ''}`}
         onClick={onClick}
