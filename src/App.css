@@ -256,7 +256,7 @@ li {
     display: flex !important;
     flex-direction: row !important;
     align-items: flex-end !important;
-    justify-content: center !important;
+    justify-content: space-evenly !important;
     width: 100vw !important;
     gap: 0 !important;
     margin-bottom: 0.2em;
@@ -266,19 +266,8 @@ li {
     flex-direction: column !important;
     align-items: center !important;
     justify-content: flex-end !important;
-    flex: 1 1 0;
+    /* Remove flex: 1 1 0; and max-width: 80px; so icons don't stretch or shrink */
     min-width: 0;
-    max-width: 80px;
-  }
-  /* Remove the column rule for .navbar-btn-group > div so it doesn't affect .navbar-icons-row */
-  .navbar-btn-group > div:not(.navbar-icons-row):not(.navbar-wallet-row) {
-    display: flex !important;
-    flex-direction: column !important;
-    align-items: center !important;
-    justify-content: flex-end !important;
-    flex: 1 1 0;
-    min-width: 0;
-    max-width: 80px;
   }
   .navbar-tab-btn, .wallet-selector-btn {
     display: none !important;
