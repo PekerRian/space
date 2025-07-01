@@ -371,4 +371,7 @@ li {
   .wallet-selector-btn {
     margin-left: 1.5em !important;
   }
+  .navbar-icon-glow {
+    display: none !important;
+  }
 }
