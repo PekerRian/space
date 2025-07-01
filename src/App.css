@@ -264,9 +264,6 @@ li {
   .navbar-tab-btn, .wallet-selector-btn {
     display: none !important;
   }
-  .desktop-only {
-    display: none !important;
-  }
   .navbar-icon-glow {
     display: flex !important;
     align-items: center;
