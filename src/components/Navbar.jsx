@@ -64,7 +64,10 @@ export default function Navbar({ username }) {
           {renderMobileNavBtn(isActive("/user"), () => navigate("/user"), UserIcon, "Profile")}
           {renderMobileNavBtn(isActive("/flowers"), () => navigate("/flowers"), CoinIcon, "Tip")}
           {renderMobileNavBtn(isActive("/upvotes"), () => navigate("/upvotes"), FistIcon, "Upvote")}
-          {renderMobileNavBtn(isActive("/connect"), () => navigate("/connect"), WalletIcon, "Connect")}
+          <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'flex-end', minWidth: 0, maxWidth: 80 }}>
+            <WalletSelector className="wallet-selector-btn" style={{ width: 38, height: 38, borderRadius: '50%', padding: 0, margin: '0 auto', boxShadow: '0 0 8px 2px #00ffea44', border: '2.5px solid #00ffea', background: '#181c36', display: 'flex', alignItems: 'center', justifyContent: 'center' }} />
+            <span className="navbar-label">Connect</span>
+          </div>
         </div>
       ) : (
         <div className="navbar-btn-group">
