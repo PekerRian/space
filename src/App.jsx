@@ -207,7 +207,7 @@ function AppRoutes() {
             <SupportCorner mobile />
           </div>
         )}
-        <Navbar username={userData?.username} />
+        {!showRegister && <Navbar username={userData?.username} />}
       </>
     );
   }
@@ -215,7 +215,7 @@ function AppRoutes() {
   // Desktop: Navbar at top, Footer at bottom
   return (
     <>
-      <Navbar username={userData?.username} />
+      {!showRegister && <Navbar username={userData?.username} />}
       <Routes>
         <Route path="/calendar" element={<CalendarPage />} />
         <Route path="/user" element={<UserTab />} />
