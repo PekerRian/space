@@ -199,15 +199,16 @@ function AppRoutes() {
           <Route path="/upvotes" element={<Upvotes walletAddress={walletAddress} />} />
           <Route path="*" element={<NotFoundPage />} />
         </Routes>
-        <Modal open={showRegister} onClose={() => {}}>
-          <WalletAuth walletAddress={walletAddress} onProfileCreated={handleProfileCreated} />
-        </Modal>
         {!(isMobile && showRegister) && (
           <div style={{ width: '100%', display: 'flex', justifyContent: 'center', alignItems: 'center', position: 'static', left: 'unset', bottom: 'unset', zIndex: 'auto', background: 'transparent', pointerEvents: 'auto', margin: 0, padding: 0 }}>
             <SupportCorner mobile />
           </div>
         )}
         {!showRegister && <Navbar username={userData?.username} />}
+        {/* Modal always rendered last for stacking */}
+        <Modal open={showRegister} onClose={() => {}}>
+          <WalletAuth walletAddress={walletAddress} onProfileCreated={handleProfileCreated} />
+        </Modal>
       </>
     );
   }
@@ -224,10 +225,11 @@ function AppRoutes() {
         <Route path="/upvotes" element={<Upvotes walletAddress={walletAddress} />} />
         <Route path="*" element={<NotFoundPage />} />
       </Routes>
+      {!isMobile && !(isMobile && showRegister) && <SupportCorner />}
+      {/* Modal always rendered last for stacking */}
       <Modal open={showRegister} onClose={() => {}}>
         <WalletAuth walletAddress={walletAddress} onProfileCreated={handleProfileCreated} />
       </Modal>
-      {!isMobile && !(isMobile && showRegister) && <SupportCorner />}
     </>
   );
 }
