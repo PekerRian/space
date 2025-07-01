@@ -56,38 +56,52 @@ export default function Navbar({ username }) {
 
   return (
     <nav className={`navbar${mobileOpen ? " open" : ""}`}>
-      <button
-        className="navbar-menu-toggle"
-        aria-label="Open navigation menu"
-        onClick={() => setMobileOpen((v) => !v)}
-        style={{ display: "none" }}
-      >
-        &#9776;
-      </button>
-      <div className="navbar-btn-group">
-        {/* Mobile: icon + label below, Desktop: text only */}
+      {/* Desktop nav: text buttons only, no icons */}
+      <div className="navbar-btn-group desktop-only">
+        <button
+          className={`navbar-tab-btn${isActive("/calendar") ? " active" : ""}`}
+          onClick={() => navigate("/calendar")}
+          type="button"
+        >
+          Calendar
+        </button>
+        <button
+          className={`navbar-tab-btn${isActive("/user") ? " active" : ""}`}
+          onClick={() => navigate("/user")}
+          type="button"
+        >
+          Profile
+        </button>
+        <button
+          className={`navbar-tab-btn${isActive("/flowers") ? " active" : ""}`}
+          onClick={() => navigate("/flowers")}
+          type="button"
+        >
+          Tip
+        </button>
+        <button
+          className={`navbar-tab-btn${isActive("/upvotes") ? " active" : ""}`}
+          onClick={() => navigate("/upvotes")}
+          type="button"
+        >
+          Upvote
+        </button>
+        <div style={{ marginLeft: 24 }}>
+          <WalletSelector className="wallet-selector-btn" />
+        </div>
+        {(username || shortAddress) && (
+          <span className="navbar-username" style={{ marginLeft: 16 }}>
+            {username ? username : shortAddress}
+          </span>
+        )}
+      </div>
+      {/* Mobile nav: icon-only */}
+      <div className="navbar-btn-group mobile-only">
         {renderMobileNavBtn(isActive("/calendar"), () => navigate("/calendar"), CalendarIcon, "Calendar")}
         {renderMobileNavBtn(isActive("/user"), () => navigate("/user"), UserIcon, "Profile")}
         {renderMobileNavBtn(isActive("/flowers"), () => navigate("/flowers"), CoinIcon, "Tip")}
         {renderMobileNavBtn(isActive("/upvotes"), () => navigate("/upvotes"), FistIcon, "Upvote")}
-        <div style={{ marginLeft: "auto", display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-          <button
-            className={`wallet-selector-btn mobile-only${isActive("/connect") ? " active" : ""}`}
-            type="button"
-            aria-label="Connect"
-            tabIndex={0}
-            style={{ background: 'none', border: 'none', outline: 'none', padding: 0, margin: 0 }}
-          >
-            <span className="navbar-icon-glow"><WalletIcon /></span>
-          </button>
-          <span className={`navbar-label mobile-only${isActive("/connect") ? " active" : ""}`}>Connect</span>
-        </div>
-        {/* Desktop: show username/address only if present */}
-        {(username || shortAddress) && (
-          <span className="navbar-username desktop-only" style={{ marginLeft: 16 }}>
-            {username ? username : shortAddress}
-          </span>
-        )}
+        {renderMobileNavBtn(isActive("/connect"), () => navigate("/connect"), WalletIcon, "Connect")}
       </div>
     </nav>
   );
