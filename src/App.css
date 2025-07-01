@@ -260,20 +260,31 @@ li {
     max-width: 80px;
   }
   .navbar-tab-btn, .wallet-selector-btn {
-    min-width: 0 !important;
-    max-width: none !important;
-    width: auto !important;
-    height: auto !important;
-    font-size: 0.52em !important;
-    padding: 0 !important;
-    margin: 0 0 24px 0 !important;
     display: none !important;
-    background: none !important;
-    border: none !important;
+  }
+  .desktop-only {
+    display: none !important;
+  }
+  .mobile-only {
+    display: flex !important;
+    flex-direction: row;
+    align-items: flex-end !important;
+    justify-content: center !important;
+    width: 100vw !important;
+    height: 100% !important;
+    gap: 0.5em !important;
     box-shadow: none !important;
-    text-shadow: none !important;
-    border-radius: 0 !important;
-    position: static !important;
+    padding: 0 !important;
+    position: relative;
+  }
+  .mobile-only > div {
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    justify-content: flex-end !important;
+    flex: 1 1 0;
+    min-width: 0;
+    max-width: 80px;
   }
   .navbar-icon-glow {
     display: flex !important;
