@@ -42,8 +42,9 @@ function PopupModal({ open, onClose, message }) {
         >×</button>
         <div className="compact-modal-message">{message}</div>
       </div>
-    </div>
+  </div>
   );
+}
 }
 // Add a modal for viewing a space and minting POAP
 function SpaceModal({ open, onClose, space, onMint, minting, mintError, mintSuccess, signAndSubmitTransaction, account }) {
