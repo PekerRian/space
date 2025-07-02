@@ -56,37 +56,28 @@ body, html, * {
   font-weight: 600;
   margin-left: 0.8em;
   margin-right: 0.2em;
-  font-size: 1.1em;
-  max-width: 180px;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-}
 
 /* --- Remove old wallet-button overrides to prevent conflicts --- */
-.wallet-button {
-  /* Remove all previous sizing and border overrides, let unified rules below take effect */
-}
 
 /* --- Unify .wallet-button and .navbar-tab-btn size and style for all views --- */
 .navbar-tab-btn,
 .wallet-button {
-  background: transparent !important;
-  border: none !important;
-  color: #fff !important;
+  background: #111 !important;
+  border: 2.5px solid #00ffea !important;
+  color: #00ffea !important;
   border-radius: 999px !important;
   font-weight: 600 !important;
-  box-shadow: 0 0 8px 2px #3b61e1, 0 2px 8px rgba(80,106,255,0.10) !important;
-  text-shadow: 0 0 6px #3b61e1, 0 0 2px #fff !important;
-  transition: background 0.16s, transform 0.14s, box-shadow 0.18s, text-shadow 0.18s !important;
-  margin: 0 0.1em !important;
+  box-shadow: 0 0 32px 8px #00ffea, 0 0 16px 0 #00ffea;
+  text-shadow: 0 0 12px #00ffea, 0 0 24px #00ffea, 0 0 36px #00ffea, 0 0 48px #00ffea;
+  transition: background 0.16s, transform 0.14s, color 0.16s, border 0.16s, box-shadow 0.16s !important;
+  margin: 0 0.2em !important;
   font-size: 1.1em !important;
-  padding: 0.6em 1.5em !important;
-  min-width: 100px !important;
-  max-width: 180px !important;
-  width: 120px !important;
+  padding: 0.18em 1.7em !important;
+  min-width: 120px !important;
+  max-width: 220px !important;
+  width: auto !important;
   height: 38px !important;
-  line-height: 1.2;
+  line-height: 1.1;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -95,6 +86,7 @@ body, html, * {
   align-items: center;
   justify-content: center;
   box-sizing: border-box;
+  animation: footerGlowPulse 2.2s ease-in-out infinite alternate;
 }
 
 .navbar-tab-btn.active,
