@@ -1,3 +1,117 @@
+/* Utility for compact flex wrap and checkbox label */
+.compact-flex-wrap {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px 8px;
+}
+.compact-checkbox-label {
+  min-width: 70px;
+  margin-bottom: 4px;
+  font-size: 10px;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+.calendar-desc-count {
+  font-size: 9px;
+  color: #666;
+  margin-top: 2px;
+}
+/* --- Compact modal and utility classes for all main pages --- */
+.compact-modal-overlay {
+  z-index: 2147483647 !important;
+}
+.compact-modal-content {
+  max-width: 340px !important;
+  min-width: 220px !important;
+  width: 90vw !important;
+  padding: 1.2em 0.8em !important;
+  border-radius: 14px !important;
+  background: #181c36 !important;
+  box-shadow: 0 8px 32px 0 #000a, 0 0 0 2px #3b61e1;
+  margin: 8vh auto !important;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+  color: #fff;
+  font-family: 'Press Start 2P', 'VT323', monospace, Arial, sans-serif;
+  animation: panelFadeInUp 0.5s cubic-bezier(.23,1.01,.32,1) both;
+}
+.compact-modal-close {
+  position: absolute;
+  top: 8px;
+  right: 12px;
+  background: none;
+  border: none;
+  color: #ffe066;
+  font-size: 1.2em;
+  cursor: pointer;
+  text-shadow: 0 0 6px #ffe066, 0 0 2px #fff;
+}
+.compact-modal-message {
+  font-weight: 500;
+  font-size: 13px;
+  color: #ffe066;
+  margin-bottom: 10px;
+  text-align: center;
+}
+.compact-modal-title {
+  color: #ffe066;
+  font-family: 'Press Start 2P', monospace;
+  margin-bottom: 7px;
+  font-size: 13px;
+}
+.compact-modal-desc {
+  color: #fff;
+  margin-bottom: 5px;
+  font-size: 11px;
+}
+.compact-modal-poap-box {
+  margin: 8px 0;
+  border: 1px solid #ffe066;
+  border-radius: 6px;
+  padding: 6px 4px;
+  width: 100%;
+  box-sizing: border-box;
+}
+.compact-modal-poap-title {
+  color: #ffe066;
+  font-weight: 600;
+  margin-bottom: 4px;
+  font-size: 11px;
+}
+.compact-modal-poap-name {
+  color: #fff;
+  font-size: 10px;
+  margin-bottom: 3px;
+}
+.compact-modal-poap-desc {
+  color: #fff;
+  font-size: 9px;
+  margin-bottom: 3px;
+}
+.compact-modal-poap-img {
+  max-width: 70px;
+  border-radius: 6px;
+  margin-bottom: 5px;
+}
+.compact-modal-btn {
+  width: 100%;
+  margin-top: 5px;
+  font-size: 11px;
+  padding: 5px 0;
+}
+.compact-modal-error {
+  color: #ff4d4f;
+  font-size: 9px;
+  margin-top: 4px;
+}
+.compact-modal-success {
+  color: #4caf50;
+  font-size: 9px;
+  margin-top: 4px;
+}
 /* Space Invaders pixel font import */
 @import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&family=VT323&display=swap');
 

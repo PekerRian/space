@@ -30,82 +30,18 @@ const timeOptions = generateTimeOptions();
 function PopupModal({ open, onClose, message }) {
   if (!open) return null;
   return (
-    <div className="calendar-modal-overlay" style={{ zIndex: 1000 }} onClick={onClose}>
+    <div className="calendar-modal-overlay compact-modal-overlay" onClick={onClose}>
       <div
-        className="calendar-modal-content"
-        style={{
-          maxWidth: 400,
-          margin: "0 auto",
-          padding: 20,
-          boxSizing: "border-box",
-          width: "100%",
-          minHeight: "auto",
-          textAlign: "center",
-        }}
+        className="calendar-modal-content compact-modal-content"
         onClick={e => e.stopPropagation()}
       >
         <button
           onClick={onClose}
-          className="calendar-modal-close"
-          style={{
-            position: "absolute",
-            top: 11.2,
-            right: 16,
-            border: 0,
-            background: "none",
-            fontSize: 20,
-            cursor: "pointer",
-            color: "#ffe066",
-            fontFamily: '"Press Start 2P", monospace',
-            textShadow: '0 0 6px #ffe066, 0 0 2px #fff',
-          }}
+          className="calendar-modal-close compact-modal-close"
           aria-label="Close"
         >×</button>
-        <div style={{ fontWeight: 480, fontSize: 14.4, color: '#ffe066', fontFamily: '"Press Start 2P", monospace', marginBottom: 9.6 }}>{message}</div>
+        <div className="compact-modal-message">{message}</div>
       </div>
-      <style>{`
-        .calendar-modal-overlay {
-          position: fixed;
-          top: 0; left: 0; right: 0; bottom: 0;
-          background: rgba(0,0,0,0.85);
-          display: flex;
-          align-items: center;
-          justify-content: center;
-        }
-        .calendar-modal-content {
-          background: #181a2b;
-          border: 3px solid #ffe066;
-          border-radius: 14.4px;
-          box-shadow: 0 0 24px #ffe06699, 0 0 2px #fff;
-          padding: 2em 1.2em 1.6em 1.2em;
-          color: #fff;
-          font-family: 'Press Start 2P', monospace;
-          position: relative;
-          animation: panelFadeInUp 0.5s cubic-bezier(.23,1.01,.32,1) both;
-        }
-        .calendar-modal-close {
-          position: absolute;
-          top: 11.2px;
-          right: 16px;
-          background: none;
-          border: none;
-          color: #ffe066;
-          font-size: 1.4em;
-          cursor: pointer;
-        }
-        @media (max-width: 600px) {
-          .calendar-modal-content {
-            max-width: 98vw !important;
-            padding: 10vw 2vw 2vw 2vw !important;
-            min-height: auto !important;
-          }
-          .calendar-modal-close {
-            top: 8px;
-            right: 12px;
-            font-size: 1.4em;
-          }
-        }
-      `}</style>
     </div>
   );
 }
@@ -116,37 +52,35 @@ function SpaceModal({ open, onClose, space, onMint, minting, mintError, mintSucc
   const handleMint = async () => {
     await handleMintPoap(space);
     if (onMint) onMint();
-  };
   return (
-    <div className="calendar-modal-overlay" style={{ zIndex: 1000 }} onClick={onClose}>
+    <div className="calendar-modal-overlay compact-modal-overlay" onClick={onClose}>
       <div
-        className="calendar-modal-content"
-        style={{ maxWidth: 400, margin: "0 auto", padding: 20, boxSizing: "border-box", width: "100%", minHeight: "auto", textAlign: "center" }}
+        className="calendar-modal-content compact-modal-content"
         onClick={e => e.stopPropagation()}
       >
         <button
           onClick={onClose}
-          className="calendar-modal-close"
-          style={{ position: "absolute", top: 7, right: 10, border: 0, background: "none", fontSize: 15, cursor: "pointer", color: "#ffe066", fontFamily: '"Press Start 2P", monospace', textShadow: '0 0 4px #ffe066, 0 0 1px #fff' }}
+          className="calendar-modal-close compact-modal-close"
           aria-label="Close"
         >×</button>
-        <h3 style={{ color: '#ffe066', fontFamily: '"Press Start 2P", monospace', marginBottom: 7, fontSize: 15 }}>{space.title}</h3>
-        <div style={{ color: '#fff', marginBottom: 5, fontSize: 12 }}>{space.description}</div>
+        <h3 className="compact-modal-title">{space.title}</h3>
+        <div className="compact-modal-desc">{space.description}</div>
         {space.poap && space.mintEnabled === true && (
-          <div style={{ margin: '10px 0', border: '1px solid #ffe066', borderRadius: 6, padding: 7 }}>
-            <div style={{ color: '#ffe066', fontWeight: 600, marginBottom: 4, fontSize: 12 }}>POAP NFT Available</div>
-            <div style={{ color: '#fff', fontSize: 11, marginBottom: 4 }}>{space.poap.name}</div>
-            <div style={{ color: '#fff', fontSize: 10, marginBottom: 4 }}>{space.poap.description}</div>
-            {space.poap.image && <img src={space.poap.image.replace('ipfs://', 'https://gateway.pinata.cloud/ipfs/')} alt="POAP" style={{ maxWidth: 80, borderRadius: 6, marginBottom: 5 }} />}
-            <button onClick={handleMint} className="calendar-btn" style={{ width: '100%', marginTop: 5, fontSize: 13, padding: '6px 0' }} disabled={minting}>
+          <div className="compact-modal-poap-box">
+            <div className="compact-modal-poap-title">POAP NFT Available</div>
+            <div className="compact-modal-poap-name">{space.poap.name}</div>
+            <div className="compact-modal-poap-desc">{space.poap.description}</div>
+            {space.poap.image && <img src={space.poap.image.replace('ipfs://', 'https://gateway.pinata.cloud/ipfs/')} alt="POAP" className="compact-modal-poap-img" />}
+            <button onClick={handleMint} className="calendar-btn compact-modal-btn" disabled={minting}>
               {minting ? 'Minting...' : 'Mint POAP'}
             </button>
-            {mintError && <div style={{ color: 'red', fontSize: 10, marginTop: 4 }}>{mintError}</div>}
-            {mintSuccess && <div style={{ color: 'green', fontSize: 10, marginTop: 4 }}>{mintSuccess}</div>}
+            {mintError && <div className="compact-modal-error">{mintError}</div>}
+            {mintSuccess && <div className="compact-modal-success">{mintSuccess}</div>}
           </div>
         )}
       </div>
     </div>
+  );
   );
 }
 
@@ -827,20 +761,20 @@ export default function UserTab() {
                     onChange={handleChange}
                     placeholder="Describe your space"
                     rows={3}
-                    style={{ resize: "vertical" }}
                     maxLength={300}
                     required
+                    style={{ resize: "vertical" }}
                   />
-                  <div style={{ fontSize: 9.6, color: form.description.length > 300 ? "red" : "#666", textAlign: "right" }}>
+                  <div className="calendar-desc-count" style={{ color: form.description.length > 300 ? 'red' : '#666', textAlign: 'right' }}>
                     {form.description.length}/300
                   </div>
                 </label>
 
                 <label className="calendar-label">
                   Categories
-                  <div className="user-tab-category-list" style={{ flexWrap: 'wrap' }}>
+                  <div className="user-tab-category-list compact-flex-wrap">
                     {categories.map(c => (
-                      <label key={c} style={{ minWidth: 88, marginBottom: 4.8 }}>
+                      <label key={c} className="compact-checkbox-label">
                         <input
                           type="checkbox"
                           value={c}
@@ -855,9 +789,9 @@ export default function UserTab() {
 
                 <label className="calendar-label">
                   Languages
-                  <div className="user-tab-language-list" style={{ flexWrap: 'wrap' }}>
+                  <div className="user-tab-language-list compact-flex-wrap">
                     {languages.map(l => (
-                      <label key={l} style={{ minWidth: 88, marginBottom: 4.8 }}>
+                      <label key={l} className="compact-checkbox-label">
                         <input
                           type="checkbox"
                           value={l}
