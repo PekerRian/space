@@ -45,7 +45,6 @@ function PopupModal({ open, onClose, message }) {
     </div>
   );
 }
-}
 // Add a modal for viewing a space and minting POAP
 function SpaceModal({ open, onClose, space, onMint, minting, mintError, mintSuccess, signAndSubmitTransaction, account }) {
   if (!open || !space) return null;
