@@ -45,13 +45,13 @@ function PopupModal({ open, onClose, message }) {
     </div>
   );
 }
-
 // Add a modal for viewing a space and minting POAP
 function SpaceModal({ open, onClose, space, onMint, minting, mintError, mintSuccess, signAndSubmitTransaction, account }) {
   if (!open || !space) return null;
   const handleMint = async () => {
     await handleMintPoap(space);
     if (onMint) onMint();
+  };
   return (
     <div className="calendar-modal-overlay compact-modal-overlay" onClick={onClose}>
       <div
@@ -80,7 +80,6 @@ function SpaceModal({ open, onClose, space, onMint, minting, mintError, mintSucc
         )}
       </div>
     </div>
-  );
   );
 }
 
@@ -991,4 +990,3 @@ export default function UserTab() {
       </div>
     </div>
   );
-}
