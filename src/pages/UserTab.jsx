@@ -42,7 +42,7 @@ function PopupModal({ open, onClose, message }) {
         >×</button>
         <div className="compact-modal-message">{message}</div>
       </div>
-  </div>
+    </div>
   );
 }
 }
