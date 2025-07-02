@@ -172,7 +172,7 @@ export default function Upvotes({ walletAddress }) {
               className={shineId === space.id ? "upvote-shine" : ""}>
             <div><b>Title:</b> {space.title}</div>
             <div><b>Description:</b> {space.description}</div>
-            <div><b>By:</b> <span style={{color:'#00ffea'}}>{hostNames[space.creator] || space.creator}</span></div>
+            <div><b>By:</b> <span className="upvote-host">{hostNames[space.creator] || space.creator}</span></div>
             <div><b>Upvotes:</b> {space.upvotes || 0}</div>
             <button
               className="upvote-glow-btn"

@@ -403,39 +403,32 @@ function CalendarPage() {
           const isCreator = account && (account.address === selectedSpace.creator || account.address?.toString() === selectedSpace.creator);
           return (
             <div>
-              <h2 style={{ fontSize: 20.8 }}>{selectedSpace.title || 'Untitled Space'}</h2>
-              <div style={{ marginBottom: 6.4 }}>
+              <h2 className="compact-modal-title">{selectedSpace.title || 'Untitled Space'}</h2>
+              <div className="compact-info-block">
                 <b>Host:</b> {selectedSpace.username || '—'}
                 {selectedSpace.twitter && (
-                  <span>
-                    {' '}·{' '}
-                    <a href={selectedSpace.twitter} target="_blank" rel="noopener noreferrer" style={{ color: '#1da1f2', fontSize: 12.8 }}>
+                  <span className="compact-info-label">
+                    ·
+                    <a href={selectedSpace.twitter} target="_blank" rel="noopener noreferrer" style={{ color: '#1da1f2', fontWeight: 'bold' }}>
                       Twitter Profile
                     </a>
                   </span>
                 )}
               </div>
-              <div style={{ marginBottom: 6.4 }}>
+              <div className="compact-info-block">
                 <b>Date:</b> {startDate ? startDate.toLocaleDateString(undefined, { timeZone: timezone }) : '—'}
                 <br />
                 <b>Time:</b> {startDate ? startDate.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', timeZone: timezone }) : '—'}
                 {endDate && <> - {endDate.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', timeZone: timezone })}</>}
               </div>
-              <div style={{ marginBottom: 6.4 }}>
+              <div className="compact-info-block">
                 <b>Categories:</b> {selectedSpace.categories || '—'}
                 <br />
                 <b>Languages:</b> {selectedSpace.languages || '—'}
               </div>
-              <div style={{ marginBottom: 6.4 }}>
+              <div className="compact-info-block">
                 <b>Brief Description:</b>
-                <div
-                  style={{
-                    marginTop: 1.6,
-                    whiteSpace: 'pre-line',
-                    color: '#fff',
-                    fontStyle: selectedSpace.description ? 'normal' : 'italic'
-                  }}
-                >
+                <div style={{ marginTop: 2, whiteSpace: 'pre-line', color: '#fff', fontStyle: selectedSpace.description ? 'normal' : 'italic', fontSize: 11 }}>
                   {selectedSpace.description ? selectedSpace.description : 'No description provided.'}
                 </div>
               </div>
@@ -446,14 +439,14 @@ function CalendarPage() {
                     target="_blank"
                     rel="noopener noreferrer"
                     className="calendar-event-link"
-                    style={{ color: '#1da1f2', fontWeight: 'bold', fontSize: 12.8 }}
+                    style={{ color: '#1da1f2', fontWeight: 'bold', fontSize: 12 }}
                   >
                     Join Twitter Space
                   </a>
                 </div>
               )}
               {selectedSpace.creatorStatus !== 'host' && (selectedSpace.upvotes || 0) >= 25 && (
-                <div style={{ color: '#b28d00', fontWeight: 'bold', marginTop: 8 }}>
+                <div className="compact-warning">
                   🌟 This space is featured because it reached 25+ upvotes!
                 </div>
               )}
@@ -461,7 +454,7 @@ function CalendarPage() {
               {selectedSpace.poap && typeof selectedSpace.poap === 'object' && selectedSpace.poap.ipfsHash && selectedSpace.mintEnabled === true && (
                 <>
                   <button
-                    style={{marginTop:12, background:'#ffe066', color:'#181a2b', fontWeight:'bold', border:'none', borderRadius:6, padding:'8px 18px', fontSize:16, cursor:'pointer'}}
+                    className="compact-action-btn"
                     onClick={() => setShowPasswordPrompt(true)}
                   >
                     Mint POAP NFT
@@ -475,11 +468,12 @@ function CalendarPage() {
                         value={mintPassword}
                         onChange={e => setMintPassword(e.target.value)}
                         placeholder="Space Password"
-                        style={{ margin: '12px 0', padding: 8, borderRadius: 4, border: '1px solid #ffe066', width: '80%', color: '#181a2b' }}
+                        className="calendar-input"
+                        style={{ margin: '12px 0', width: '80%', color: '#181a2b' }}
                       />
-                      <div style={{ color: 'red', minHeight: 18 }}>{passwordError}</div>
+                      <div className="compact-error">{passwordError}</div>
                       <button
-                        style={{ background: '#ffe066', color: '#181a2b', fontWeight: 'bold', border: 'none', borderRadius: 6, padding: '8px 18px', fontSize: 16, cursor: 'pointer', marginTop: 8 }}
+                        className="compact-action-btn"
                         onClick={async () => {
                           if (mintPassword !== selectedSpace.spacePassword) {
                             setPasswordError('Incorrect password.');
