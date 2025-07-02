@@ -61,6 +61,7 @@ body, html, * {
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
+}
 
 /* --- Remove old wallet-button overrides to prevent conflicts --- */
 
@@ -271,4 +272,3 @@ body, html, * {
   .navbar-icon-glow {
     display: none !important;
   }
-/* End of file */
