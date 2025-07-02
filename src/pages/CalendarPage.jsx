@@ -233,16 +233,16 @@ function CalendarPage() {
     }
 
     return (
-      <div style={{marginTop:12, border:'1px solid #00ffea', padding:12, borderRadius:8}}>
+      <div style={{border:'1px solid #00ffea', borderRadius:8}}>
         <h3>Mint POAP NFT</h3>
         <input type="file" accept="image/*" onChange={handlePoapFile} />
-        <input name="name" placeholder="Name" value={poapForm.name} onChange={handlePoapInput} style={{display:'block',margin:'8px 0'}} />
-        <input name="space" placeholder="Space" value={poapForm.space} onChange={handlePoapInput} style={{display:'block',margin:'8px 0'}} />
-        <textarea name="description" placeholder="Description" value={poapForm.description} onChange={handlePoapInput} style={{display:'block',margin:'8px 0'}} />
+        <input name="name" placeholder="Name" value={poapForm.name} onChange={handlePoapInput} style={{display:'block'}} />
+        <input name="space" placeholder="Space" value={poapForm.space} onChange={handlePoapInput} style={{display:'block'}} />
+        <textarea name="description" placeholder="Description" value={poapForm.description} onChange={handlePoapInput} style={{display:'block'}} />
         <button onClick={handlePoapUploadAndMint} disabled={minting || !poapForm.file || !poapForm.name || !poapForm.space || !poapForm.description}>
           {minting ? 'Uploading...' : 'Upload & Mint'}
         </button>
-        {poapStatus && <div style={{marginTop:8}}>{poapStatus}</div>}
+        {poapStatus && <div>{poapStatus}</div>}
         {poapIpfsHash && <div>Image IPFS: {poapIpfsHash}</div>}
       </div>
     );

@@ -178,7 +178,7 @@ export default function Flowers() {
   if (loading) return <LoadingBuffer />;
 
   return (
-    <div className="page-container flowers-leaderboard-container animated-panel">
+    <div className="flowers-leaderboard-container animated-panel">
       <h1 className="page-title">Leaderboard</h1>
       <div className="flowers-leaderboard-flex">
         {/* All Receivers */}
