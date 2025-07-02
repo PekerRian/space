@@ -46,25 +46,8 @@ export function LoadingBuffer() {
     return () => clearInterval(interval);
   }, []);
   return (
-    <div style={{
-      minHeight: "100vh",
-      display: "flex",
-      alignItems: "center",
-      justifyContent: "center",
-      background: "#0a0c1b",
-      width: "100vw",
-      position: "fixed",
-      top: 0,
-      left: 0,
-      zIndex: 99999
-    }}>
-      <span style={{
-        fontFamily: "'Press Start 2P', 'VT323', 'Consolas', 'monospace', Arial, sans-serif",
-        fontSize: "3.2em",
-        color: "#00ffea",
-        textShadow: "0 0 16px #00ffea, 0 0 32px #00ffea, 0 0 48px #00ffea",
-        letterSpacing: "2px"
-      }}>
+    <div className="loading-buffer-bg">
+      <span className="loading-buffer-text">
         Loading{'.'.repeat(dots)}
       </span>
     </div>
@@ -77,12 +60,15 @@ function SupportCorner({ mobile }) {
   return (
     <>
       <div
-        className={mobile ? "support-corner support-corner-mobile" : "support-corner"}
-        style={mobile ? { width: '100%', borderRadius: 0, margin: 0, position: 'static', bottom: 0, left: 0, background: '#181c36', boxShadow: '0 -2px 16px #00ffea44' } : { cursor: 'pointer', pointerEvents: 'auto' }}
+        className={
+          mobile
+            ? "support-corner support-corner-mobile support-corner-mobile-bg"
+            : "support-corner support-corner-desktop"
+        }
         onClick={() => setOpen(true)}
         title="Support this app"
       >
-        <svg width="54" height="54" viewBox="0 0 32 32" style={{ display: 'block', margin: '0 auto' }}>
+        <svg width="54" height="54" viewBox="0 0 32 32" className="support-corner-svg">
           {/* Pixel heart shape */}
           <rect x="12" y="6" width="2" height="2" fill="#00bfff" />
           <rect x="18" y="6" width="2" height="2" fill="#00bfff" />
@@ -206,8 +192,7 @@ function AppRoutes() {
       {!isMobile && !(isMobile && showRegister) && <SupportCorner />}
       <FooterTicker />
       {isMobile && !(isMobile && showRegister) && (
-        // Place as a normal block, not absolutely positioned
-        <div style={{ width: '100%', display: 'flex', justifyContent: 'center', alignItems: 'center', position: 'static', left: 'unset', bottom: 'unset', zIndex: 'auto', background: 'transparent', pointerEvents: 'auto', margin: 0, padding: 0 }}>
+        <div className="support-corner-mobile-wrapper">
           <SupportCorner mobile />
         </div>
       )}
@@ -224,7 +209,7 @@ function FooterTicker() {
           <span className="footer-ticker-gap">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
           AIP-119 is now live for community vote 🗳️
           <span className="footer-ticker-gap">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
-          HashPalette is now <span style={{color:'#ffe066'}}>@AptosJapan_Org</span>!
+          HashPalette is now <span className="footer-ticker-highlight">@AptosJapan_Org</span>!
           <span className="footer-ticker-gap">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
         </span>
         {/* Duplicate for seamless loop */}
@@ -233,7 +218,7 @@ function FooterTicker() {
           <span className="footer-ticker-gap">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
           AIP-119 is now live for community vote 🗳️
           <span className="footer-ticker-gap">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
-          HashPalette is now <span style={{color:'#ffe066'}}>@AptosJapan_Org</span>!
+          HashPalette is now <span className="footer-ticker-highlight">@AptosJapan_Org</span>!
           <span className="footer-ticker-gap">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
         </span>
       </div>

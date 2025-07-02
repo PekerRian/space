@@ -763,9 +763,9 @@ export default function UserTab() {
                     rows={3}
                     maxLength={300}
                     required
-                    style={{ resize: "vertical" }}
+                    className="resize-vertical"
                   />
-                  <div className="calendar-desc-count" style={{ color: form.description.length > 300 ? 'red' : '#666', textAlign: 'right' }}>
+                  <div className={form.description.length > 300 ? "calendar-desc-count calendar-desc-error" : "calendar-desc-count calendar-desc-normal"}>
                     {form.description.length}/300
                   </div>
                 </label>
@@ -817,8 +817,8 @@ export default function UserTab() {
                 </label>
                 {/* POAP NFT Setup - REMOVE THIS DUPLICATE FORM BLOCK */}
                 {/* <div style={{border:'1px solid #ffe066', borderRadius:8, padding:12, margin:'16px 0'}}>
-                  <h3 style={{margin:'0 0 8px 0'}}>POAP NFT Setup</h3>
-                  <label className="calendar-label" style={{ width: '100%' }}>
+                  <h3 className="poap-setup-title">POAP NFT Setup</h3>
+                  <label className="calendar-label label-block-fullwidth">
                     POAP Name
                     <input
                       name="name"
@@ -826,10 +826,10 @@ export default function UserTab() {
                       value={poap.name}
                       onChange={handlePoapInput}
                       placeholder="POAP Name"
-                      style={{ width: '100%' }}
+                      className="input-fullwidth"
                     />
                   </label>
-                  <label className="calendar-label" style={{ width: '100%' }}>
+                  <label className="calendar-label label-block-fullwidth">
                     POAP Description
                     <textarea
                       name="description"
@@ -838,14 +838,14 @@ export default function UserTab() {
                       onChange={handlePoapInput}
                       placeholder="POAP Description"
                       rows={2}
-                      style={{ width: '100%' }}
+                      className="input-fullwidth"
                     />
                   </label>
-                  <label className="calendar-label" style={{ width: '100%' }}>
+                  <label className="calendar-label label-block-fullwidth">
                     POAP Image
                     <input type="file" accept="image/*" onChange={handlePoapFile} />
                   </label>
-                  <label className="calendar-label" style={{ width: '100%' }}>
+                  <label className="calendar-label label-block-fullwidth">
                     Max Supply
                     <input
                       name="maxSupply"
@@ -855,20 +855,20 @@ export default function UserTab() {
                       value={poap.maxSupply || ''}
                       onChange={e => setPoap(p => ({ ...p, maxSupply: e.target.value }))}
                       placeholder="Max Supply (number of NFTs)"
-                      style={{ width: '100%' }}
+                      className="input-fullwidth"
                     />
                   </label>
                 </div> */}
-                <label style={{ display: 'block', margin: '12px 0 4px 0' }}>
+                <label className="label-block-margin">
                   <input type="checkbox" checked={enablePoap} onChange={handleEnablePoapChange} /> Enable POAP for this space?
                 </label>
-                <label style={{ display: 'block', margin: '12px 0 4px 0' }}>
+                <label className="label-block-margin">
                   Space Password (required to mint POAP from calendar):
-                  <input type="password" value={spacePassword} onChange={handlePasswordChange} style={{ marginLeft: 8, color: 'black' }} />
+                  <input type="password" value={spacePassword} onChange={handlePasswordChange} className="input-password" />
                 </label>
-                <fieldset disabled={!enablePoap} style={{ opacity: enablePoap ? 1 : 0.5, border: '1px solid #ffe066', padding: 12, margin: '12px 0' }}>
+                <fieldset disabled={!enablePoap} className={enablePoap ? "fieldset-poap" : "fieldset-poap fieldset-poap-disabled"}>
                   <legend>POAP Details</legend>
-                  <label className="calendar-label" style={{ width: '100%' }}>
+                  <label className="calendar-label label-block-fullwidth">
                     POAP Name
                     <input
                       name="name"
@@ -876,10 +876,10 @@ export default function UserTab() {
                       value={poap.name}
                       onChange={handlePoapInput}
                       placeholder="POAP Name"
-                      style={{ width: '100%' }}
+                      className="input-fullwidth"
                     />
                   </label>
-                  <label className="calendar-label" style={{ width: '100%' }}>
+                  <label className="calendar-label label-block-fullwidth">
                     POAP Description
                     <textarea
                       name="description"
@@ -888,28 +888,27 @@ export default function UserTab() {
                       onChange={handlePoapInput}
                       placeholder="POAP Description"
                       rows={2}
-                      style={{ width: '100%' }}
+                      className="input-fullwidth"
                     />
                   </label>
-                  <label className="calendar-label" style={{ width: '100%' }}>
+                  <label className="calendar-label label-block-fullwidth">
                     POAP Image
                     <input type="file" accept="image/*" onChange={handlePoapFile} />
                   </label>
-                  <label className="calendar-label" style={{ width: '100%' }}>
+                  <label className="calendar-label label-block-fullwidth">
                     Max Supply
                     <input
                       name="maxSupply"
-                      className="calendar-input"
+                      className="calendar-input input-fullwidth"
                       type="number"
                       min="1"
                       value={poap.maxSupply || ''}
                       onChange={e => setPoap(p => ({ ...p, maxSupply: e.target.value }))}
                       placeholder="Max Supply (number of NFTs)"
-                      style={{ width: '100%' }}
                     />
                   </label>
                 </fieldset>
-                <button type="submit" className="calendar-btn" style={{ width: '100%' }}>Schedule</button>
+                <button type="submit" className="calendar-btn btn-fullwidth">Schedule</button>
                 {err && <p className="calendar-error">{err}</p>}
                 {success && <p className="calendar-success">{success}</p>}
               </form>
@@ -937,17 +936,16 @@ export default function UserTab() {
             />
 
             {/* User's scheduled spaces */}
-            <h2 className="calendar-panel-title" style={{ marginTop: 25.6 }}>Your Scheduled Spaces</h2>
+            <h2 className="calendar-panel-title mt-25">Your Scheduled Spaces</h2>
             {spaces.length === 0 && (
-              <div style={{ color: "#888", fontStyle: "italic" }}>
+              <div className="scheduled-empty">
                 You haven't scheduled any spaces yet.
               </div>
             )}
             {spaces.map(space => (
               <div
                 key={space.id}
-                className="calendar-event-card"
-                style={{ marginBottom: 14.4, position: "relative", background: "#f6f8fa", minWidth: 0, width: '100%' }}
+                className="calendar-event-card scheduled-space-card"
                 onClick={() => setSpaceModal(space)}
               >
                 <div className="calendar-event-title">
@@ -958,28 +956,18 @@ export default function UserTab() {
                     {formatSpaceDate(space.date)}
                   </span>
                   {space.languages && (
-                    <span style={{ marginLeft: 9.6, fontSize: 10.4, color: "#444" }}>
-                      Languages: {space.languages}
-                    </span>
+                    <span className="scheduled-meta">Languages: {space.languages}</span>
                   )}
                   {space.categories && (
-                    <span style={{ marginLeft: 9.6, fontSize: 10.4, color: "#444" }}>
-                      Categories: {space.categories}
-                    </span>
+                    <span className="scheduled-meta">Categories: {space.categories}</span>
                   )}
                 </div>
-                <div style={{ color: "#666", margin: "4.8px 0 8px 0", fontSize: 12 }}>
-                  {space.description}
-                </div>
+                <div className="scheduled-desc">{space.description}</div>
                 {/* Only show delete button if user is the owner */}
                 {space.owner === user?.username && (
                   <button
                     onClick={() => handleDelete(space.id)}
-                    style={{
-                      position: "absolute", top: 4.8, right: 6.4,
-                      background: "#e15d5d", color: "#fff", border: 0,
-                      borderRadius: 6.4, padding: "1.6px 8px", fontSize: 11.2, cursor: "pointer"
-                    }}
+                    className="scheduled-delete-btn"
                   >
                     Delete
                   </button>
@@ -992,7 +980,7 @@ export default function UserTab() {
                     await updateDoc(ref, { mintEnabled: !space.mintEnabled });
                     setSpaces(spaces => spaces.map(s => s.id === space.id ? { ...s, mintEnabled: !space.mintEnabled } : s));
                   }}
-                  style={{ marginTop: 5, background: space.mintEnabled ? '#ffe066' : '#888', color: '#181a2b', cursor: 'pointer', border: 'none', borderRadius: 4, padding: '4px 8px', fontSize: 12 }}
+                  className={space.mintEnabled ? "scheduled-mint-btn enabled" : "scheduled-mint-btn"}
                 >
                   {space.mintEnabled ? 'Disable Mint on Calendar' : 'Enable Mint on Calendar'}
                 </button>

@@ -1,3 +1,67 @@
+/* --- Flowers Tip/Transfer/Search Section --- */
+.flowers-tip-title {
+  text-align: center;
+  font-size: 1.25rem;
+  font-weight: 700;
+  margin-bottom: 18px;
+  color: #00ffea;
+  font-family: 'Press Start 2P', 'VT323', 'Consolas', 'monospace', Arial, sans-serif;
+  text-shadow: 0 1px 0 #00ffea;
+}
+.flowers-search-form {
+  display: flex;
+  gap: 9.6px;
+  margin-bottom: 12.8px;
+}
+.flowers-search-input {
+  flex: 1;
+  padding: 6.4px;
+  border-radius: 4.8px;
+  border: 0.8px solid #bbb;
+  font-size: 1rem;
+  background: #181a2b;
+  color: #00ffea;
+}
+.flowers-search-error {
+  color: red;
+  margin-bottom: 6.4px;
+  font-size: 0.98em;
+}
+.flowers-monospace {
+  font-family: monospace;
+}
+.flowers-transfer-form {
+  margin-top: 12.8px;
+  display: flex;
+  gap: 6.4px;
+}
+.flowers-transfer-input {
+  flex: 1;
+  padding: 6.4px;
+  border-radius: 4.8px;
+  border: 0.8px solid #bbb;
+  font-size: 1rem;
+  background: #181a2b;
+  color: #00ffea;
+}
+.flowers-wallet-warning {
+  color: orange;
+  margin-top: 6.4px;
+  font-size: 0.98em;
+}
+.flowers-transfer-success {
+  margin-top: 6.4px;
+  color: green;
+  font-size: 0.98em;
+}
+.flowers-transfer-error {
+  margin-top: 6.4px;
+  color: red;
+  font-size: 0.98em;
+}
+.flowers-no-data {
+  text-align: center;
+}
 /* Space Invaders pixel font import */
 @import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&family=VT323&display=swap');
 

@@ -1,9 +1,10 @@
 /* Space Invaders pixel font import */
 @import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&family=VT323&display=swap');
 
+
 body, html, * {
   font-family: 'Press Start 2P', 'VT323', 'Consolas', 'monospace', Arial, sans-serif !important;
-}
+
 
 /* --- Navbar and navigation styles moved from App.css --- */
 
@@ -66,33 +67,7 @@ body, html, * {
 /* --- Remove old wallet-button overrides to prevent conflicts --- */
 
 /* --- Unify .wallet-button and .navbar-tab-btn size and style for all views --- */
-.navbar-tab-btn,
-.wallet-button {
-  background: #111 !important;
-  border: 2.5px solid #00ffea !important;
-  color: #00ffea !important;
-  border-radius: 999px !important;
-  font-weight: 600 !important;
-  box-shadow: 0 0 32px 8px #00ffea, 0 0 16px 0 #00ffea;
-  text-shadow: 0 0 12px #00ffea, 0 0 24px #00ffea, 0 0 36px #00ffea, 0 0 48px #00ffea;
-  transition: background 0.16s, transform 0.14s, color 0.16s, border 0.16s, box-shadow 0.16s !important;
-  margin: 0 0.2em !important;
-  font-size: 1.1em !important;
-  padding: 0.18em 1.7em !important;
-  min-width: 120px !important;
-  max-width: 220px !important;
-  width: auto !important;
-  height: 38px !important;
-  line-height: 1.1;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  text-align: center;
-  display: inline-flex !important;
-  align-items: center;
-  justify-content: center;
-  box-sizing: border-box;
-  animation: footerGlowPulse 2.2s ease-in-out infinite alternate;
+/* --- Unified button style for .navbar-tab-btn and .wallet-button is now handled in media queries below for better responsiveness and to avoid duplication. --- */
 }
 
 .navbar-tab-btn.active,

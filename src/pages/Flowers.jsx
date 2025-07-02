@@ -223,7 +223,7 @@ export default function Flowers() {
             <tbody>
               {topSenders.length === 0 ? (
                 <tr>
-                  <td colSpan={3} style={{ textAlign: "center" }}>No data</td>
+                  <td colSpan={3} className="flowers-no-data">No data</td>
                 </tr>
               ) : topSenders.map((user) => (
                 <tr key={user.username}>
@@ -239,27 +239,27 @@ export default function Flowers() {
 
       {/* ---------- USER SEARCH & TRANSFER SECTION ---------- */}
       <div className="flowers-transfer-card">
-        <h2 style={{ textAlign: "center" }}>🌐 Tip your speaker</h2>
-        <form onSubmit={handleSearch} style={{ display: "flex", gap: 9.6, marginBottom: 12.8 }}>
+        <h2 className="flowers-tip-title">🌐 Tip your speaker</h2>
+        <form onSubmit={handleSearch} className="flowers-search-form">
           <input
             type="text"
             placeholder="Enter username"
             value={searchInput}
             onChange={e => setSearchInput(e.target.value)}
-            style={{ flex: 1, padding: 6.4, borderRadius: 4.8, border: "0.8px solid #bbb" }}
+            className="flowers-search-input"
           />
           <button type="submit" className="calendar-btn">Search</button>
         </form>
-        {searchError && <div style={{ color: "red", marginBottom: 6.4 }}>{searchError}</div>}
+        {searchError && <div className="flowers-search-error">{searchError}</div>}
         {searchResult && (
           <div className="search-result">
             <div><b>Username:</b> {searchResult.username}</div>
-            <div><b>Registered Address:</b> <span style={{ fontFamily: "monospace" }}>{searchResult.id}</span></div>
+            <div><b>Registered Address:</b> <span className="flowers-monospace">{searchResult.id}</span></div>
             <div><b>Status:</b> {searchResult.status}</div>
             <div><b>APT Received:</b> {searchResult.totalReceivedApt || 0}</div>
             <div><b>APT Sent:</b> {searchResult.totalSentApt || 0}</div>
             {(getAddressString(account) && typeof signAndSubmitTransaction === "function") ? (
-              <form onSubmit={handleAptTransfer} style={{ marginTop: 12.8, display: "flex", gap: 6.4 }}>
+              <form onSubmit={handleAptTransfer} className="flowers-transfer-form">
                 <input
                   type="number"
                   placeholder="Amount (APT)"
@@ -267,16 +267,16 @@ export default function Flowers() {
                   min="0.00000001"
                   step="0.00000001"
                   onChange={e => setTransferAmount(e.target.value)}
-                  style={{ flex: 1, padding: 6.4, borderRadius: 4.8, border: "0.8px solid #bbb" }}
+                  className="flowers-transfer-input"
                 />
                 <button type="submit" className="calendar-btn">Send APT</button>
               </form>
             ) : (
-              <div style={{ color: "orange", marginTop: 6.4 }}>
+              <div className="flowers-wallet-warning">
                 Connect your Aptos wallet to send APT.
               </div>
             )}
-            {transferStatus && <div style={{ marginTop: 6.4, color: transferStatus.startsWith("Successfully") ? "green" : "red" }}>{transferStatus}</div>}
+            {transferStatus && <div className={transferStatus.startsWith("Successfully") ? "flowers-transfer-success" : "flowers-transfer-error"}>{transferStatus}</div>}
           </div>
         )}
       </div>

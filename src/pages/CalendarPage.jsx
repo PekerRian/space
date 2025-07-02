@@ -233,12 +233,12 @@ function CalendarPage() {
     }
 
     return (
-      <div style={{border:'1px solid #00ffea', borderRadius:8}}>
+      <div className="calendar-poap-form">
         <h3>Mint POAP NFT</h3>
         <input type="file" accept="image/*" onChange={handlePoapFile} />
-        <input name="name" placeholder="Name" value={poapForm.name} onChange={handlePoapInput} style={{display:'block'}} />
-        <input name="space" placeholder="Space" value={poapForm.space} onChange={handlePoapInput} style={{display:'block'}} />
-        <textarea name="description" placeholder="Description" value={poapForm.description} onChange={handlePoapInput} style={{display:'block'}} />
+        <input name="name" placeholder="Name" value={poapForm.name} onChange={handlePoapInput} className="calendar-poap-input" />
+        <input name="space" placeholder="Space" value={poapForm.space} onChange={handlePoapInput} className="calendar-poap-input" />
+        <textarea name="description" placeholder="Description" value={poapForm.description} onChange={handlePoapInput} className="calendar-poap-input" />
         <button onClick={handlePoapUploadAndMint} disabled={minting || !poapForm.file || !poapForm.name || !poapForm.space || !poapForm.description}>
           {minting ? 'Uploading...' : 'Upload & Mint'}
         </button>
@@ -358,8 +358,7 @@ function CalendarPage() {
                       return (
                         <div
                           key={space.id}
-                          className="calendar-event-card"
-                          style={{ cursor: "pointer" }}
+                          className="calendar-event-card calendar-event-card-clickable"
                           onClick={() => setSelectedSpace(space)}
                         >
                           <div className="calendar-event-title">
@@ -379,7 +378,7 @@ function CalendarPage() {
                               </span>
                             )}
                             {space.creatorStatus !== "host" && (space.upvotes || 0) >= 25 && (
-                              <span style={{ marginLeft: 6.4, color: "#b28d00", fontWeight: "bold" }}>
+                              <span className="calendar-popular-label">
                                 (🌟 Popular)
                               </span>
                             )}
@@ -409,7 +408,7 @@ function CalendarPage() {
                 {selectedSpace.twitter && (
                   <span className="compact-info-label">
                     ·
-                    <a href={selectedSpace.twitter} target="_blank" rel="noopener noreferrer" style={{ color: '#1da1f2', fontWeight: 'bold' }}>
+                    <a href={selectedSpace.twitter} target="_blank" rel="noopener noreferrer" className="calendar-twitter-link">
                       Twitter Profile
                     </a>
                   </span>
@@ -428,7 +427,7 @@ function CalendarPage() {
               </div>
               <div className="compact-info-block">
                 <b>Brief Description:</b>
-                <div style={{ marginTop: 2, whiteSpace: 'pre-line', color: '#fff', fontStyle: selectedSpace.description ? 'normal' : 'italic', fontSize: 11 }}>
+                <div className={`calendar-description${selectedSpace.description ? ' has-content' : ''}`}>
                   {selectedSpace.description ? selectedSpace.description : 'No description provided.'}
                 </div>
               </div>
@@ -438,8 +437,7 @@ function CalendarPage() {
                     href={selectedSpace.twitter_link}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="calendar-event-link"
-                    style={{ color: '#1da1f2', fontWeight: 'bold', fontSize: 12 }}
+                    className="calendar-event-link calendar-twitter-link"
                   >
                     Join Twitter Space
                   </a>
@@ -461,15 +459,14 @@ function CalendarPage() {
                   </button>
                   {/* Password Prompt Modal */}
                   <Modal open={showPasswordPrompt} onClose={() => { setShowPasswordPrompt(false); setMintPassword(""); setPasswordError(""); }}>
-                    <div style={{ textAlign: 'center' }}>
+                    <div className="calendar-modal-center">
                       <h3>Enter Space Password to Mint</h3>
                       <input
                         type="password"
                         value={mintPassword}
                         onChange={e => setMintPassword(e.target.value)}
                         placeholder="Space Password"
-                        className="calendar-input"
-                        style={{ margin: '12px 0', width: '80%', color: '#181a2b' }}
+                        className="calendar-input calendar-modal-input"
                       />
                       <div className="compact-error">{passwordError}</div>
                       <button
