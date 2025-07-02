@@ -13,10 +13,10 @@ body, .page-container.flowers-leaderboard-container {
 }
 
 .page-container.flowers-leaderboard-container {
-  max-width: 1800px;
-  width: 99%;
-  margin: 0 auto;
-  padding: 40px 48px 32px 48px;
+  max-width: 400px !important;
+  width: 100%;
+  margin: 0.5rem auto !important;
+  padding: 0.5rem !important;
   background: #181a2b;
   border-radius: 0.75em;
   box-shadow: 0 0 24px 0 #00ffea44, 0 0 0 4px #00ffea22;
@@ -50,13 +50,13 @@ body, .page-container.flowers-leaderboard-container {
 
 .flowers-leaderboard-box {
   flex: 1;
-  min-width: 800px;
-  max-width: 1500px;
+  min-width: 0 !important;
+  max-width: 400px !important;
   border-radius: 0.5em;
   box-shadow: 0 0 12px 0 #00ffea44, 0 0 0 2px #00ffea22;
-  padding: 72px 64px 64px 64px;
+  padding: 0.5rem !important;
   background: #23243a;
-  margin-bottom: 24px;
+  margin-bottom: 0.5rem !important;
   border: 2.5px solid #a259ff;
   position: relative;
   overflow: hidden;
@@ -137,11 +137,11 @@ body, .page-container.flowers-leaderboard-container {
 
 /* --- Transfer/Search Card --- */
 .flowers-transfer-card {
-  margin: 2em auto 0 auto;
-  max-width: 1500px;
+  margin: 0.5rem auto 0 auto !important;
+  max-width: 400px !important;
   background: #23243a;
   border-radius: 0.5em;
-  padding: 4.5em 4em;
+  padding: 0.5rem !important;
   box-shadow: 0 0 12px 0 #00ffea44, 0 0 0 2px #00ffea22;
   border: 2.5px solid #a259ff;
   color: #e0e6ff;
