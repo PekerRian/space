@@ -155,7 +155,7 @@ export default function Upvotes({ walletAddress }) {
     : spaces;
 
   return (
-    <div className="page-container animated-panel">
+    <div className="upvotes-main-container animated-panel">
       <h2>Upvote Spaces</h2>
       <div>
         <input
