@@ -22,9 +22,10 @@ input, textarea, select, button {
 }
 
 .container {
-  max-width: 400px;
-  margin: 0.5rem auto;
-  padding: 0.5rem;
+  max-width: 400px !important;
+  width: 100%;
+  margin: 0.5rem auto !important;
+  padding: 0.5rem !important;
   background: #fff;
   border-radius: 12px;
   box-shadow: 0 2px 12px rgba(0,0,0,0.1);
@@ -99,13 +100,14 @@ li {
 .calendar-main-container, .calendar-left-panel, .calendar-right-panel {
   padding: 0.5rem !important;
   margin: 0.5rem auto !important;
-  max-width: 380px !important;
+  max-width: 400px !important;
 }
 
 .user-tab-container, .calendar-bg, .flowers-leaderboard-container, .page-container, .animated-panel {
   min-height: 80vh !important;
   height: auto !important;
   max-width: 400px !important;
+  width: 100%;
   margin: 0.5rem auto !important;
   padding: 0.5rem !important;
   overflow-y: auto !important;
@@ -113,7 +115,8 @@ li {
 }
 
 .flowers-leaderboard-flex, .flowers-leaderboard-box, .flowers-transfer-card {
-  max-width: 360px !important;
+  max-width: 400px !important;
+  width: 100%;
   margin: 0.5rem auto !important;
   padding: 0.5rem !important;
 }
@@ -121,6 +124,7 @@ li {
 @media (max-width: 600px) {
   .calendar-main-container, .calendar-left-panel, .calendar-right-panel, .user-tab-container, .calendar-bg, .flowers-leaderboard-container, .page-container, .animated-panel {
     max-width: 98vw !important;
+    width: 100vw !important;
     padding: 0.2rem !important;
     margin: 0.2rem auto !important;
   }
