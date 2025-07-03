@@ -1,8 +1,5 @@
-/* Add top and bottom margin for main pages: UserTab, Calendar, Flowers, Upvote */
-.user-tab-container:not(.container):not(.flowers-leaderboard-container):not(.flowers-transfer-card),
-.calendar-page:not(.container),
-.flowers-page:not(.container):not(.flowers-leaderboard-container):not(.flowers-transfer-card),
-.upvote-page:not(.container) {
+/* Universal margin/padding for all main pages */
+.main-page {
   margin-top: 2.5rem !important;
   margin-bottom: 2.5rem !important;
   padding-top: 2.5rem !important;

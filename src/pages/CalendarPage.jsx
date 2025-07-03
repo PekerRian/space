@@ -252,7 +252,7 @@ function CalendarPage() {
   if (loading) return <LoadingBuffer />;
 
   return (
-    <div className="calendar-bg animated-panel compact-smaller-bg compact-smaller">
+    <div className="main-page calendar-bg animated-panel compact-smaller-bg compact-smaller">
       <div className="calendar-main-container compact-smaller-main">
         {/* Left: Calendar and Filters */}
         <div className="calendar-left-panel compact-smaller-left">

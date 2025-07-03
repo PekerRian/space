@@ -722,7 +722,7 @@ export default function UserTab() {
   if (loading) return <LoadingBuffer />;
 
   return (
-    <div className="user-tab-container animated-panel compact-page compact-smaller">
+    <div className="main-page user-tab-container animated-panel compact-page compact-smaller">
       <div className="calendar-bg compact-bg compact-smaller-bg">
         <div className="calendar-main-container compact-main compact-smaller-main">
           <div className="calendar-left-panel compact-left compact-smaller-left">
