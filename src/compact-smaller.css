@@ -211,15 +211,22 @@ html body > #root > div > .main-page {
 .calendar-page .react-calendar__tile,
 .calendar-page .react-calendar__month-view__days__day {
   font-size: 1.1rem !important;
-  padding: 0.3rem !important;
+  padding: 0.38rem 0.2rem !important;
   min-width: 2.1em !important;
   min-height: 2.1em !important;
   border-radius: 0.45em !important;
-  margin: 0.18em 0.08em !important;
+  margin: 0.28em 0.08em !important;
   box-sizing: border-box !important;
   box-shadow: none !important;
   background: transparent !important;
   border: none !important;
+}
+.calendar-page .react-calendar__navigation {
+  margin-bottom: 0.7em !important;
+}
+.calendar-page .react-calendar__navigation__label {
+  margin-top: 0.3em !important;
+  margin-bottom: 0.3em !important;
 }
 /* UserTab: Fix calendar appearance and containment */
 .user-tab-container .react-calendar {
