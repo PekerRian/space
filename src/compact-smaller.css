@@ -84,8 +84,8 @@ html body > #root > div > .main-page {
 }
 .calendar-page .calendar-left-panel .calendar-card,
 .calendar-page .calendar-left-panel .compact-smaller-card {
-  width: 96% !important;
-  max-width: 420px !important;
+  width: 100% !important;
+  max-width: 100% !important;
   min-width: 0 !important;
   margin: 0.5rem auto !important;
   padding: 0.3rem !important;
@@ -99,8 +99,8 @@ html body > #root > div > .main-page {
 }
 
 .calendar-page .calendar-left-panel .react-calendar {
-  width: 96% !important;
-  max-width: 420px !important;
+  width: 100% !important;
+  max-width: 100% !important;
   min-width: 0 !important;
   height: auto !important;
   box-sizing: border-box !important;
