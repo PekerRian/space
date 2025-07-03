@@ -1,3 +1,11 @@
+.calendar-page .calendar-right-panel .calendar-timeline {
+  max-height: 540px !important;
+  overflow-y: auto !important;
+  overflow-x: hidden !important;
+  width: 100% !important;
+  box-sizing: border-box !important;
+  padding-right: 4px !important; /* for scrollbar space */
+}
 /* CalendarPage: Match UserTab calendar and panel style */
 .calendar-main-container:not(.user-tab-container .calendar-main-container) {
   display: flex !important;
