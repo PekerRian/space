@@ -5,6 +5,8 @@
 .upvote-page {
   margin-top: 2.5rem !important;
   margin-bottom: 2.5rem !important;
+  padding-top: 2.5rem !important;
+  padding-bottom: 2.5rem !important;
 }
 .calendar-page .calendar-right-panel {
   overflow: hidden !important;
