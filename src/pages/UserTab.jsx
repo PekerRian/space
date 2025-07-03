@@ -741,23 +741,23 @@ export default function UserTab() {
           <div className="calendar-right-panel compact-right">
             <h2 className="calendar-panel-title compact-title">Schedule a Space</h2>
             {user ? (
-              <form onSubmit={handleSubmit} className="calendar-form-card">
-                <label className="calendar-label">
+              <form onSubmit={handleSubmit} className="calendar-form-card compact-card">
+                <label className="calendar-label compact-label">
                   Title
                   <input
                     name="title"
-                    className="calendar-input"
+                    className="calendar-input compact-input"
                     value={form.title}
                     onChange={handleChange}
                     placeholder="Space Title"
                     required
                   />
                 </label>
-                <label className="calendar-label">
+                <label className="calendar-label compact-label">
                   Brief Description (max 300 characters)
                   <textarea
                     name="description"
-                    className="calendar-input resize-vertical"
+                    className="calendar-input resize-vertical compact-input"
                     value={form.description}
                     onChange={handleChange}
                     placeholder="Describe your space"
@@ -770,7 +770,7 @@ export default function UserTab() {
                   </div>
                 </label>
 
-                <label className="calendar-label">
+                <label className="calendar-label compact-label">
                   Categories
                   <div className="user-tab-category-list compact-flex-wrap">
                     {categories.map(c => (
@@ -787,7 +787,7 @@ export default function UserTab() {
                   </div>
                 </label>
 
-                <label className="calendar-label">
+                <label className="calendar-label compact-label">
                   Languages
                   <div className="user-tab-language-list compact-flex-wrap">
                     {languages.map(l => (
@@ -804,97 +804,56 @@ export default function UserTab() {
                   </div>
                 </label>
 
-                <label className="calendar-label">
+                <label className="calendar-label compact-label">
                   Twitter Space Link (optional)
                   <input
                     name="twitter_link"
-                    className="calendar-input"
+                    className="calendar-input compact-input"
                     value={form.twitter_link}
                     onChange={handleChange}
                     placeholder="https://twitter.com/i/spaces/..."
                     type="url"
                   />
                 </label>
-                {/* POAP NFT Setup - REMOVE THIS DUPLICATE FORM BLOCK */}
-                {/* <div style={{border:'1px solid #ffe066', borderRadius:8, padding:12, margin:'16px 0'}}>
-                  <h3 className="poap-setup-title">POAP NFT Setup</h3>
-                  <label className="calendar-label label-block-fullwidth">
-                    POAP Name
-                    <input
-                      name="name"
-                      className="calendar-input input-fullwidth"
-                      value={poap.name}
-                      onChange={handlePoapInput}
-                      placeholder="POAP Name"
-                    />
-                  </label>
-                  <label className="calendar-label label-block-fullwidth">
-                    POAP Description
-                    <textarea
-                      name="description"
-                      className="calendar-input input-fullwidth"
-                      value={poap.description}
-                      onChange={handlePoapInput}
-                      placeholder="POAP Description"
-                      rows={2}
-                    />
-                  </label>
-                  <label className="calendar-label label-block-fullwidth">
-                    POAP Image
-                    <input type="file" accept="image/*" onChange={handlePoapFile} />
-                  </label>
-                  <label className="calendar-label label-block-fullwidth">
-                    Max Supply
-                    <input
-                      name="maxSupply"
-                      className="calendar-input input-fullwidth"
-                      type="number"
-                      min="1"
-                      value={poap.maxSupply || ''}
-                      onChange={e => setPoap(p => ({ ...p, maxSupply: e.target.value }))}
-                      placeholder="Max Supply (number of NFTs)"
-                    />
-                  </label>
-                </div> */}
-                <label className="label-block-margin">
+                <label className="label-block-margin compact-label">
                   <input type="checkbox" checked={enablePoap} onChange={handleEnablePoapChange} /> Enable POAP for this space?
                 </label>
-                <label className="label-block-margin">
+                <label className="label-block-margin compact-label">
                   Space Password (required to mint POAP from calendar):
-                  <input type="password" value={spacePassword} onChange={handlePasswordChange} className="input-password" />
+                  <input type="password" value={spacePassword} onChange={handlePasswordChange} className="input-password compact-input" />
                 </label>
-                <fieldset disabled={!enablePoap} className={enablePoap ? "fieldset-poap" : "fieldset-poap fieldset-poap-disabled"}>
+                <fieldset disabled={!enablePoap} className={enablePoap ? "fieldset-poap compact-card" : "fieldset-poap fieldset-poap-disabled compact-card"}>
                   <legend>POAP Details</legend>
-                  <label className="calendar-label label-block-fullwidth">
+                  <label className="calendar-label label-block-fullwidth compact-label">
                     POAP Name
                     <input
                       name="name"
-                      className="calendar-input input-fullwidth"
+                      className="calendar-input input-fullwidth compact-input"
                       value={poap.name}
                       onChange={handlePoapInput}
                       placeholder="POAP Name"
                     />
                   </label>
-                  <label className="calendar-label label-block-fullwidth">
+                  <label className="calendar-label label-block-fullwidth compact-label">
                     POAP Description
                     <textarea
                       name="description"
-                      className="calendar-input input-fullwidth"
+                      className="calendar-input input-fullwidth compact-input"
                       value={poap.description}
                       onChange={handlePoapInput}
                       placeholder="POAP Description"
                       rows={2}
                     />
                   </label>
-                  <label className="calendar-label label-block-fullwidth">
+                  <label className="calendar-label label-block-fullwidth compact-label">
                     POAP Image
-                    <input type="file" accept="image/*" onChange={handlePoapFile} />
+                    <input type="file" accept="image/*" onChange={handlePoapFile} className="compact-input" />
                   </label>
-                  <label className="calendar-label label-block-fullwidth">
+                  <label className="calendar-label label-block-fullwidth compact-label">
                     Max Supply
                     <input
                       name="maxSupply"
-                      className="calendar-input input-fullwidth"
+                      className="calendar-input input-fullwidth compact-input"
                       type="number"
                       min="1"
                       value={poap.maxSupply || ''}
@@ -903,12 +862,12 @@ export default function UserTab() {
                     />
                   </label>
                 </fieldset>
-                <button type="submit" className="calendar-btn btn-fullwidth">Schedule</button>
-                {err && <p className="calendar-error">{err}</p>}
+                <button type="submit" className="calendar-btn btn-fullwidth compact-btn">Schedule</button>
+                {err && <p className="calendar-error compact-error">{err}</p>}
                 {success && <p className="calendar-success">{success}</p>}
               </form>
             ) : (
-              <p className="calendar-error">Please connect your wallet to schedule a space.</p>
+              <p className="calendar-error compact-error">Please connect your wallet to schedule a space.</p>
             )}
 
             {/* Popup Modal for calendar message */}
@@ -931,38 +890,38 @@ export default function UserTab() {
             />
 
             {/* User's scheduled spaces */}
-            <h2 className="calendar-panel-title mt-25">Your Scheduled Spaces</h2>
+            <h2 className="calendar-panel-title mt-25 compact-title">Your Scheduled Spaces</h2>
             {spaces.length === 0 && (
-              <div className="scheduled-empty">
+              <div className="scheduled-empty compact-card">
                 You haven't scheduled any spaces yet.
               </div>
             )}
             {spaces.map(space => (
               <div
                 key={space.id}
-                className="calendar-event-card scheduled-space-card"
+                className="calendar-event-card scheduled-space-card compact-card"
                 onClick={() => setSpaceModal(space)}
               >
-                <div className="calendar-event-title">
+                <div className="calendar-event-title compact-title">
                   <span role="img" aria-label="mic">🎙️</span> {space.title}
                 </div>
-                <div className="calendar-event-meta">
+                <div className="calendar-event-meta compact-desc">
                   <span>
                     {formatSpaceDate(space.date)}
                   </span>
                   {space.languages && (
-                    <span className="scheduled-meta">Languages: {space.languages}</span>
+                    <span className="scheduled-meta compact-desc">Languages: {space.languages}</span>
                   )}
                   {space.categories && (
-                    <span className="scheduled-meta">Categories: {space.categories}</span>
+                    <span className="scheduled-meta compact-desc">Categories: {space.categories}</span>
                   )}
                 </div>
-                <div className="scheduled-desc">{space.description}</div>
+                <div className="scheduled-desc compact-desc">{space.description}</div>
                 {/* Only show delete button if user is the owner */}
                 {space.owner === user?.username && (
                   <button
                     onClick={() => handleDelete(space.id)}
-                    className="scheduled-delete-btn"
+                    className="scheduled-delete-btn compact-btn"
                   >
                     Delete
                   </button>
@@ -975,7 +934,7 @@ export default function UserTab() {
                     await updateDoc(ref, { mintEnabled: !space.mintEnabled });
                     setSpaces(spaces => spaces.map(s => s.id === space.id ? { ...s, mintEnabled: !space.mintEnabled } : s));
                   }}
-                  className={space.mintEnabled ? "scheduled-mint-btn enabled" : "scheduled-mint-btn"}
+                  className={space.mintEnabled ? "scheduled-mint-btn enabled compact-btn" : "scheduled-mint-btn compact-btn"}
                 >
                   {space.mintEnabled ? 'Disable Mint on Calendar' : 'Enable Mint on Calendar'}
                 </button>
