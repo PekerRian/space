@@ -214,7 +214,7 @@
   max-width: 600px !important;
   min-width: 0 !important;
   margin: 0 !important;
-  padding: 0.3rem !important;
+  padding: 2.2rem 0.3rem 2.2rem 0.3rem !important; /* more top/bottom padding */
   box-sizing: border-box !important;
   float: none !important;
   position: static !important;
@@ -225,7 +225,7 @@
 .user-tab-container .calendar-right-panel > *,
 .user-tab-container .compact-smaller-left > *,
 .user-tab-container .compact-smaller-right > * {
-  margin: 1.2rem 1.1rem !important;
+  margin: 1.5rem 1.1rem !important; /* more vertical margin */
 }
 
 /*
