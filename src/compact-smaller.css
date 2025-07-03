@@ -1,3 +1,28 @@
+/* --- Ensure UserTab panel contents are always within borders and never overflow --- */
+.user-tab-container .calendar-card,
+.user-tab-container .calendar-form-card,
+.user-tab-container .calendar-right-panel,
+.user-tab-container .calendar-left-panel,
+.user-tab-container .compact-card,
+.user-tab-container .compact-smaller-card {
+  box-sizing: border-box !important;
+  overflow-x: auto !important;
+  overflow-y: visible !important;
+  word-break: break-word !important;
+  white-space: normal !important;
+  max-width: 100% !important;
+}
+
+.user-tab-container .calendar-card *,
+.user-tab-container .calendar-form-card *,
+.user-tab-container .calendar-right-panel *,
+.user-tab-container .calendar-left-panel *,
+.user-tab-container .compact-card *,
+.user-tab-container .compact-smaller-card * {
+  box-sizing: border-box !important;
+  max-width: 100% !important;
+  overflow-wrap: break-word !important;
+}
 /* --- Force all calendar tiles in UserTab to have identical size, overriding calendar-custom.css and react-calendar --- */
 .user-tab-container .react-calendar__tile,
 .user-tab-container .react-calendar__month-view__days__day,
