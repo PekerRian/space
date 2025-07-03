@@ -10,18 +10,30 @@
   min-width: 0 !important;
   margin: 0 !important;
   padding: 0 !important;
+  overflow: visible !important;
   box-sizing: border-box !important;
 }
 .calendar-left-panel:not(.user-tab-container .calendar-left-panel),
 .calendar-right-panel:not(.user-tab-container .calendar-right-panel) {
-  width: 600px !important;
+  width: 100% !important;
   max-width: 600px !important;
   min-width: 0 !important;
   margin: 0 !important;
   padding: 0.3rem !important;
+  overflow: visible !important;
   box-sizing: border-box !important;
   float: none !important;
   position: static !important;
+}
+.calendar-page .react-calendar,
+.calendar-page .react-calendar * {
+  max-width: 100% !important;
+  width: 100% !important;
+  min-width: 0 !important;
+  box-sizing: border-box !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  overflow: visible !important;
 }
 .calendar-page .react-calendar {
   width: 100% !important;
