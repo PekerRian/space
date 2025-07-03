@@ -12,8 +12,8 @@ function Home() {
   if (loading) return <LoadingBuffer />;
 
   return (
-    <div className="container animated-panel">
-      <h1>Welcome!</h1>
+    <div className="container animated-panel compact-smaller-bg compact-smaller compact-smaller-main">
+      <h1 className="compact-smaller-title">Welcome!</h1>
       <p>This is a simple React + Firebase user profile app.</p>
     </div>
   );

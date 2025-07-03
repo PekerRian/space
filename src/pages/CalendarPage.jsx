@@ -3,6 +3,7 @@ import { fetchSpaces } from "../utils/spaces";
 import Calendar from "react-calendar";
 import "react-calendar/dist/Calendar.css";
 import "../calendar-custom.css";
+import "../compact-smaller.css";
 import { LoadingBuffer } from "../App";
 import { useWallet } from "@aptos-labs/wallet-adapter-react";
 import { mintPoap } from '../utils/aptosPoap';
@@ -251,12 +252,12 @@ function CalendarPage() {
   if (loading) return <LoadingBuffer />;
 
   return (
-    <div className="calendar-bg animated-panel">
-      <div className="calendar-main-container">
+    <div className="calendar-bg animated-panel compact-smaller-bg compact-smaller">
+      <div className="calendar-main-container compact-smaller-main">
         {/* Left: Calendar and Filters */}
-        <div className="calendar-left-panel">
+        <div className="calendar-left-panel compact-smaller-left">
           {/* Timezone Selector */}
-          <div className="calendar-filter-card">
+          <div className="calendar-filter-card compact-smaller-card">
             <label htmlFor="timezone-select" className="calendar-timezone-label">
               Timezone:
             </label>
@@ -272,7 +273,7 @@ function CalendarPage() {
             </select>
           </div>
           {/* Filters for days view only */}
-          <div className="calendar-filter-card">
+          <div className="calendar-filter-card compact-smaller-card">
             <select
               value={languageFilter}
               onChange={e => setLanguageFilter(e.target.value)}
@@ -298,8 +299,8 @@ function CalendarPage() {
               type="text"
             />
           </div>
-          <div className="calendar-card">
-            <h2 className="calendar-panel-title">Calendar</h2>
+          <div className="calendar-card compact-smaller-card">
+            <h2 className="calendar-panel-title compact-smaller-title">Calendar</h2>
             <Calendar
               value={selectedDate}
               onChange={setSelectedDate}
@@ -339,11 +340,11 @@ function CalendarPage() {
           </div>
         </div>
         {/* Right: 24-hour Schedule (no filters) */}
-        <div className="calendar-right-panel">
-          <h2 className="calendar-panel-title">
+        <div className="calendar-right-panel compact-smaller-right">
+          <h2 className="calendar-panel-title compact-smaller-title">
             Spaces for {selectedDate.toLocaleDateString(undefined, { timeZone: timezone })}
           </h2>
-          <div className="calendar-timeline">
+          <div className="calendar-timeline compact-smaller-calendar">
             {hourlySchedule.map(({ hour, spaces }) => (
               <div key={hour} className="calendar-timeline-hour">
                 <div className="calendar-hour-label">
@@ -358,7 +359,7 @@ function CalendarPage() {
                       return (
                         <div
                           key={space.id}
-                          className="calendar-event-card calendar-event-card-clickable"
+                          className="calendar-event-card calendar-event-card-clickable compact-smaller-card"
                           onClick={() => setSelectedSpace(space)}
                         >
                           <div className="calendar-event-title">

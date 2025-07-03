@@ -3,6 +3,7 @@ import { collection, getDocs, doc, updateDoc } from "firebase/firestore";
 import { db } from "../firebase";
 import { useWallet } from "@aptos-labs/wallet-adapter-react";
 import "./Flowers.css";
+import "../compact-smaller.css";
 import { LoadingBuffer } from "../App";
 
 // --- Helper to get wallet address as string ---
@@ -178,11 +179,11 @@ export default function Flowers() {
   if (loading) return <LoadingBuffer />;
 
   return (
-    <div className="flowers-leaderboard-container animated-panel">
+    <div className="flowers-leaderboard-container animated-panel compact-smaller-bg compact-smaller">
       <h1 className="page-title">Leaderboard</h1>
-      <div className="flowers-leaderboard-flex">
+      <div className="flowers-leaderboard-flex compact-smaller-main">
         {/* All Receivers */}
-        <div className="flowers-leaderboard-box flowers-receivers">
+        <div className="flowers-leaderboard-box flowers-receivers compact-smaller-left compact-smaller-card">
           <h2 className="flowers-leaderboard-title">Top Speakers</h2>
           <table className="flowers-leaderboard-table">
             <thead>
@@ -210,7 +211,7 @@ export default function Flowers() {
           </table>
         </div>
         {/* All Senders */}
-        <div className="flowers-leaderboard-box flowers-senders">
+        <div className="flowers-leaderboard-box flowers-senders compact-smaller-right compact-smaller-card">
           <h2 className="flowers-leaderboard-title">Top tippers</h2>
           <table className="flowers-leaderboard-table">
             <thead>
@@ -238,8 +239,8 @@ export default function Flowers() {
       </div>
 
       {/* ---------- USER SEARCH & TRANSFER SECTION ---------- */}
-      <div className="flowers-transfer-card">
-        <h2 className="flowers-tip-title">🌐 Tip your speaker</h2>
+      <div className="flowers-transfer-card compact-smaller-card">
+        <h2 className="flowers-tip-title compact-smaller-title">🌐 Tip your speaker</h2>
         <form onSubmit={handleSearch} className="flowers-search-form">
           <input
             type="text"

@@ -50,10 +50,10 @@ function Dashboard() {
   if (!user) return <LoadingBuffer />;
 
   return (
-    <div className="container animated-panel">
-      <h2>Your Profile</h2>
+    <div className="container animated-panel compact-smaller-bg compact-smaller compact-smaller-main">
+      <h2 className="compact-smaller-title">Your Profile</h2>
       <div><b>Username:</b> {username}</div>
-      <form className="card" onSubmit={handleSave}>
+      <form className="card compact-smaller-card" onSubmit={handleSave}>
         <input
           name="name"
           placeholder="Name"
@@ -75,7 +75,7 @@ function Dashboard() {
         <button type="submit">Save Profile</button>
         {status && <p>{status}</p>}
       </form>
-      <h3>Preview</h3>
+      <h3 className="compact-smaller-title">Preview</h3>
       <div>
         <strong>{profile.name}</strong><br/>
         {profile.twitter && <a href={profile.twitter} target="_blank" rel="noopener noreferrer">Twitter</a>}<br/>

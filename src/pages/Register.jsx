@@ -24,15 +24,15 @@ function App() {
   }, [account?.address]);
 
   if (!account?.address) {
-    return <p className="animated-panel">Please connect your wallet!</p>;
+    return <p className="animated-panel compact-smaller-bg compact-smaller compact-smaller-main">Please connect your wallet!</p>;
   }
   if (userExists === false) {
-    return <Register address={account.address} className="animated-panel" />;
+    return <Register address={account.address} className="animated-panel compact-smaller-bg compact-smaller compact-smaller-main" />;
   }
   if (userExists === null) {
     return <LoadingBuffer />;
   }
-  return <MainAppContent className="animated-panel" />;
+  return <MainAppContent className="animated-panel compact-smaller-bg compact-smaller compact-smaller-main" />;
 }
 
 export default App;

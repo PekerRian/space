@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { db } from "../firebase";
 import { collection, getDocs, doc, updateDoc, getDoc, arrayUnion } from "firebase/firestore";
 import { LoadingBuffer } from "../App";
+import "../compact-smaller.css";
 
 // Helper to check if a space is done (end date or start date before now)
 function isSpaceDone(space) {
@@ -155,8 +156,8 @@ export default function Upvotes({ walletAddress }) {
     : spaces;
 
   return (
-    <div className="upvotes-main-container animated-panel">
-      <h2>Upvote Spaces</h2>
+    <div className="upvotes-main-container animated-panel compact-smaller-bg compact-smaller">
+      <h2 className="compact-smaller-title">Upvote Spaces</h2>
       <div>
         <input
           type="text"
@@ -166,10 +167,10 @@ export default function Upvotes({ walletAddress }) {
           className="upvote-host-filter-input"
         />
       </div>
-      <ul className="upvote-list">
+      <ul className="upvote-list compact-smaller-main">
         {filteredSpaces.map(space => (
           <li key={space.id} 
-              className={shineId === space.id ? "upvote-shine" : ""}>
+              className={(shineId === space.id ? "upvote-shine " : "") + "compact-smaller-card"}>
             <div><b>Title:</b> {space.title}</div>
             <div><b>Description:</b> {space.description}</div>
             <div><b>By:</b> <span className="upvote-host">{hostNames[space.creator] || space.creator}</span></div>

@@ -2,6 +2,8 @@
 /* Strongest specificity: always override compact/regular sizing for UserTab and similar */
 
 /* Adjusted: make user tab panels compact but not too small */
+
+/* WIDER, more readable compact-smaller for UserTab */
 .user-tab-container.compact-smaller,
 .user-tab-container .compact-smaller-page,
 .user-tab-container .compact-smaller-bg,
@@ -12,46 +14,46 @@
 .user-tab-container .compact-smaller-right,
 .user-tab-container .compact-smaller-calendar,
 .user-tab-container .compact-smaller-selected-tile {
-  font-size: 11px !important;
-  padding: 0.18rem 0.22rem !important;
-  margin: 0.12rem !important;
-  max-width: 220px !important;
-  min-width: 80px !important;
+  font-size: 13px !important;
+  padding: 0.32rem 0.38rem !important;
+  margin: 0.18rem !important;
+  max-width: 420px !important;
+  min-width: 140px !important;
 }
 .user-tab-container.compact-smaller,
 .user-tab-container .compact-smaller-page {
-  max-width: 320px !important;
-  padding: 0.25rem !important;
+  max-width: 600px !important;
+  padding: 0.5rem !important;
 }
 .user-tab-container .compact-smaller-bg {
-  padding: 0.18rem !important;
-  border-radius: 8px !important;
+  padding: 0.32rem !important;
+  border-radius: 12px !important;
 }
 .user-tab-container .compact-smaller-main {
-  padding: 0.18rem !important;
-  border-radius: 6px !important;
+  padding: 0.32rem !important;
+  border-radius: 10px !important;
 }
 .user-tab-container .compact-smaller-card {
-  padding: 0.18rem !important;
-  border-radius: 5px !important;
-  margin-bottom: 0.18rem !important;
+  padding: 0.32rem !important;
+  border-radius: 8px !important;
+  margin-bottom: 0.32rem !important;
 }
 .user-tab-container .compact-smaller-title {
-  font-size: 12px !important;
-  margin-bottom: 0.12rem !important;
+  font-size: 15px !important;
+  margin-bottom: 0.18rem !important;
 }
 .user-tab-container .compact-smaller-left,
 .user-tab-container .compact-smaller-right {
-  max-width: 200px !important;
-  min-width: 80px !important;
-  padding: 0.12rem !important;
+  max-width: 350px !important;
+  min-width: 140px !important;
+  padding: 0.18rem !important;
 }
 .user-tab-container .compact-smaller-calendar {
-  font-size: 10px !important;
+  font-size: 13px !important;
   min-width: 0 !important;
-  max-width: 180px !important;
+  max-width: 320px !important;
 }
 .user-tab-container .compact-smaller-selected-tile {
-  font-size: 10px !important;
-  padding: 0.12rem !important;
+  font-size: 13px !important;
+  padding: 0.18rem !important;
 }
