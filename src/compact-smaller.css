@@ -191,32 +191,36 @@
 }
 
 /* Force override of all panel sizing and centering for UserTab, regardless of App.css or calendar-custom.css */
-.user-tab-container .calendar-main-container,
+
+/* --- FORCE PANELS TO BE PERFECTLY CENTERED AND FIXED WIDTH --- */
 .user-tab-container .calendar-main-container.compact-main.compact-smaller-main {
   display: flex !important;
+  flex-direction: row !important;
   justify-content: center !important;
   align-items: flex-start !important;
   gap: 2.5rem !important;
-  width: fit-content !important;
-  margin-left: auto !important;
-  margin-right: auto !important;
+  width: 100vw !important;
   max-width: 100vw !important;
   min-width: 0 !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  box-sizing: border-box !important;
 }
 .user-tab-container .calendar-left-panel,
 .user-tab-container .calendar-right-panel,
 .user-tab-container .compact-smaller-left,
 .user-tab-container .compact-smaller-right {
+  width: 600px !important;
   max-width: 600px !important;
   min-width: 0 !important;
-  width: 100% !important;
-  margin: 0 auto !important;
+  margin: 0 !important;
   padding: 0.3rem !important;
   box-sizing: border-box !important;
   float: none !important;
   position: static !important;
 }
 
+/*
 .user-tab-container .compact-smaller-main,
 .user-tab-container .calendar-main-container.compact-main.compact-smaller-main {
   display: flex;
@@ -229,6 +233,7 @@
   max-width: 1300px;
   /* Remove position/left/transform for proper centering */
 }
+*/
 .user-tab-container .compact-smaller-calendar {
   font-size: 1.08rem !important;
   min-width: 0 !important;
