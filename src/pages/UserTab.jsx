@@ -27,25 +27,7 @@ function generateTimeOptions() {
 
 const timeOptions = generateTimeOptions();
 
-// MAIN COMPONENT
-export default function UserTab() {
-  if (!open) return null;
-  return (
-    <div className="calendar-modal-overlay compact-modal-overlay" onClick={onClose}>
-      <div
-        className="calendar-modal-content compact-modal-content"
-        onClick={e => e.stopPropagation()}
-      >
-        <button
-          onClick={onClose}
-          className="calendar-modal-close compact-modal-close"
-          aria-label="Close"
-        >×</button>
-        <div className="compact-modal-message">{message}</div>
-      </div>
-    </div>
-  );
-}
+// Remove erroneous duplicate export default and misplaced modal code
 // Add a modal for viewing a space and minting POAP
 function SpaceModal({ open, onClose, space, onMint, minting, mintError, mintSuccess, signAndSubmitTransaction, account }) {
   if (!open || !space) return null;
