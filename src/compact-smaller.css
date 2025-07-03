@@ -1,10 +1,14 @@
 .calendar-page .calendar-right-panel .calendar-timeline {
-  max-height: 540px !important;
+  height: 100% !important;
+  max-height: 100% !important;
+  min-height: 0 !important;
   overflow-y: auto !important;
   overflow-x: hidden !important;
   width: 100% !important;
   box-sizing: border-box !important;
   padding-right: 4px !important; /* for scrollbar space */
+  display: flex !important;
+  flex-direction: column !important;
 }
 /* CalendarPage: Match UserTab calendar and panel style */
 .calendar-main-container:not(.user-tab-container .calendar-main-container) {
@@ -34,11 +38,13 @@
   position: static !important;
 }
 .calendar-page .calendar-right-panel {
-  overflow-x: auto !important;
-  overflow-y: auto !important;
+  overflow: hidden !important;
   max-height: 600px !important;
-  height: 100% !important;
+  height: 600px !important;
+  min-height: 0 !important;
   position: relative !important;
+  display: flex !important;
+  flex-direction: column !important;
 }
 .calendar-page .calendar-right-panel .react-calendar {
   max-width: 100% !important;
