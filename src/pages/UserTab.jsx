@@ -733,10 +733,9 @@ export default function UserTab() {
                 onChange={setSelectedDate}
                 tileClassName={({ date }) =>
                   date.toDateString() === selectedDate.toDateString()
-                    ? "calendar-selected-tile compact-selected-tile compact-smaller-selected-tile"
+                    ? "calendar-selected-tile"
                     : null
                 }
-                className="compact-calendar compact-smaller-calendar"
               />
             </div>
           </div>
