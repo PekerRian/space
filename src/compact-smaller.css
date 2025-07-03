@@ -59,8 +59,9 @@ html body > #root > div > .main-page {
   display: block !important;
 }
 
-/* Make the calendar card/container fit the panel exactly */
-.calendar-page .calendar-left-panel .calendar-card {
+/* Make the calendar card/container fit the panel exactly, including compact-smaller-card */
+.calendar-page .calendar-left-panel .calendar-card,
+.calendar-page .calendar-left-panel .compact-smaller-card {
   width: 100% !important;
   max-width: 100% !important;
   min-width: 0 !important;
