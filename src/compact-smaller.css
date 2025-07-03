@@ -25,6 +25,17 @@
   max-width: 100% !important;
   box-sizing: border-box !important;
 }
+
+/* Add border and background to filter cards in CalendarPage left panel */
+.calendar-page .calendar-left-panel .calendar-filter-card.compact-smaller-card {
+  border: 2px solid #00ffea !important;
+  border-radius: 0.6em !important;
+  background: #181a2b !important;
+  box-shadow: 0 0 8px 0 #00ffea22 !important;
+  margin-bottom: 0.5em !important;
+  padding: 0.7em 1em !important;
+  transition: box-shadow 0.18s, border 0.18s;
+}
 /* --- DIAGNOSTIC: Ensure parent containers allow margin to show --- */
 html, body, #root {
   min-height: 100vh !important;
