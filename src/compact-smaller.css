@@ -59,7 +59,7 @@ html body > #root > div > .main-page {
   display: block !important;
 }
 
-/* Make the calendar card/container fit the panel exactly, including compact-smaller-card */
+/* Make the calendar card/container fit the panel exactly, including compact-smaller-card, and override all other CSS */
 .calendar-page .calendar-left-panel .calendar-card,
 .calendar-page .calendar-left-panel .compact-smaller-card {
   width: 100% !important;
@@ -71,6 +71,9 @@ html body > #root > div > .main-page {
   background: transparent !important;
   border: none !important;
   display: block !important;
+  box-shadow: none !important;
+  font-size: 1em !important;
+  border-radius: 0 !important;
 }
 .calendar-page .calendar-left-panel .react-calendar * {
   width: 100% !important;
