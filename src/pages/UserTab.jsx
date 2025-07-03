@@ -27,7 +27,8 @@ function generateTimeOptions() {
 
 const timeOptions = generateTimeOptions();
 
-function PopupModal({ open, onClose, message }) {
+// MAIN COMPONENT
+export default function UserTab() {
   if (!open) return null;
   return (
     <div className="calendar-modal-overlay compact-modal-overlay" onClick={onClose}>
@@ -755,14 +756,13 @@ export default function UserTab() {
                   Brief Description (max 300 characters)
                   <textarea
                     name="description"
-                    className="calendar-input"
+                    className="calendar-input resize-vertical"
                     value={form.description}
                     onChange={handleChange}
                     placeholder="Describe your space"
                     rows={3}
                     maxLength={300}
                     required
-                    className="resize-vertical"
                   />
                   <div className={form.description.length > 300 ? "calendar-desc-count calendar-desc-error" : "calendar-desc-count calendar-desc-normal"}>
                     {form.description.length}/300
@@ -821,23 +821,21 @@ export default function UserTab() {
                     POAP Name
                     <input
                       name="name"
-                      className="calendar-input"
+                      className="calendar-input input-fullwidth"
                       value={poap.name}
                       onChange={handlePoapInput}
                       placeholder="POAP Name"
-                      className="input-fullwidth"
                     />
                   </label>
                   <label className="calendar-label label-block-fullwidth">
                     POAP Description
                     <textarea
                       name="description"
-                      className="calendar-input"
+                      className="calendar-input input-fullwidth"
                       value={poap.description}
                       onChange={handlePoapInput}
                       placeholder="POAP Description"
                       rows={2}
-                      className="input-fullwidth"
                     />
                   </label>
                   <label className="calendar-label label-block-fullwidth">
@@ -848,13 +846,12 @@ export default function UserTab() {
                     Max Supply
                     <input
                       name="maxSupply"
-                      className="calendar-input"
+                      className="calendar-input input-fullwidth"
                       type="number"
                       min="1"
                       value={poap.maxSupply || ''}
                       onChange={e => setPoap(p => ({ ...p, maxSupply: e.target.value }))}
                       placeholder="Max Supply (number of NFTs)"
-                      className="input-fullwidth"
                     />
                   </label>
                 </div> */}
@@ -871,23 +868,21 @@ export default function UserTab() {
                     POAP Name
                     <input
                       name="name"
-                      className="calendar-input"
+                      className="calendar-input input-fullwidth"
                       value={poap.name}
                       onChange={handlePoapInput}
                       placeholder="POAP Name"
-                      className="input-fullwidth"
                     />
                   </label>
                   <label className="calendar-label label-block-fullwidth">
                     POAP Description
                     <textarea
                       name="description"
-                      className="calendar-input"
+                      className="calendar-input input-fullwidth"
                       value={poap.description}
                       onChange={handlePoapInput}
                       placeholder="POAP Description"
                       rows={2}
-                      className="input-fullwidth"
                     />
                   </label>
                   <label className="calendar-label label-block-fullwidth">
@@ -990,3 +985,4 @@ export default function UserTab() {
       </div>
     </div>
   );
+}
