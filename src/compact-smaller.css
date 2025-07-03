@@ -1,6 +1,15 @@
+.calendar-page .calendar-right-panel {
+  overflow-y: auto !important;
+  overflow-x: hidden !important;
+  max-height: 600px !important;
+  height: 600px !important;
+  min-height: 0 !important;
+  position: relative !important;
+  display: flex !important;
+  flex-direction: column !important;
+}
 .calendar-page .calendar-right-panel .calendar-timeline {
-  height: 100% !important;
-  max-height: 100% !important;
+  flex: 1 1 auto !important;
   min-height: 0 !important;
   overflow-y: auto !important;
   overflow-x: hidden !important;
