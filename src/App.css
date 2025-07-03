@@ -442,3 +442,124 @@ li {
 }
 
 /* --- Navbar styles have been moved to Navbar.css --- */
+
+/* --- Compact utility classes for UserTab and all main pages --- */
+.compact-page {
+  max-width: 340px !important;
+  margin: 0.5rem auto !important;
+  padding: 0.5rem !important;
+  background: #181c36 !important;
+  border-radius: 12px !important;
+  box-shadow: 0 2px 12px #00ffea22 !important;
+}
+.compact-bg {
+  background: #10131f !important;
+  border-radius: 10px !important;
+  padding: 0.5rem !important;
+}
+.compact-main {
+  padding: 0.5rem !important;
+  margin: 0.2rem 0 !important;
+  background: #181c36 !important;
+  border-radius: 8px !important;
+}
+.compact-card {
+  background: #23264a !important;
+  border-radius: 8px !important;
+  padding: 0.5rem !important;
+  margin-bottom: 0.5rem !important;
+  box-shadow: 0 1px 6px #00ffea11 !important;
+}
+.compact-header {
+  font-size: 13px !important;
+  font-weight: 700 !important;
+  margin-bottom: 0.4rem !important;
+  color: #ffe066 !important;
+}
+.compact-label {
+  font-size: 10px !important;
+  color: #b28d00 !important;
+  font-weight: 600 !important;
+  margin-bottom: 0.2rem !important;
+}
+.compact-list {
+  margin: 0.2rem 0 !important;
+  padding: 0 !important;
+  list-style: none !important;
+}
+.compact-list-item {
+  padding: 0.3rem 0.5rem !important;
+  margin-bottom: 0.2rem !important;
+  background: #23264a !important;
+  border-radius: 6px !important;
+  font-size: 10px !important;
+  color: #fff !important;
+}
+.compact-btn {
+  font-size: 11px !important;
+  padding: 0.3rem 0.7rem !important;
+  border-radius: 6px !important;
+  background: #ffe066 !important;
+  color: #181a2b !important;
+  font-weight: 600 !important;
+  margin-top: 0.2rem !important;
+  margin-bottom: 0.2rem !important;
+  box-shadow: 0 1px 4px #ffe06633 !important;
+  border: none !important;
+  cursor: pointer !important;
+  transition: background 0.16s, color 0.16s;
+}
+.compact-btn:active,
+.compact-btn:focus,
+.compact-btn:hover {
+  background: #fff700 !important;
+  color: #181a2b !important;
+}
+.compact-input {
+  font-size: 10px !important;
+  padding: 0.2rem 0.5rem !important;
+  border-radius: 5px !important;
+  border: 1px solid #ffe066 !important;
+  background: #23264a !important;
+  color: #fff !important;
+  margin-bottom: 0.2rem !important;
+}
+.compact-avatar {
+  width: 32px !important;
+  height: 32px !important;
+  border-radius: 50% !important;
+  margin-right: 0.5rem !important;
+  border: 2px solid #ffe066 !important;
+}
+.compact-section {
+  margin-bottom: 0.5rem !important;
+  padding-bottom: 0.5rem !important;
+  border-bottom: 1px solid #23264a !important;
+}
+.compact-row {
+  display: flex !important;
+  align-items: center !important;
+  gap: 0.5rem !important;
+  margin-bottom: 0.2rem !important;
+}
+.compact-col {
+  flex: 1 1 0 !important;
+  min-width: 0 !important;
+}
+.compact-title {
+  font-size: 12px !important;
+  font-weight: 700 !important;
+  color: #ffe066 !important;
+  margin-bottom: 0.2rem !important;
+}
+.compact-desc {
+  font-size: 10px !important;
+  color: #fff !important;
+  margin-bottom: 0.2rem !important;
+}
+.compact-divider {
+  height: 1px !important;
+  background: #23264a !important;
+  margin: 0.5rem 0 !important;
+  border: none !important;
+}

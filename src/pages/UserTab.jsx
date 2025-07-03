@@ -721,25 +721,25 @@ export default function UserTab() {
   if (loading) return <LoadingBuffer />;
 
   return (
-    <div className="user-tab-container animated-panel">
-      <div className="calendar-bg">
-        <div className="calendar-main-container">
-          <div className="calendar-left-panel">
-            <div className="calendar-card">
-              <h2 className="calendar-panel-title">Pick a Date</h2>
+    <div className="user-tab-container animated-panel compact-page">
+      <div className="calendar-bg compact-bg">
+        <div className="calendar-main-container compact-main">
+          <div className="calendar-left-panel compact-left">
+            <div className="calendar-card compact-card">
+              <h2 className="calendar-panel-title compact-title">Pick a Date</h2>
               <Calendar
                 value={selectedDate}
                 onChange={setSelectedDate}
                 tileClassName={({ date }) =>
                   date.toDateString() === selectedDate.toDateString()
-                    ? "calendar-selected-tile"
+                    ? "calendar-selected-tile compact-selected-tile"
                     : null
                 }
               />
             </div>
           </div>
-          <div className="calendar-right-panel">
-            <h2 className="calendar-panel-title">Schedule a Space</h2>
+          <div className="calendar-right-panel compact-right">
+            <h2 className="calendar-panel-title compact-title">Schedule a Space</h2>
             {user ? (
               <form onSubmit={handleSubmit} className="calendar-form-card">
                 <label className="calendar-label">
