@@ -20,7 +20,8 @@
   min-width: 0 !important;
   margin: 0 !important;
   padding: 0.3rem !important;
-  overflow: visible !important;
+  overflow-x: auto !important;
+  overflow-y: visible !important;
   box-sizing: border-box !important;
   float: none !important;
   position: static !important;
