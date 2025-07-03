@@ -189,14 +189,32 @@
   font-size: 1.18rem !important;
   margin-bottom: 0.22rem !important;
 }
-/* Make both panels the same width and center the main container */
+
+/* Force override of all panel sizing and centering for UserTab, regardless of App.css or calendar-custom.css */
+.user-tab-container .calendar-main-container,
+.user-tab-container .calendar-main-container.compact-main.compact-smaller-main {
+  display: flex !important;
+  justify-content: center !important;
+  align-items: flex-start !important;
+  gap: 2.5rem !important;
+  margin-left: auto !important;
+  margin-right: auto !important;
+  width: 100% !important;
+  max-width: 1300px !important;
+  min-width: 0 !important;
+}
+.user-tab-container .calendar-left-panel,
+.user-tab-container .calendar-right-panel,
 .user-tab-container .compact-smaller-left,
 .user-tab-container .compact-smaller-right {
   max-width: 600px !important;
   min-width: 0 !important;
   width: 100% !important;
+  margin: 0 auto !important;
   padding: 0.3rem !important;
   box-sizing: border-box !important;
+  float: none !important;
+  position: static !important;
 }
 
 .user-tab-container .compact-smaller-main,
@@ -209,9 +227,7 @@
   margin-right: auto;
   width: 100%;
   max-width: 1300px;
-  position: relative;
-  left: 50%;
-  transform: translateX(-50%);
+  /* Remove position/left/transform for proper centering */
 }
 .user-tab-container .compact-smaller-calendar {
   font-size: 1.08rem !important;
