@@ -163,9 +163,8 @@
   font-size: 0.97em !important;
   padding: 0.7rem 1.1rem !important;
   margin: 0.25rem !important;
-  max-width: 100%;
+  max-width: 1200px !important;
   min-width: 0 !important;
-  width: 100% !important;
   box-sizing: border-box !important;
 }
 .user-tab-container.compact-smaller,
@@ -192,17 +191,15 @@
 }
 .user-tab-container .compact-smaller-left,
 .user-tab-container .compact-smaller-right {
-  max-width: 100%;
+  max-width: 1200px !important;
   min-width: 0 !important;
-  width: 100% !important;
   padding: 0.3rem !important;
   box-sizing: border-box !important;
 }
 .user-tab-container .compact-smaller-calendar {
   font-size: 1.08rem !important;
   min-width: 0 !important;
-  max-width: 100%;
-  width: 100% !important;
+  max-width: 900px !important;
   box-sizing: border-box !important;
 }
 .user-tab-container .compact-smaller-selected-tile {
