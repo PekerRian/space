@@ -25,6 +25,10 @@
   float: none !important;
   position: static !important;
 }
+.calendar-page .calendar-right-panel {
+  overflow-x: auto !important;
+  overflow-y: auto !important;
+}
 .calendar-page .calendar-right-panel .react-calendar,
 .calendar-page .calendar-right-panel .react-calendar * {
   max-width: 100% !important;
@@ -33,7 +37,7 @@
   box-sizing: border-box !important;
   margin: 0 !important;
   padding: 0 !important;
-  overflow: hidden !important;
+  overflow: visible !important;
 }
 .calendar-page .react-calendar {
   width: 100% !important;
