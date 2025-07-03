@@ -98,14 +98,16 @@ body, .calendar-bg {
 /* Timeline Styles */
 .calendar-right-panel {
   flex: 1;
-  min-width: 700px;
+  min-width: 0 !important;
+  max-width: 100% !important;
   background: #181a2b;
   border-radius: 0.75em;
   padding: 3em 2.5em;
   box-shadow: 0 0 24px 0 #a259ff44, 0 0 0 4px #a259ff22;
   border: 2.5px solid #a259ff;
-  max-height: 90vh;
-  overflow-y: auto;
+  max-height: none !important;
+  height: 100% !important;
+  overflow: visible !important;
 }
 
 .calendar-timeline {
@@ -113,6 +115,13 @@ body, .calendar-bg {
   display: flex;
   flex-direction: column;
   gap: 0.5em;
+  height: 100% !important;
+  max-height: 100% !important;
+  min-height: 0 !important;
+  overflow-y: auto !important;
+  overflow-x: hidden !important;
+  box-sizing: border-box !important;
+  padding-right: 4px !important;
 }
 
 .calendar-timeline-hour {
