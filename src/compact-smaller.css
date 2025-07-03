@@ -5,6 +5,12 @@
   padding-top: 2.5rem !important;
   padding-bottom: 2.5rem !important;
 }
+body > #root > .main-page,
+body > #root > div > .main-page,
+html body > #root > .main-page,
+html body > #root > div > .main-page {
+  margin-bottom: 12rem !important;
+}
 .calendar-page .calendar-right-panel {
   overflow: hidden !important;
   max-height: 600px !important;
