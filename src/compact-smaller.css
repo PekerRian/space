@@ -28,6 +28,45 @@ html body > #root > div > .main-page {
   display: flex !important;
   flex-direction: column !important;
 }
+
+/* --- CalendarPage: Make calendar fit perfectly inside the left panel --- */
+.calendar-page .calendar-left-panel {
+  width: 100% !important;
+  max-width: 600px !important;
+  min-width: 0 !important;
+  margin: 0 !important;
+  padding: 0.3rem !important;
+  box-sizing: border-box !important;
+  overflow: hidden !important;
+  float: none !important;
+  position: static !important;
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
+  justify-content: flex-start !important;
+  height: 100% !important;
+}
+.calendar-page .calendar-left-panel .react-calendar {
+  width: 100% !important;
+  max-width: 100% !important;
+  min-width: 0 !important;
+  height: 100% !important;
+  box-sizing: border-box !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  background: transparent !important;
+  border: none !important;
+  display: block !important;
+}
+.calendar-page .calendar-left-panel .react-calendar * {
+  width: 100% !important;
+  max-width: 100% !important;
+  min-width: 0 !important;
+  box-sizing: border-box !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  overflow: visible !important;
+}
 .calendar-page .calendar-right-panel .calendar-timeline {
   flex: 1 1 auto !important;
   min-height: 0 !important;
