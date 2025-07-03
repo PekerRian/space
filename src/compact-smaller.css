@@ -7,11 +7,14 @@
   margin: 0.3rem auto !important;
   padding: 0.05rem !important;
   font-size: 0.78em !important;
-  background: transparent !important;
-  border: none !important;
-  box-shadow: none !important;
+  background: #181a2b !important;
+  border-radius: 0.75em !important;
+  box-shadow: 0 0 16px 0 #00ffea44, 0 0 0 2px #00ffea22 !important;
+  border: 2px solid #00ffea !important;
   box-sizing: border-box !important;
   display: block !important;
+  color: #fff !important;
+  transition: box-shadow 0.18s, border 0.18s;
 }
 /* Make the content inside the calendar card smaller on CalendarPage left panel */
 .calendar-page .calendar-left-panel .calendar-card > *,
