@@ -1,3 +1,11 @@
+/* Add top and bottom margin for main pages: UserTab, Calendar, Flowers, Upvote */
+.user-tab-container,
+.calendar-page,
+.flowers-page,
+.upvote-page {
+  margin-top: 2.5rem !important;
+  margin-bottom: 2.5rem !important;
+}
 .calendar-page .calendar-right-panel {
   overflow: hidden !important;
   max-height: 600px !important;
