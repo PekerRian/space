@@ -1,10 +1,10 @@
 /* --- FORCE react-calendar in calendar card to be compact and override all other CSS --- */
 .calendar-page .calendar-left-panel .calendar-card .react-calendar,
 .calendar-page .calendar-left-panel .compact-smaller-card .react-calendar {
-  width: 85% !important;
-  max-width: 220px !important;
+  width: 100% !important;
+  max-width: 100% !important;
   min-width: 0 !important;
-  margin: 0.3rem auto !important;
+  margin: 0 !important;
   padding: 0.05rem !important;
   font-size: 0.78em !important;
   background: #181a2b !important;
