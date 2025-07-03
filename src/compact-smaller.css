@@ -509,3 +509,12 @@ html body > #root > div > .main-page {
   font-size: 1.1rem !important;
   padding: 0.3rem !important;
 }
+
+/* Stack filter cards vertically with spacing */
+.calendar-page .calendar-left-panel .calendar-filters-vertical {
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 0.7em !important;
+  width: 100% !important;
+  align-items: stretch !important;
+}
