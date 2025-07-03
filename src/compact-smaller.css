@@ -3,7 +3,7 @@
 .user-tab-container .calendar-right-panel form,
 .user-tab-container .compact-smaller-left form,
 .user-tab-container .compact-smaller-right form {
-  margin-top: 2.5rem !important;
+  margin-top: 4.5rem !important;
 }
 /* --- UserTab: Make panel contents smaller and center them for perfect fit --- */
 .user-tab-container .calendar-card,
