@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import SupportModal from "../components/Support";
 import { collection, getDocs, doc, updateDoc } from "firebase/firestore";
 import { db } from "../firebase";
 import { useWallet } from "@aptos-labs/wallet-adapter-react";
@@ -40,6 +41,7 @@ async function transferApt(signAndSubmitTransaction, account, toAddress, amount)
 export default function Flowers() {
   const [topReceivers, setTopReceivers] = useState([]);
   const [topSenders, setTopSenders] = useState([]);
+  const [supportOpen, setSupportOpen] = useState(false);
   const [loading, setLoading] = useState(true);
 
   // User search and APT transfer states
@@ -179,8 +181,16 @@ export default function Flowers() {
   if (loading) return <LoadingBuffer />;
 
   return (
-    <div className="main-page flowers-leaderboard-container animated-panel compact-smaller-bg compact-smaller">
+    <div className="main-page flowers-leaderboard-container animated-panel compact-smaller-bg compact-smaller flowers-page">
       <h1 className="page-title">Leaderboard</h1>
+      <button
+        className="calendar-btn flowers-support-btn"
+        style={{ margin: '0.7em auto 1.2em auto', display: 'block', fontWeight: 700, fontSize: '1.08em', background: '#00bfff', color: '#181a2b', borderRadius: 10, border: 'none', padding: '0.7em 2em', boxShadow: '0 0 12px #00bfff88', cursor: 'pointer' }}
+        onClick={() => setSupportOpen(true)}
+      >
+        💙 Support This App
+      </button>
+      <SupportModal open={supportOpen} onClose={() => setSupportOpen(false)} />
       <div className="flowers-leaderboard-flex compact-smaller-main">
         {/* All Receivers */}
         <div className="flowers-leaderboard-box flowers-receivers compact-smaller-left compact-smaller-card">
