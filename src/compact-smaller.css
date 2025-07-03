@@ -1,3 +1,35 @@
+/* --- Force all calendar tiles in UserTab to have identical size, overriding calendar-custom.css and react-calendar --- */
+.user-tab-container .react-calendar__tile,
+.user-tab-container .react-calendar__month-view__days__day,
+.user-tab-container .react-calendar__tile--active,
+.user-tab-container .react-calendar__tile--now,
+.user-tab-container .react-calendar__tile--hasActive,
+.user-tab-container .calendar-selected-tile,
+.user-tab-container .compact-selected-tile,
+.user-tab-container .compact-smaller-selected-tile {
+  font-size: 1.1rem !important;
+  padding: 0.3rem !important;
+  min-width: 2.1em !important;
+  min-height: 2.1em !important;
+  border-radius: 0.45em !important;
+  margin: 0.08em !important;
+  box-sizing: border-box !important;
+  box-shadow: none !important;
+}
+
+/* Only color and font-weight change for selected/active tile, not size or shadow */
+.user-tab-container .react-calendar__tile--active,
+.user-tab-container .react-calendar__tile--now,
+.user-tab-container .react-calendar__tile--hasActive,
+.user-tab-container .calendar-selected-tile,
+.user-tab-container .compact-selected-tile,
+.user-tab-container .compact-smaller-selected-tile {
+  background: #2e7dff !important;
+  color: #fff !important;
+  font-weight: 600 !important;
+  transition: background 0.15s, color 0.15s;
+  box-shadow: none !important;
+}
 /* --- Ensure active calendar tile (today/selected/focused) is always same size as others --- */
 .user-tab-container .react-calendar__tile,
 .user-tab-container .react-calendar__month-view__days__day,
