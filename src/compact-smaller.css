@@ -1,3 +1,31 @@
+/* --- UserTab: Make panel contents smaller and center them for perfect fit --- */
+.user-tab-container .calendar-card,
+.user-tab-container .calendar-form-card,
+.user-tab-container .calendar-right-panel,
+.user-tab-container .calendar-left-panel,
+.user-tab-container .compact-card,
+.user-tab-container .compact-smaller-card {
+  font-size: 0.97em !important;
+  padding: 1.2em 1.2em 1.1em 1.2em !important;
+  margin: 0.4em auto !important;
+  max-width: 98% !important;
+  min-width: 0 !important;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.user-tab-container .calendar-card > *,
+.user-tab-container .calendar-form-card > *,
+.user-tab-container .compact-card > *,
+.user-tab-container .compact-smaller-card > * {
+  width: 100%;
+  max-width: 700px;
+  margin-left: auto;
+  margin-right: auto;
+  text-align: center;
+}
 /* --- Ensure UserTab panel contents are always within borders and never overflow --- */
 .user-tab-container .calendar-card,
 .user-tab-container .calendar-form-card,
