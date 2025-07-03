@@ -209,6 +209,9 @@
   margin-right: auto;
   width: 100%;
   max-width: 1300px;
+  position: relative;
+  left: 50%;
+  transform: translateX(-50%);
 }
 .user-tab-container .compact-smaller-calendar {
   font-size: 1.08rem !important;
