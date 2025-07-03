@@ -15,9 +15,11 @@
   max-width: 100% !important;
   min-width: 0 !important;
   margin: 0 !important;
-  display: flex !important;
-  flex-wrap: wrap !important;
-  justify-content: center !important;
+  display: grid !important;
+  grid-template-columns: repeat(7, 1fr) !important;
+  justify-items: center !important;
+  align-items: center !important;
+  gap: 0 !important;
 }
 
 .user-tab-container .react-calendar__tile,
