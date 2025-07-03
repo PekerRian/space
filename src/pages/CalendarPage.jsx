@@ -256,48 +256,50 @@ function CalendarPage() {
       <div className="calendar-main-container compact-smaller-main">
         {/* Left: Calendar and Filters */}
         <div className="calendar-left-panel compact-smaller-left">
-          {/* Timezone Selector */}
-          <div className="calendar-filter-card compact-smaller-card">
-            <label htmlFor="timezone-select" className="calendar-timezone-label">
-              Timezone:
-            </label>
-            <select
-              id="timezone-select"
-              value={timezone}
-              onChange={e => setTimezone(e.target.value)}
-              className="calendar-timezone-select"
-            >
-              {TIMEZONES.map(tz => (
-                <option value={tz} key={tz}>{tz}</option>
-              ))}
-            </select>
-          </div>
-          {/* Filters for days view only */}
-          <div className="calendar-filter-card compact-smaller-card">
-            <select
-              value={languageFilter}
-              onChange={e => setLanguageFilter(e.target.value)}
-            >
-              <option value="">All Languages</option>
-              {allLanguages.map(l => (
-                <option value={l} key={l}>{l[0].toUpperCase() + l.slice(1)}</option>
-              ))}
-            </select>
-            <select
-              value={categoryFilter}
-              onChange={e => setCategoryFilter(e.target.value)}
-            >
-              <option value="">All Categories</option>
-              {allCategories.map(c => (
-                <option value={c} key={c}>{c[0].toUpperCase() + c.slice(1)}</option>
-              ))}
-            </select>
-            <input
-              value={hostFilter}
-              onChange={e => setHostFilter(e.target.value)}
-              placeholder="Filter by Host"
-              type="text"
-            />
+          <div className="calendar-filters-vertical">
+            {/* Timezone Selector */}
+            <div className="calendar-filter-card compact-smaller-card">
+              <label htmlFor="timezone-select" className="calendar-timezone-label">
+                Timezone:
+              </label>
+              <select
+                id="timezone-select"
+                value={timezone}
+                onChange={e => setTimezone(e.target.value)}
+                className="calendar-timezone-select"
+              >
+                {TIMEZONES.map(tz => (
+                  <option value={tz} key={tz}>{tz}</option>
+                ))}
+              </select>
+            </div>
+            {/* Filters for days view only */}
+            <div className="calendar-filter-card compact-smaller-card">
+              <select
+                value={languageFilter}
+                onChange={e => setLanguageFilter(e.target.value)}
+              >
+                <option value="">All Languages</option>
+                {allLanguages.map(l => (
+                  <option value={l} key={l}>{l[0].toUpperCase() + l.slice(1)}</option>
+                ))}
+              </select>
+              <select
+                value={categoryFilter}
+                onChange={e => setCategoryFilter(e.target.value)}
+              >
+                <option value="">All Categories</option>
+                {allCategories.map(c => (
+                  <option value={c} key={c}>{c[0].toUpperCase() + c.slice(1)}</option>
+                ))}
+              </select>
+              <input
+                value={hostFilter}
+                onChange={e => setHostFilter(e.target.value)}
+                placeholder="Filter by Host"
+                type="text"
+              />
+            </div>
           </div>
           <div className="calendar-card compact-smaller-card">
             <h2 className="calendar-panel-title compact-smaller-title">Calendar</h2>
