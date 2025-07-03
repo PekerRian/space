@@ -1,9 +1,17 @@
+/* --- DIAGNOSTIC: Ensure parent containers allow margin to show --- */
+html, body, #root {
+  min-height: 100vh !important;
+  height: auto !important;
+  overflow: visible !important;
+}
+
 /* Universal margin/padding for all main pages */
 .main-page {
   margin-top: 2.5rem !important;
   margin-bottom: 12rem !important;
   padding-top: 2.5rem !important;
   padding-bottom: 2.5rem !important;
+  background: rgba(255, 0, 0, 0.07) !important; /* DIAGNOSTIC: light red background to see margin */
 }
 body > #root > .main-page,
 body > #root > div > .main-page,
