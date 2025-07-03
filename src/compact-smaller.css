@@ -1,3 +1,38 @@
+/* UserTab: Fix calendar appearance and containment */
+.user-tab-container .react-calendar {
+  width: 100% !important;
+  max-width: 100% !important;
+  min-width: 0 !important;
+  margin: 0 auto !important;
+  box-sizing: border-box !important;
+  background: transparent !important;
+  border: none !important;
+  padding: 0 !important;
+}
+
+.user-tab-container .react-calendar__month-view__days {
+  width: 100% !important;
+  max-width: 100% !important;
+  min-width: 0 !important;
+  margin: 0 !important;
+  display: flex !important;
+  flex-wrap: wrap !important;
+  justify-content: center !important;
+}
+
+.user-tab-container .react-calendar__tile,
+.user-tab-container .react-calendar__month-view__days__day {
+  font-size: 1.1rem !important;
+  padding: 0.3rem !important;
+  min-width: 2.1em !important;
+  min-height: 2.1em !important;
+  border-radius: 0.45em !important;
+  margin: 0.08em !important;
+  box-sizing: border-box !important;
+  box-shadow: none !important;
+  background: transparent !important;
+  border: none !important;
+}
 /* --- UserTab: Make panel contents smaller and center them for perfect fit --- */
 .user-tab-container .calendar-card,
 .user-tab-container .calendar-form-card,
