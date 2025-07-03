@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import "../compact-smaller.css";
 import { useWallet } from "@aptos-labs/wallet-adapter-react";
 import { fetchSpacesByUser, deleteSpace, addSpace } from "../utils/spaces";
 import { doc, getDoc, updateDoc, setDoc } from "firebase/firestore";
@@ -721,27 +722,28 @@ export default function UserTab() {
   if (loading) return <LoadingBuffer />;
 
   return (
-    <div className="user-tab-container animated-panel compact-page">
-      <div className="calendar-bg compact-bg">
-        <div className="calendar-main-container compact-main">
-          <div className="calendar-left-panel compact-left">
-            <div className="calendar-card compact-card">
-              <h2 className="calendar-panel-title compact-title">Pick a Date</h2>
+    <div className="user-tab-container animated-panel compact-page compact-smaller">
+      <div className="calendar-bg compact-bg compact-smaller-bg">
+        <div className="calendar-main-container compact-main compact-smaller-main">
+          <div className="calendar-left-panel compact-left compact-smaller-left">
+            <div className="calendar-card compact-card compact-smaller-card">
+              <h2 className="calendar-panel-title compact-title compact-smaller-title">Pick a Date</h2>
               <Calendar
                 value={selectedDate}
                 onChange={setSelectedDate}
                 tileClassName={({ date }) =>
                   date.toDateString() === selectedDate.toDateString()
-                    ? "calendar-selected-tile compact-selected-tile"
+                    ? "calendar-selected-tile compact-selected-tile compact-smaller-selected-tile"
                     : null
                 }
+                className="compact-calendar compact-smaller-calendar"
               />
             </div>
           </div>
-          <div className="calendar-right-panel compact-right">
-            <h2 className="calendar-panel-title compact-title">Schedule a Space</h2>
+          <div className="calendar-right-panel compact-right compact-smaller-right">
+            <h2 className="calendar-panel-title compact-title compact-smaller-title">Schedule a Space</h2>
             {user ? (
-              <form onSubmit={handleSubmit} className="calendar-form-card compact-card">
+              <form onSubmit={handleSubmit} className="calendar-form-card compact-card compact-smaller-card">
                 <label className="calendar-label compact-label">
                   Title
                   <input
