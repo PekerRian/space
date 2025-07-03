@@ -1,10 +1,3 @@
-/* Lower the form inside the UserTab panels for better visibility */
-.user-tab-container .calendar-left-panel form,
-.user-tab-container .calendar-right-panel form,
-.user-tab-container .compact-smaller-left form,
-.user-tab-container .compact-smaller-right form {
-  margin-top: 7rem !important;
-}
 /* --- UserTab: Make panel contents smaller and center them for perfect fit --- */
 .user-tab-container .calendar-card,
 .user-tab-container .calendar-form-card,
@@ -15,6 +8,11 @@
   font-size: 0.97em !important;
   padding: 1.1em 1.1em 1em 1.1em !important;
   margin: 0.3em auto !important;
+}
+
+/* Add extra top margin only to calendar-form-card for better vertical spacing */
+.user-tab-container .calendar-form-card {
+  margin-top: 2.5em !important;
   max-width: 98% !important;
   min-width: 0 !important;
   display: flex;
