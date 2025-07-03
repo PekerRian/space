@@ -1,8 +1,6 @@
 /* --- FORCE react-calendar in calendar card to be compact and override all other CSS --- */
-.calendar-page .calendar-left-panel .calendar-card .react-calendar,
-.calendar-page .calendar-left-panel .compact-smaller-card .react-calendar {
-  width: 96% !important;
-  max-width: 540px !important;
+  width: 99% !important;
+  max-width: 680px !important;
   min-width: 0 !important;
   margin: 0 auto !important;
   padding: 0.05rem !important;
@@ -84,24 +82,10 @@ html body > #root > div > .main-page {
   justify-content: flex-start !important;
   height: 100% !important;
 }
-.calendar-page .calendar-left-panel .react-calendar {
-  width: 92% !important;
-  max-width: 320px !important;
-  min-width: 0 !important;
-  height: auto !important;
-  box-sizing: border-box !important;
-  margin: 0.5rem auto !important;
-  padding: 0.1rem !important;
-  background: transparent !important;
-  border: none !important;
-  display: block !important;
-}
-
-/* Make the calendar card/container fit the panel exactly, including compact-smaller-card, and override all other CSS */
 .calendar-page .calendar-left-panel .calendar-card,
 .calendar-page .calendar-left-panel .compact-smaller-card {
-  width: 92% !important;
-  max-width: 340px !important;
+  width: 99% !important;
+  max-width: 700px !important;
   min-width: 0 !important;
   margin: 0.5rem auto !important;
   padding: 0.3rem !important;
@@ -112,6 +96,19 @@ html body > #root > div > .main-page {
   box-shadow: none !important;
   font-size: 0.97em !important;
   border-radius: 0.3em !important;
+}
+
+.calendar-page .calendar-left-panel .react-calendar {
+  width: 99% !important;
+  max-width: 700px !important;
+  min-width: 0 !important;
+  height: auto !important;
+  box-sizing: border-box !important;
+  margin: 0.5rem auto !important;
+  padding: 0.1rem !important;
+  background: transparent !important;
+  border: none !important;
+  display: block !important;
 }
 .calendar-page .calendar-left-panel .react-calendar * {
   width: 100% !important;
