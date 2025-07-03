@@ -47,13 +47,26 @@ html body > #root > div > .main-page {
   height: 100% !important;
 }
 .calendar-page .calendar-left-panel .react-calendar {
-  width: 95% !important;
-  max-width: 380px !important;
+  width: 100% !important;
+  max-width: 100% !important;
   min-width: 0 !important;
   height: auto !important;
   box-sizing: border-box !important;
-  margin: 0.5rem auto !important;
-  padding: 0.2rem !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  background: transparent !important;
+  border: none !important;
+  display: block !important;
+}
+
+/* Make the calendar card/container fit the panel exactly */
+.calendar-page .calendar-left-panel .calendar-card {
+  width: 100% !important;
+  max-width: 100% !important;
+  min-width: 0 !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  box-sizing: border-box !important;
   background: transparent !important;
   border: none !important;
   display: block !important;
