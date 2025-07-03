@@ -6,6 +6,9 @@
 /* WIDER, more readable compact-smaller for UserTab */
 
 /* UserTab: wider, more readable panels */
+
+
+/* UserTab: 3x wider panels */
 .user-tab-container.compact-smaller,
 .user-tab-container .compact-smaller-page,
 .user-tab-container .compact-smaller-bg,
@@ -19,12 +22,12 @@
   font-size: 15px !important;
   padding: 0.7rem 1.2rem !important;
   margin: 0.3rem !important;
-  max-width: 650px !important;
-  min-width: 220px !important;
+  max-width: 1950px !important;
+  min-width: 660px !important;
 }
 .user-tab-container.compact-smaller,
 .user-tab-container .compact-smaller-page {
-  max-width: 1200px !important;
+  max-width: 3600px !important;
   padding: 1.2rem !important;
 }
 .user-tab-container .compact-smaller-bg {
@@ -46,14 +49,14 @@
 }
 .user-tab-container .compact-smaller-left,
 .user-tab-container .compact-smaller-right {
-  max-width: 600px !important;
-  min-width: 220px !important;
+  max-width: 1800px !important;
+  min-width: 660px !important;
   padding: 0.3rem !important;
 }
 .user-tab-container .compact-smaller-calendar {
   font-size: 1.1rem !important;
-  min-width: 220px !important;
-  max-width: 600px !important;
+  min-width: 660px !important;
+  max-width: 1800px !important;
 }
 .user-tab-container .compact-smaller-selected-tile {
   font-size: 1.1rem !important;
