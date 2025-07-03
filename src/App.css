@@ -403,9 +403,7 @@ li {
 
 /* Reduce spacing for all major containers */
 .calendar-main-container, .calendar-left-panel, .calendar-right-panel {
-  padding: 0.5rem !important;
-  margin: 0.5rem auto !important;
-  max-width: 400px !important;
+  /* Disabled for UserTab: see compact-smaller.css for UserTab overrides */
 }
 
 .user-tab-container, .calendar-bg, .flowers-leaderboard-container, .page-container, .animated-panel {
