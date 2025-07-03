@@ -56,13 +56,13 @@ html body > #root > div > .main-page {
   height: 100% !important;
 }
 .calendar-page .calendar-left-panel .react-calendar {
-  width: 100% !important;
-  max-width: 100% !important;
+  width: 92% !important;
+  max-width: 320px !important;
   min-width: 0 !important;
   height: auto !important;
   box-sizing: border-box !important;
-  margin: 0 !important;
-  padding: 0 !important;
+  margin: 0.5rem auto !important;
+  padding: 0.1rem !important;
   background: transparent !important;
   border: none !important;
   display: block !important;
