@@ -220,6 +220,14 @@
   position: static !important;
 }
 
+/* Add margin to contents of the panels for better spacing */
+.user-tab-container .calendar-left-panel > *,
+.user-tab-container .calendar-right-panel > *,
+.user-tab-container .compact-smaller-left > *,
+.user-tab-container .compact-smaller-right > * {
+  margin: 1.2rem 1.1rem !important;
+}
+
 /*
 .user-tab-container .compact-smaller-main,
 .user-tab-container .calendar-main-container.compact-main.compact-smaller-main {
@@ -232,7 +240,6 @@
   width: 100%;
   max-width: 1300px;
   /* Remove position/left/transform for proper centering */
-}
 */
 .user-tab-container .compact-smaller-calendar {
   font-size: 1.08rem !important;
