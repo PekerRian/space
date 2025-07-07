@@ -43,6 +43,8 @@
     display: block !important;
     height: auto !important;
     min-height: 0 !important;
+    max-height: none !important;
+    overflow: visible !important;
   }
   .calendar-page .calendar-left-panel .calendar-card,
   .calendar-page .calendar-left-panel .compact-smaller-card {
@@ -71,7 +73,7 @@
     box-shadow: none !important;
   }
   .calendar-page .calendar-right-panel .calendar-timeline {
-    max-height: 300px !important;
+    max-height: none !important;
     height: auto !important;
     min-height: 0 !important;
     overflow-y: auto !important;
@@ -82,18 +84,21 @@
     display: flex !important;
     flex-direction: column !important;
     gap: 0.4em !important;
-    min-width: 260px !important;
+    min-width: 0 !important;
     overflow-x: auto !important;
   }
 
-  /* Make timeline items readable and allow horizontal scroll if needed */
+  /* Make timeline items dynamic, readable, and touch-friendly on mobile */
   .calendar-page .calendar-right-panel .calendar-timeline > * {
-    min-width: 220px !important;
-    padding: 0.4em 0.5em !important;
-    font-size: 1em !important;
+    min-width: 0 !important;
+    width: 100% !important;
+    padding: 0.55em 0.6em !important;
+    font-size: 1.08em !important;
     box-sizing: border-box !important;
     word-break: break-word !important;
     white-space: normal !important;
+    overflow-x: auto !important;
+    display: block !important;
   }
   .calendar-page .react-calendar__tile,
   .calendar-page .react-calendar__month-view__days__day {
