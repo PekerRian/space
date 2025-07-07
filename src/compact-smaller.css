@@ -78,9 +78,22 @@
     overflow-x: hidden !important;
     width: 100vw !important;
     box-sizing: border-box !important;
-    padding-right: 2px !important;
+    padding: 0.5em 0.7em 0.5em 0.7em !important;
     display: flex !important;
     flex-direction: column !important;
+    gap: 0.4em !important;
+    min-width: 260px !important;
+    overflow-x: auto !important;
+  }
+
+  /* Make timeline items readable and allow horizontal scroll if needed */
+  .calendar-page .calendar-right-panel .calendar-timeline > * {
+    min-width: 220px !important;
+    padding: 0.4em 0.5em !important;
+    font-size: 1em !important;
+    box-sizing: border-box !important;
+    word-break: break-word !important;
+    white-space: normal !important;
   }
   .calendar-page .react-calendar__tile,
   .calendar-page .react-calendar__month-view__days__day {
