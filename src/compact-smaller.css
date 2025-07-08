@@ -44,6 +44,56 @@
     gap: 0.7em !important;
     align-items: stretch !important;
   }
+
+  /* Force right panel to stack below left panel and be visible on mobile */
+  .calendar-page .calendar-main-container {
+    flex-direction: column !important;
+  }
+  .calendar-page .calendar-left-panel,
+  .calendar-page .calendar-right-panel {
+    width: 100% !important;
+    max-width: 100vw !important;
+    min-width: 0 !important;
+    margin-left: auto !important;
+    margin-right: auto !important;
+    margin-top: 0.7em !important;
+    margin-bottom: 0.7em !important;
+    display: block !important;
+    float: none !important;
+    position: static !important;
+  }
+
+  /* Force stacking of left and right panels vertically in mobile, and ensure both are visible and centered */
+  .calendar-page .calendar-main-container {
+    flex-direction: column !important;
+    align-items: center !important;
+    justify-content: flex-start !important;
+    width: 100% !important;
+    max-width: 100vw !important;
+    min-width: 0 !important;
+    margin: 0 auto !important;
+    padding: 0 !important;
+    box-sizing: border-box !important;
+    gap: 0.7em !important;
+  }
+
+  .calendar-page .calendar-left-panel,
+  .calendar-page .calendar-right-panel {
+    width: 100% !important;
+    max-width: 100vw !important;
+    min-width: 0 !important;
+    margin: 0.7em auto !important;
+    padding: 0.5em 0.2em !important;
+    box-sizing: border-box !important;
+    float: none !important;
+    position: static !important;
+    display: block !important;
+    height: auto !important;
+    min-height: 0 !important;
+    max-height: none !important;
+    overflow: visible !important;
+    z-index: auto !important;
+  }
   .calendar-page .calendar-left-panel,
   .calendar-page .calendar-right-panel,
   body .calendar-page .calendar-left-panel,
