@@ -176,6 +176,7 @@
     margin: 0.7em 0 0.5em 0 !important;
   }
 }
+  /* Cleaned: CalendarPage and UserTab panel base for mobile */
   .calendar-main-container,
   .calendar-main-container:not(.user-tab-container .calendar-main-container) {
     flex-direction: column !important;
@@ -187,7 +188,6 @@
     margin: 0 !important;
     padding: 0 !important;
   }
-  /* Cleaned: CalendarPage and UserTab panel base for mobile */
   .calendar-page .calendar-left-panel,
   .calendar-page .calendar-right-panel,
   .user-tab-container .calendar-left-panel,
@@ -203,7 +203,6 @@
     float: none !important;
     position: static !important;
   }
-  /* Cleaned: Card and panel width for mobile */
   .calendar-page .calendar-left-panel .calendar-card,
   .calendar-page .calendar-left-panel .compact-smaller-card,
   .flowers-page .flowers-panel,
