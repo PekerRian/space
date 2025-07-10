@@ -655,6 +655,8 @@ export default function UserTab() {
         if (data.poap && data.poap.maxSupply) maxSupply = parseInt(data.poap.maxSupply, 10);
         if (Array.isArray(data.mintedIndices)) mintedIndices = data.mintedIndices;
       }
+      // Ensure mintedIndices is always an array of numbers
+      mintedIndices = mintedIndices.map(x => typeof x === 'number' ? x : parseInt(x, 10)).filter(x => !isNaN(x));
       if (!nftMetadataFolder || !maxSupply) {
         throw new Error('NFT metadata folder or maxSupply missing for this space');
       }
@@ -695,6 +697,8 @@ export default function UserTab() {
         if (data.poap && data.poap.maxSupply) maxSupply = parseInt(data.poap.maxSupply, 10);
         if (Array.isArray(data.mintedIndices)) mintedIndices = data.mintedIndices;
       }
+      // Ensure mintedIndices is always an array of numbers
+      mintedIndices = mintedIndices.map(x => typeof x === 'number' ? x : parseInt(x, 10)).filter(x => !isNaN(x));
       if (!nftMetadataFolder || !maxSupply) {
         throw new Error('NFT metadata folder or maxSupply missing for this space');
       }
@@ -709,7 +713,7 @@ export default function UserTab() {
       if (mintIndex === -1) throw new Error('All NFTs have been minted for this space');
       const metadataUri = `https://gateway.pinata.cloud/ipfs/${nftMetadataFolder}/json.${mintIndex}`;
       await mintPoap({ signAndSubmitTransaction, account, collectionObj: space.collectionObj, metadataUri });
-      // Update mintedIndices in Firestore
+      // Update mintedIndices in Firestore (store as numbers)
       await updateDoc(spaceRef, { mintedIndices: [...mintedIndices, mintIndex] });
       setMintSuccess(`POAP NFT minted for index ${mintIndex}! Check your wallet.`);
     } catch (e) {
