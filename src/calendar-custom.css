@@ -3,7 +3,7 @@ body, .calendar-bg {
   min-height: 100vh;
   color: #e0e6ff;
   font-family: 'Press Start 2P', 'VT323', 'Consolas', 'monospace', Arial, sans-serif;
-}
+/* --- END OF PATCHED MOBILE QUERIES --- */
 
 .calendar-main-container {
   display: flex;
@@ -552,7 +552,6 @@ body, .calendar-bg {
   .footer-ticker-text {
     font-size: 0.85em !important;
   }
-}
 }
 /* Space Invaders font import */
 @import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&family=VT323&display=swap');
