@@ -511,6 +511,8 @@ function CalendarPage() {
                               if (typeof data.maxSupply === 'number' || typeof data.maxSupply === 'string') maxSupply = Number(data.maxSupply);
                               if (Array.isArray(data.mintedIndices)) mintedIndices = data.mintedIndices;
                             }
+                            // Ensure mintedIndices is always an array of numbers
+                            mintedIndices = mintedIndices.map(x => typeof x === 'number' ? x : parseInt(x, 10)).filter(x => !isNaN(x));
                             if ((!nftMetadataUris || nftMetadataUris.length === 0) && nftMetadataFolder && maxSupply) {
                               // Fallback: reconstruct URIs if array missing
                               let nftUris = [];
