@@ -372,10 +372,9 @@ export default function UserTab() {
             console.error('metadataUris length does not match maxSupply!', metadata.metadataUris.length, poap.maxSupply, metadata.metadataUris);
             throw new Error('metadataUris length does not match maxSupply!');
           }
-          // Write the full IPFS links of the individual JSONs to Firestore
+          // Write only the array of JSON URIs to Firestore (do not write the folder)
           await updateDoc(doc(db, "spaces", spaceId), {
-            nftMetadataUris: metadata.metadataUris,
-            nftMetadataFolder: metadata.nftMetadataFolder || ''
+            nftMetadataUris: metadata.metadataUris
           });
         } else {
           console.error('metadataUris missing or not an array:', metadata.metadataUris);
