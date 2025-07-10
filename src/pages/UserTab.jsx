@@ -699,8 +699,13 @@ export default function UserTab() {
       }
       // Ensure mintedIndices is always an array of numbers
       mintedIndices = mintedIndices.map(x => typeof x === 'number' ? x : parseInt(x, 10)).filter(x => !isNaN(x));
-      if (!nftMetadataFolder || !maxSupply) {
-        throw new Error('NFT metadata folder or maxSupply missing for this space');
+      // Debug logging for troubleshooting
+      console.log('Minting debug:', { maxSupply, mintedIndices, nftMetadataFolder, space });
+      if (!maxSupply || isNaN(maxSupply) || maxSupply < 1) {
+        throw new Error('Invalid or missing maxSupply for this space');
+      }
+      if (!nftMetadataFolder) {
+        throw new Error('NFT metadata folder missing for this space');
       }
       // Find the first available index
       let mintIndex = -1;
@@ -718,6 +723,8 @@ export default function UserTab() {
       setMintSuccess(`POAP NFT minted for index ${mintIndex}! Check your wallet.`);
     } catch (e) {
       setMintError(e.message || String(e));
+      // Extra: log error and state for debugging
+      console.error('Minting error:', e, { space });
     } finally {
       setMinting(false);
     }
