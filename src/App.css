@@ -444,10 +444,12 @@ li {
 
 @media (max-width: 600px) {
   .calendar-main-container, .calendar-left-panel, .calendar-right-panel, .user-tab-container, .calendar-bg, .flowers-leaderboard-container, .page-container, .animated-panel {
-    max-width: 98vw !important;
+    max-width: 100vw !important;
     width: 100vw !important;
+    min-width: 0 !important;
     padding: 0.2rem !important;
     margin: 0.2rem auto !important;
+    box-sizing: border-box !important;
   }
 
   .user-tab-container {
@@ -458,17 +460,41 @@ li {
     border-radius: 10px !important;
     font-size: 0.98em !important;
     margin: 0.2rem auto !important;
+    box-sizing: border-box !important;
+    overflow-x: hidden !important;
   }
 
   .user-tab-panel-title {
     font-size: 1em !important;
     margin-bottom: 1em !important;
+    word-break: break-word !important;
   }
 
   .container {
-    max-width: 98vw !important;
+    max-width: 100vw !important;
+    min-width: 0 !important;
+    width: 100vw !important;
     padding: 0.2rem !important;
     margin: 0.2rem auto !important;
+    box-sizing: border-box !important;
+  }
+
+  /* Ensure all direct children of user-tab-container fit mobile width */
+  .user-tab-container > * {
+    max-width: 100vw !important;
+    min-width: 0 !important;
+    width: 100% !important;
+    box-sizing: border-box !important;
+    overflow-x: auto !important;
+  }
+
+  /* Utility: force all .compact-* and .calendar-* cards to fit mobile */
+  .compact-page, .compact-bg, .compact-main, .compact-card, .calendar-card, .calendar-form-card, .calendar-event-card, .flowers-leaderboard-box, .flowers-transfer-card {
+    max-width: 100vw !important;
+    min-width: 0 !important;
+    width: 100% !important;
+    box-sizing: border-box !important;
+    overflow-x: auto !important;
   }
 }
 
