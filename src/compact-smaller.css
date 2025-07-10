@@ -1,3 +1,33 @@
+/* --- FINAL MOBILE OVERRIDE: UserTab panels always full width and stacked on mobile, must be last in file --- */
+@media (max-width: 700px) {
+  .user-tab-container .calendar-main-container.compact-main.compact-smaller-main {
+    flex-direction: column !important;
+    gap: 0 !important;
+    width: 100vw !important;
+    max-width: 100vw !important;
+    min-width: 0 !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    box-sizing: border-box !important;
+    display: flex !important;
+    align-items: stretch !important;
+    justify-content: flex-start !important;
+  }
+  .user-tab-container .calendar-left-panel,
+  .user-tab-container .calendar-right-panel,
+  .user-tab-container .compact-smaller-left,
+  .user-tab_container .compact-smaller-right {
+    width: 100vw !important;
+    max-width: 100vw !important;
+    min-width: 0 !important;
+    margin: 0 !important;
+    padding: 0.3rem !important;
+    box-sizing: border-box !important;
+    float: none !important;
+    position: static !important;
+    display: block !important;
+  }
+}
 @media (max-width: 700px) {
   .user-tab-container .calendar-main-container.compact-main.compact-smaller-main {
     flex-direction: column !important;
