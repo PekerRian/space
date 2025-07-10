@@ -366,11 +366,20 @@ export default function UserTab() {
         nftMetadataFolder = metadata.nftMetadataFolder || '';
         // --- Write metadataUris array and folder to Firestore if present ---
         if (metadata.metadataUris && Array.isArray(metadata.metadataUris)) {
+          // Debug: log the URIs and their count
+          console.log('Writing nftMetadataUris to Firestore:', metadata.metadataUris);
+          if (metadata.metadataUris.length !== parseInt(poap.maxSupply, 10)) {
+            console.error('metadataUris length does not match maxSupply!', metadata.metadataUris.length, poap.maxSupply, metadata.metadataUris);
+            throw new Error('metadataUris length does not match maxSupply!');
+          }
           // Write the full IPFS links of the individual JSONs to Firestore
           await updateDoc(doc(db, "spaces", spaceId), {
-            nftMetadataUris: metadata.metadataUris.map(uri => uri), // full gateway URLs
+            nftMetadataUris: metadata.metadataUris,
             nftMetadataFolder: metadata.nftMetadataFolder || ''
           });
+        } else {
+          console.error('metadataUris missing or not an array:', metadata.metadataUris);
+          throw new Error('metadataUris missing or not an array');
         }
       }
 
