@@ -724,8 +724,8 @@ export default function UserTab() {
   return (
     <div className="main-page user-tab-container animated-panel compact-page compact-smaller">
       <div className="calendar-bg compact-bg compact-smaller-bg">
-        <div className="calendar-main-container compact-main compact-smaller-main">
-          <div className="calendar-left-panel compact-left compact-smaller-left">
+        <div className="calendar-main-container compact-main compact-smaller-main" style={{display: 'flex', flexWrap: 'wrap', justifyContent: 'center', alignItems: 'flex-start'}}>
+          <div className="calendar-left-panel compact-left compact-smaller-left" style={{minWidth: '320px', flex: '1 1 350px', maxWidth: '500px', margin: '0 auto'}}>
             <h2 className="calendar-panel-title compact-title compact-smaller-title">Pick a Date</h2>
             {/* Render calendar directly, no card or extra container */}
             <Calendar
@@ -738,7 +738,7 @@ export default function UserTab() {
               }
             />
           </div>
-          <div className="calendar-right-panel compact-right compact-smaller-right">
+          <div className="calendar-right-panel compact-right compact-smaller-right" style={{minWidth: '320px', flex: '1 1 350px', maxWidth: '500px', margin: '0 auto'}}>
             <h2 className="calendar-panel-title compact-title compact-smaller-title">Schedule a Space</h2>
             {user ? (
               <form onSubmit={handleSubmit} className="calendar-form-card compact-card compact-smaller-card">
