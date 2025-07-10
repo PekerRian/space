@@ -681,3 +681,32 @@ html body > #root > div > .main-page {
   width: 100% !important;
   align-items: stretch !important;
 }
+
+/* --- FINAL, HIGHEST SPECIFICITY MOBILE OVERRIDE: UserTab panels always full width and stacked on mobile, must be last in file --- */
+@media (max-width: 700px) {
+  .user-tab-container .calendar-main-container.compact-main.compact-smaller-main,
+  .user-tab-container .calendar-main-container.compact-main.compact-smaller-main[style],
+  .user-tab-container .calendar-main-container.compact-main.compact-smaller-main *,
+  .user-tab-container .calendar-left-panel,
+  .user-tab-container .calendar-right-panel,
+  .user-tab-container .compact-smaller-left,
+  .user-tab-container .compact-smaller-right {
+    width: 100vw !important;
+    max-width: 100vw !important;
+    min-width: 0 !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    box-sizing: border-box !important;
+    float: none !important;
+    position: static !important;
+    display: block !important;
+    flex: 1 1 100vw !important;
+    align-items: stretch !important;
+    justify-content: flex-start !important;
+    border-radius: 0 !important;
+    left: 0 !important;
+    right: 0 !important;
+    top: 0 !important;
+    bottom: 0 !important;
+  }
+}
