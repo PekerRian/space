@@ -1,3 +1,18 @@
+  /* FINAL FIX: On mobile, force UserTab panels to fit and center */
+  .user-tab-container .calendar-right-panel,
+  .user-tab-container .calendar-left-panel {
+    width: 100vw !important;
+    max-width: 100vw !important;
+    min-width: 0 !important;
+    margin: 0 !important;
+    padding-left: 0.2em !important;
+    padding-right: 0.2em !important;
+    box-sizing: border-box !important;
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    justify-content: center !important;
+  }
 /* --- CalendarPage utility classes for compact, unified, responsive UI --- */
 .calendar-poap-form {
   border: 1px solid #00ffea;
