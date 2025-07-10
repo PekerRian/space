@@ -443,6 +443,7 @@ li {
 }
 
 @media (max-width: 600px) {
+
   .calendar-main-container, .calendar-left-panel, .calendar-right-panel, .user-tab-container, .calendar-bg, .flowers-leaderboard-container, .page-container, .animated-panel {
     max-width: 100vw !important;
     width: 100vw !important;
@@ -450,6 +451,10 @@ li {
     padding: 0.2rem !important;
     margin: 0.2rem auto !important;
     box-sizing: border-box !important;
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    justify-content: flex-start !important;
   }
 
   .user-tab-container {
@@ -462,6 +467,10 @@ li {
     margin: 0.2rem auto !important;
     box-sizing: border-box !important;
     overflow-x: hidden !important;
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    justify-content: flex-start !important;
   }
 
   .user-tab-panel-title {
@@ -486,6 +495,12 @@ li {
     width: 100% !important;
     box-sizing: border-box !important;
     overflow-x: auto !important;
+    margin-left: auto !important;
+    margin-right: auto !important;
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    justify-content: center !important;
   }
 
   /* Utility: force all .compact-* and .calendar-* cards to fit mobile */
@@ -495,6 +510,12 @@ li {
     width: 100% !important;
     box-sizing: border-box !important;
     overflow-x: auto !important;
+    margin-left: auto !important;
+    margin-right: auto !important;
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    justify-content: center !important;
   }
 }
 
