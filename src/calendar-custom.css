@@ -353,11 +353,15 @@ body, .calendar-bg {
   justify-content: center;
 }
 
-@media (max-width: 600px) {
+@media (max-width: 700px) {
   .calendar-modal-content {
     max-width: 98vw !important;
-    padding: 10vw 2vw 2vw 2vw !important;
-    min-height: auto !important;
+    min-width: 0 !important;
+    width: 98vw !important;
+    padding: 1em 0.5em !important;
+    border-radius: 10px !important;
+    margin: 4vh auto !important;
+    box-shadow: 0 4px 16px 0 #0008, 0 0 0 1px #3b61e1;
   }
 }
 
@@ -440,78 +444,72 @@ body, .calendar-bg {
 }
 
 /* Responsive adjustments */
-@media (max-width: 950px) {
+@media (max-width: 700px) {
   .calendar-main-container {
-    flex-direction: column;
-    gap: 2em;
-    margin: 30px auto;
-    max-width: 98vw;
+    flex-direction: column !important;
+    gap: 1.2em !important;
+    margin: 10px auto !important;
+    max-width: 100vw !important;
+    padding: 0 0.2em !important;
   }
   .calendar-right-panel {
-    min-width: 0;
-    width: 100%;
-    max-height: 80vh;
-    padding: 1.2em 0.7em;
+    min-width: 0 !important;
+    width: 100vw !important;
+    max-height: 80vh !important;
+    padding: 1.2em 0.7em !important;
   }
   .calendar-left-panel {
-    min-width: 0;
-    width: 100%;
-  }
-  .react-calendar {
-    min-width: 0;
-    max-width: 100%;
-    padding: 1.2em 0.5em 1em 0.5em;
-    font-size: 1.404em; /* 1.3x of 1.08em */
-  }
-}
-@media (max-width: 600px) {
-  .calendar-bg {
-    padding: 0 0.2em;
-  }
-  .calendar-main-container {
-    flex-direction: column;
-    gap: 1.2em;
-    margin: 10px auto;
-    max-width: 100vw;
-    padding: 0 0.2em;
-  }
-  .calendar-card, .calendar-right-panel {
-    padding: 0.7em 0.3em;
-    min-width: 0;
-    max-width: 100vw;
-    width: 100vw;
-    font-size: 0.98em;
-  }
-  .calendar-left-panel {
-    min-width: 0;
-    width: 100vw;
-    padding: 0;
-  }
-  .calendar-panel-title {
-    font-size: 1em;
-    margin-bottom: 1em;
-  }
-  .calendar-timeline-hour {
-    gap: 0.4em;
-    margin-bottom: 0.7em;
-  }
-  .calendar-event-card {
-    padding: 0.5em 0.4em;
-    min-width: 0;
-    font-size: 0.93em;
-  }
-  .calendar-filter-card {
-    flex-direction: column;
-    gap: 0.5em;
-    padding: 1em 0.5em 0.7em 0.5em;
-    min-width: 0;
-    max-width: 100vw;
-    width: 100vw;
+    min-width: 0 !important;
+    width: 100vw !important;
   }
   .react-calendar {
     min-width: 0 !important;
     max-width: 100vw !important;
-    padding: 0.7em 0.2em 0.5em 0.2em;
+    padding: 1.2em 0.5em 1em 0.5em !important;
+    font-size: 1.08em !important;
+  }
+}
+@media (max-width: 700px) {
+  .calendar-bg {
+    padding: 0 0.2em !important;
+  }
+  .calendar-card, .calendar-right-panel {
+    padding: 0.7em 0.3em !important;
+    min-width: 0 !important;
+    max-width: 100vw !important;
+    width: 100vw !important;
+    font-size: 0.98em !important;
+  }
+  .calendar-left-panel {
+    min-width: 0 !important;
+    width: 100vw !important;
+    padding: 0 !important;
+  }
+  .calendar-panel-title {
+    font-size: 1em !important;
+    margin-bottom: 1em !important;
+  }
+  .calendar-timeline-hour {
+    gap: 0.4em !important;
+    margin-bottom: 0.7em !important;
+  }
+  .calendar-event-card {
+    padding: 0.5em 0.4em !important;
+    min-width: 0 !important;
+    font-size: 0.93em !important;
+  }
+  .calendar-filter-card {
+    flex-direction: column !important;
+    gap: 0.5em !important;
+    padding: 1em 0.5em 0.7em 0.5em !important;
+    min-width: 0 !important;
+    max-width: 100vw !important;
+    width: 100vw !important;
+  }
+  .react-calendar {
+    min-width: 0 !important;
+    max-width: 100vw !important;
+    padding: 0.7em 0.2em 0.5em 0.2em !important;
     font-size: 1em !important;
   }
   .calendar-modal-content {
@@ -519,27 +517,27 @@ body, .calendar-bg {
     max-width: 98vw !important;
     width: 98vw !important;
     padding: 1.2em 0.5em 1em 0.5em !important;
-    font-size: 0.98em;
+    font-size: 0.98em !important;
   }
   .calendar-modal-close {
-    top: 8px;
-    right: 12px;
-    font-size: 1.4em;
+    top: 8px !important;
+    right: 12px !important;
+    font-size: 1.4em !important;
   }
   .user-tab-category-list, .user-tab-language-list {
-    gap: 0.5em 1em;
-    font-size: 0.95em;
+    gap: 0.5em 1em !important;
+    font-size: 0.95em !important;
   }
   .footer-ticker-bg {
-    height: 2.2em;
+    height: 2.2em !important;
   }
   .footer-ticker-track {
-    height: 2.2em;
+    height: 2.2em !important;
   }
   .footer-ticker-text {
-    font-size: 0.85em;
-    padding-right: 1.2em;
+    font-size: 0.85em !important;
   }
+}
 }
 /* Space Invaders font import */
 @import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&family=VT323&display=swap');
@@ -668,21 +666,22 @@ body, .calendar-bg {
   70%  { transform: scale(1) translateY(0); }
   100% { transform: scale(1) translateY(0); }
 }
-@media (max-width: 600px) {
+@media (max-width: 700px) {
   .support-corner {
-    right: 0.4em;
-    bottom: 2.6em;
-    left: auto;
-    align-items: flex-end;
+    right: 0.4em !important;
+    bottom: 2.6em !important;
+    left: auto !important;
+    align-items: flex-end !important;
   }
   .support-corner svg {
-    width: 36px;
-    height: 36px;
+    width: 36px !important;
+    height: 36px !important;
   }
   .support-corner-text {
-    font-size: 0.7em;
+    font-size: 0.7em !important;
   }
   .support-corner-text-glow {
-    font-size: 0.8em;
+    font-size: 0.8em !important;
   }
 }
+/* --- END OF PATCHED MOBILE QUERIES --- */
