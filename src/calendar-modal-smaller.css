@@ -15,10 +15,15 @@
   align-items: center;
 }
 
-@media (max-width: 500px) {
+
+@media (max-width: 700px) {
   .calendar-modal-content {
     max-width: 98vw !important;
     min-width: 0 !important;
+    width: 98vw !important;
     padding: 1em 0.5em !important;
+    border-radius: 10px !important;
+    margin: 4vh auto !important;
+    box-shadow: 0 4px 16px 0 #0008, 0 0 0 1px #3b61e1;
   }
 }
