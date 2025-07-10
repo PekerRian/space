@@ -726,18 +726,17 @@ export default function UserTab() {
       <div className="calendar-bg compact-bg compact-smaller-bg">
         <div className="calendar-main-container compact-main compact-smaller-main">
           <div className="calendar-left-panel compact-left compact-smaller-left">
-            <div className="calendar-card compact-card compact-smaller-card">
-              <h2 className="calendar-panel-title compact-title compact-smaller-title">Pick a Date</h2>
-              <Calendar
-                value={selectedDate}
-                onChange={setSelectedDate}
-                tileClassName={({ date }) =>
-                  date.toDateString() === selectedDate.toDateString()
-                    ? "calendar-selected-tile"
-                    : null
-                }
-              />
-            </div>
+            <h2 className="calendar-panel-title compact-title compact-smaller-title">Pick a Date</h2>
+            {/* Render calendar directly, no card or extra container */}
+            <Calendar
+              value={selectedDate}
+              onChange={setSelectedDate}
+              tileClassName={({ date }) =>
+                date.toDateString() === selectedDate.toDateString()
+                  ? "calendar-selected-tile"
+                  : null
+              }
+            />
           </div>
           <div className="calendar-right-panel compact-right compact-smaller-right">
             <h2 className="calendar-panel-title compact-title compact-smaller-title">Schedule a Space</h2>
