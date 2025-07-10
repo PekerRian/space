@@ -447,26 +447,41 @@ body, .calendar-bg {
 @media (max-width: 700px) {
   .calendar-main-container {
     flex-direction: column !important;
-    gap: 1.2em !important;
+    gap: 0 !important;
     margin: 10px auto !important;
     max-width: 100vw !important;
     padding: 0 0.2em !important;
   }
-  .calendar-right-panel {
-    min-width: 0 !important;
-    width: 100vw !important;
-    max-height: 80vh !important;
-    padding: 1.2em 0.7em !important;
-  }
   .calendar-left-panel {
     min-width: 0 !important;
     width: 100vw !important;
+    padding-bottom: 0 !important;
+    margin-bottom: 0 !important;
+  }
+  .calendar-right-panel {
+    min-width: 0 !important;
+    width: 100vw !important;
+    max-height: none !important;
+    padding: 0.5em 0.2em 1.2em 0.2em !important;
+    order: 2 !important;
+    margin-top: 0 !important;
   }
   .react-calendar {
     min-width: 0 !important;
     max-width: 100vw !important;
     padding: 1.2em 0.5em 1em 0.5em !important;
     font-size: 1.08em !important;
+  }
+  /* Ensure timeline is always at the bottom on mobile */
+  .calendar-main-container {
+    display: flex !important;
+    flex-direction: column !important;
+  }
+  .calendar-left-panel {
+    order: 1 !important;
+  }
+  .calendar-right-panel {
+    order: 2 !important;
   }
 }
 @media (max-width: 700px) {
