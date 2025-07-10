@@ -463,16 +463,17 @@ li {
   align-items: center;
 }
 
-.user-tab-container .react-calendar,
-.user-tab-container .calendar-card {
+
+/* UserTab: Display calendar directly, no extra card */
+.user-tab-container .react-calendar {
   max-width: 340px !important;
   width: 100% !important;
   margin: 0 auto !important;
   box-sizing: border-box !important;
-  background: #23243a !important;
-  border-radius: 8px !important;
-  box-shadow: 0 1px 6px #00ffea11 !important;
-  padding: 7px !important;
+  background: transparent !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+  padding: 0 !important;
 }
 
 @media (max-width: 600px) {
