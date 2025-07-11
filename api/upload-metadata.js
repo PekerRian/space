@@ -1,7 +1,23 @@
 // /api/upload-metadata.js
+
 import fetch from 'node-fetch';
 import formidable from 'formidable';
 import pinataSDK from '@pinata/sdk';
+
+// --- FIREBASE ADMIN SDK SETUP ---
+import admin from 'firebase-admin';
+import { getApps } from 'firebase-admin/app';
+if (!getApps().length) {
+  // You must set GOOGLE_APPLICATION_CREDENTIALS env var or use serviceAccountKey.json
+  try {
+    admin.initializeApp({
+      credential: admin.credential.applicationDefault(),
+    });
+  } catch (e) {
+    console.error('Failed to initialize Firebase Admin:', e);
+  }
+}
+const firestore = admin.firestore();
 
 export const config = {
   api: {
@@ -110,9 +126,34 @@ const exportedHandler = async (req, res) => {
           if (!spaceId && space) {
             spaceId = space;
           }
-          // Return the CID, metadataPath, and metadataUris array (frontend will write to Firestore)
           const metadataPath = `${subfolder}/1.json`;
-          return res.status(200).json({ ipfsHash, metadataPath, metadataUris, nftMetadataFolder: `${ipfsHash}/${subfolder}`, maxSupply: limit, spaceId });
+
+          // --- Write metadataUris to Firestore under spaces/{spaceId} ---
+          let firestoreWriteError = null;
+          if (spaceId && Array.isArray(metadataUris) && metadataUris.length > 0) {
+            try {
+              // Ensure the document exists (merge: true)
+              await firestore.collection('spaces').doc(spaceId).set({ nftMetadataUris: metadataUris, nftMetadataFolder: `${ipfsHash}/${subfolder}` }, { merge: true });
+              console.log(`[POAP][Backend] Successfully wrote nftMetadataUris to Firestore for spaceId ${spaceId}. Count: ${metadataUris.length}`);
+            } catch (firestoreErr) {
+              firestoreWriteError = firestoreErr;
+              console.error(`[POAP][Backend] Failed to write nftMetadataUris to Firestore for spaceId ${spaceId}:`, firestoreErr);
+            }
+          } else {
+            firestoreWriteError = 'Missing spaceId or metadataUris array.';
+            console.error('[POAP][Backend] Missing spaceId or metadataUris array, not writing to Firestore.', { spaceId, metadataUris });
+          }
+
+          // Return the CID, metadataPath, and metadataUris array (frontend can still use as fallback)
+          return res.status(200).json({
+            ipfsHash,
+            metadataPath,
+            metadataUris,
+            nftMetadataFolder: `${ipfsHash}/${subfolder}`,
+            maxSupply: limit,
+            spaceId,
+            firestoreWriteError: firestoreWriteError ? (firestoreWriteError.message || String(firestoreWriteError)) : null
+          });
         } catch (sdkErr) {
           if (tmpDir) {
             await fs.rm(tmpDir, { recursive: true, force: true });
