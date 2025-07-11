@@ -365,7 +365,21 @@ export default function UserTab() {
         // Store the folder info for Firestore
         nftMetadataFolder = metadata.nftMetadataFolder || '';
         // --- Write metadataUris array and folder to Firestore if present ---
-        // (Reverted) Do not write nftMetadataUris to Firestore here; let backend handle it or handle elsewhere if needed
+        if (metadata.metadataUris && Array.isArray(metadata.metadataUris)) {
+          // Debug: log the URIs and their count
+          console.log('Writing nftMetadataUris to Firestore:', metadata.metadataUris);
+          if (metadata.metadataUris.length !== parseInt(poap.maxSupply, 10)) {
+            console.error('metadataUris length does not match maxSupply!', metadata.metadataUris.length, poap.maxSupply, metadata.metadataUris);
+            throw new Error('metadataUris length does not match maxSupply!');
+          }
+          // Write only the array of JSON URIs to Firestore (do not write the folder)
+          await updateDoc(doc(db, "spaces", spaceId), {
+            nftMetadataUris: metadata.metadataUris
+          });
+        } else {
+          console.error('metadataUris missing or not an array:', metadata.metadataUris);
+          throw new Error('metadataUris missing or not an array');
+        }
       }
 
       // --- POAP Collection creation (Aptos) ---
