@@ -364,21 +364,22 @@ export default function UserTab() {
         poapMetadataIpfsHash = metadata.ipfsHash;
         // Store the folder info for Firestore
         nftMetadataFolder = metadata.nftMetadataFolder || '';
-        // --- Backend now writes metadataUris to Firestore, just check for errors and log ---
-        if (metadata.firestoreWriteError) {
-          console.error('[POAP][Frontend] Backend failed to write nftMetadataUris to Firestore:', metadata.firestoreWriteError);
-          setErr('Backend failed to write NFT metadata URIs to Firestore: ' + metadata.firestoreWriteError);
-          throw new Error('Backend failed to write NFT metadata URIs to Firestore: ' + metadata.firestoreWriteError);
-        }
-        if (!metadata.metadataUris || !Array.isArray(metadata.metadataUris)) {
+        // --- Write metadataUris array and folder to Firestore if present ---
+        if (metadata.metadataUris && Array.isArray(metadata.metadataUris)) {
+          // Debug: log the URIs and their count
+          console.log('Writing nftMetadataUris to Firestore:', metadata.metadataUris);
+          if (metadata.metadataUris.length !== parseInt(poap.maxSupply, 10)) {
+            console.error('metadataUris length does not match maxSupply!', metadata.metadataUris.length, poap.maxSupply, metadata.metadataUris);
+            throw new Error('metadataUris length does not match maxSupply!');
+          }
+          // Write only the array of JSON URIs to Firestore (do not write the folder)
+          await updateDoc(doc(db, "spaces", spaceId), {
+            nftMetadataUris: metadata.metadataUris
+          });
+        } else {
           console.error('metadataUris missing or not an array:', metadata.metadataUris);
           throw new Error('metadataUris missing or not an array');
         }
-        if (metadata.metadataUris.length !== parseInt(poap.maxSupply, 10)) {
-          console.error('metadataUris length does not match maxSupply!', metadata.metadataUris.length, poap.maxSupply, metadata.metadataUris);
-          throw new Error('metadataUris length does not match maxSupply!');
-        }
-        // No need to write to Firestore here; backend already did it.
       }
 
       // --- POAP Collection creation (Aptos) ---
